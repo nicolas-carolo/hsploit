@@ -17,6 +17,7 @@ from searcher.engine.filter_query import filter_exploits_with_comparator, filter
 import sqlalchemy
 from sqlalchemy import and_
 from searcher.db_manager.models import Exploit, Shellcode
+from searcher.db_manager.session_manager import start_session
 
 N_MAX_RESULTS_NUMB_VERSION = 20000
 
@@ -74,31 +75,24 @@ N_MAX_RESULTS_NUMB_VERSION = 20000
 
 
 def search_vulnerabilities_for_description(word_list, db_table):
+    session = start_session()
+
+    if db_table == 'searcher_exploit':
+        queryset = session.query(Exploit).filter(and_(Exploit.description.like('%' + word + '%') for word in word_list))
+    else:
+        queryset = session.query(Shellcode).filter(and_(Shellcode.description.like('%' + word + '%') for word in word_list))
+
+    session.close()
+    return queryset
+
+
+def search_vulnerabilities_for_file(search_text, db_table):
     """
-    Perform a search based on vulnerabilities' description for an input search that does not contain a number
-    of version.
+    Perform a search based on vulnerabilities' file for an input search that does not contain a number of version.
     :param search_text: the search input.
     :param db_table: the DB table in which we want to perform the search.
     :return: a queryset with search results.
     """
-
-    engine = sqlalchemy.create_engine('mysql+pymysql://hound-user:Hound-password9@localhost:3306/HOUNDSPLOIT')
-    Session = sessionmaker(bind=engine)
-    session = Session()
-
-    if db_table == 'searcher_exploit':
-        return session.query(Exploit).filter(and_(Exploit.description.like('%' + word + '%') for word in word_list))
-    else:
-        return session.query(Shellcode).filter(and_(Shellcode.description.like('%' + word + '%') for word in word_list))
-
-
-# def search_vulnerabilities_for_file(search_text, db_table):
-#     """
-#     Perform a search based on vulnerabilities' file for an input search that does not contain a number of version.
-#     :param search_text: the search input.
-#     :param db_table: the DB table in which we want to perform the search.
-#     :return: a queryset with search results.
-#     """
 #     words_list = str(search_text).split()
 #     query = reduce(operator.or_, (Q(file__icontains=word) for word in words_list))
 #     if db_table == 'searcher_exploit':
