@@ -15,3 +15,15 @@ class Exploit(Base):
     type = Column(String)
     platform = Column(String)
     port = Column(Integer)
+
+
+class Shellcode(Base):
+    __tablename__ = 'searcher_shellcode'
+
+    id = Column(Integer, primary_key=True)
+    file = Column(String)
+    description = Column(String)
+    date = Column(String)
+    author = Column(String)
+    type = Column(String)
+    platform = Column(String)
