@@ -16,8 +16,7 @@ from searcher.engine.filter_query import filter_exploits_with_comparator, filter
 
 import sqlalchemy
 from sqlalchemy import and_
-import pymysql
-from searcher.db_manager.models import Exploit
+from searcher.db_manager.models import Exploit, Shellcode
 
 N_MAX_RESULTS_NUMB_VERSION = 20000
 
@@ -82,30 +81,15 @@ def search_vulnerabilities_for_description(word_list, db_table):
     :param db_table: the DB table in which we want to perform the search.
     :return: a queryset with search results.
     """
-    searched_text = word_list[0]
-
-    for word in word_list[1:]:
-        searched_text = searched_text + ' ' + word
-
-    print(searched_text)
 
     engine = sqlalchemy.create_engine('mysql+pymysql://hound-user:Hound-password9@localhost:3306/HOUNDSPLOIT')
     Session = sessionmaker(bind=engine)
     session = Session()
 
-    # queryset = session.query(Exploit).filter(Exploit.description.like('%' + searched_text + '%'))
-
-    queryset = session.query(Exploit).filter(and_(Exploit.description.like('%' + word + '%') for word in word_list))
-
-    for instance in queryset:
-        print(instance.description)
-
-    # query = reduce(operator.and_, (Q(description__icontains=word) for word in words_list))
-    # if db_table == 'searcher_exploit':
-    #     queryset = engine.
-    # else:
-    #     queryset = Shellcode.objects.filter(query)
-    # return queryset
+    if db_table == 'searcher_exploit':
+        return session.query(Exploit).filter(and_(Exploit.description.like('%' + word + '%') for word in word_list))
+    else:
+        return session.query(Shellcode).filter(and_(Shellcode.description.like('%' + word + '%') for word in word_list))
 
 
 # def search_vulnerabilities_for_file(search_text, db_table):
