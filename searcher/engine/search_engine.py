@@ -5,6 +5,7 @@ from searcher.engine.filter_query import filter_exploits_with_comparator, filter
 from sqlalchemy import and_, or_
 from searcher.db_manager.models import Exploit, Shellcode
 from searcher.db_manager.session_manager import start_session
+from searcher.db_manager.result_set import ResultSet, print_instances
 
 N_MAX_RESULTS_NUMB_VERSION = 20000
 
@@ -15,23 +16,20 @@ def search_vulnerabilities_in_db(word_list, db_table):
         searched_text = searched_text + ' ' + word
 
     if str(searched_text).isnumeric():
-        print('numerical')
         return search_vulnerabilities_numerical(word_list[0], db_table)
     elif str_is_num_version(str(searched_text)) and str(searched_text).__contains__(' ') and not str(
             searched_text).__contains__('<'):
-        print('version')
-        queryset = search_vulnerabilities_version(word_list, db_table)
+        result_set = search_vulnerabilities_version(word_list, db_table)
         # TODO union with standard research (test)
-        return queryset
+        return result_set
     else:
-        print('standard')
-        queryset = search_vulnerabilities_for_description(word_list, db_table)
-        if len(queryset) > 0:
-            return queryset
+        result_set = search_vulnerabilities_for_description(word_list, db_table)
+        if len(result_set.list) > 0:
+            return result_set
         else:
-            queryset = search_vulnerabilities_for_file(word_list, db_table)
-            if len(queryset) > 0:
-                return queryset
+            result_set = search_vulnerabilities_for_file(word_list, db_table)
+            if len(result_set.list) > 0:
+                return result_set
             else:
                 return search_vulnerabilities_for_author(word_list, db_table)
 
@@ -57,7 +55,7 @@ def search_vulnerabilities_numerical(searched_text, db_table):
                                                        Shellcode.file.like('%' + searched_text + '%')
                                                        ))
     session.close()
-    return queryset
+    return ResultSet(queryset)
 
 
 def search_vulnerabilities_for_description(word_list, db_table):
@@ -70,7 +68,7 @@ def search_vulnerabilities_for_description(word_list, db_table):
             and_(Shellcode.description.like('%' + word + '%') for word in word_list))
 
     session.close()
-    return queryset
+    return ResultSet(queryset)
 
 
 def search_vulnerabilities_for_file(word_list, db_table):
@@ -83,7 +81,7 @@ def search_vulnerabilities_for_file(word_list, db_table):
             and_(Shellcode.file.like('%' + word + '%') for word in word_list))
 
     session.close()
-    return queryset
+    return ResultSet(queryset)
 
 
 def search_vulnerabilities_for_author(word_list, db_table):
@@ -96,7 +94,7 @@ def search_vulnerabilities_for_author(word_list, db_table):
             and_(Shellcode.author.like('%' + word + '%') for word in word_list))
 
     session.close()
-    return queryset
+    return ResultSet(queryset)
 
 
 def search_vulnerabilities_version(word_list, db_table):
@@ -122,21 +120,22 @@ def search_exploits_version(software_name, num_version):
     """
     session = start_session()
     queryset = session.query(Exploit).filter(and_(Exploit.description.like('%' + software_name + '%')))
+    result_set = ResultSet(queryset)
     session.close()
     # limit the time spent for searching useless results.
     if queryset.count() > N_MAX_RESULTS_NUMB_VERSION:
         # return Exploit.objects.none()
-        session = start_session()
-        queryset = session.query(Exploit).filter(Exploit.description(''))
-        return queryset
-    for exploit in queryset:
+        return ResultSet()
+    # print('test:')
+    # print_instances(result_set)
+    for exploit in result_set.list:
         # if exploit not contains '<'
         if not str(exploit.description).__contains__('<'):
-            queryset = filter_exploits_without_comparator(exploit, num_version, software_name, queryset)
+            result_set = filter_exploits_without_comparator(exploit, num_version, software_name, result_set)
         # if exploit contains '<'
         else:
-            queryset = filter_exploits_with_comparator(exploit, num_version, software_name, queryset)
-    return queryset
+            result_set = filter_exploits_with_comparator(exploit, num_version, software_name, result_set)
+    return result_set
 
 
 def search_shellcodes_version(software_name, num_version):
@@ -149,20 +148,19 @@ def search_shellcodes_version(software_name, num_version):
     """
     session = start_session()
     queryset = session.query(Exploit).filter(and_(Exploit.description.like('%' + software_name + '%')))
+    result_set = ResultSet(queryset)
     session.close()
     # limit the time spent for searching useless results.
     if queryset.count() > N_MAX_RESULTS_NUMB_VERSION:
-        session = start_session()
-        queryset = session.query(Shellcode).filter(Exploit.description(''))
-        return queryset
-    for shellcode in queryset:
+        return ResultSet()
+    for shellcode in result_set.list:
         # if shellcode not contains '<'
         if not str(shellcode.description).__contains__('<'):
-            queryset = filter_shellcodes_without_comparator(shellcode, num_version, software_name, queryset)
+            result_set = filter_shellcodes_without_comparator(shellcode, num_version, software_name, result_set)
         # if shellcode contains '<'
         else:
-            queryset = filter_shellcodes_with_comparator(shellcode, num_version, software_name, queryset)
-    return queryset
+            result_set = filter_shellcodes_with_comparator(shellcode, num_version, software_name, result_set)
+    return result_set
 
 
 # def search_vulnerabilities_advanced(search_text, db_table, operator_filter, type_filter, platform_filter, author_filter,
