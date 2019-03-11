@@ -1,5 +1,5 @@
 import sys
-from searcher.engine.search_engine import search_vulnerabilities_for_description
+from searcher.engine.search_engine import search_vulnerabilities_in_db
 
 
 def main(argv):
@@ -8,10 +8,10 @@ def main(argv):
         exit(0)
 
     print('Exploits:')
-    queryset = search_vulnerabilities_for_description(argv, 'searcher_exploit')
+    queryset = search_vulnerabilities_in_db(argv, 'searcher_exploit')
     print_exploits(queryset)
     print('\nShellcodes:')
-    queryset = search_vulnerabilities_for_description(argv, 'searcher_shellcode')
+    queryset = search_vulnerabilities_in_db(argv, 'searcher_shellcode')
     print_shellcodes(queryset)
 
 

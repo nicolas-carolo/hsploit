@@ -1,76 +1,63 @@
-from functools import reduce
-
-# from django.core.exceptions import ValidationError
-
-# from searcher.models import Exploit, Shellcode
-# from django.db.models import Q
-import operator
-
-from sqlalchemy.orm import sessionmaker
-
 from searcher.engine.string import str_is_num_version
-from searcher.engine.keywords_highlighter import highlight_keywords_in_description, highlight_keywords_in_file, \
-    highlight_keywords_in_author, highlight_keywords_in_port
 from searcher.engine.filter_query import filter_exploits_with_comparator, filter_exploits_without_comparator, \
     filter_shellcodes_with_comparator, filter_shellcodes_without_comparator
 
-from sqlalchemy import and_
+from sqlalchemy import and_, or_
 from searcher.db_manager.models import Exploit, Shellcode
 from searcher.db_manager.session_manager import start_session
 
 N_MAX_RESULTS_NUMB_VERSION = 20000
 
 
-# def search_vulnerabilities_in_db(search_text, db_table):
-#     """
-#     Return the queryset containing search results with keywords highlighted.
-#     :param search_text: the vulnerability that the user is searching for.
-#     :param db_table: the DB table in which we want to perform the search.
-#     :return: a queryset containing search results with keywords highlighted.
-#     """
-#     words = (str(search_text).upper()).split()
-#     if str(search_text).isnumeric():
-#         queryset = search_vulnerabilities_numerical(search_text, db_table)
-#         queryset = highlight_keywords_in_file(words, queryset)
-#         queryset = highlight_keywords_in_description(words, queryset)
-#         if db_table == 'searcher_exploit':
-#             queryset = highlight_keywords_in_port(words, queryset)
-#         return queryset
-#     elif str_is_num_version(str(search_text)) and str(search_text).__contains__(' ') and not str(
-#             search_text).__contains__('<'):
-#         queryset = search_vulnerabilities_version(search_text, db_table)
-#         # union with standard research (test)
-#         queryset_std = search_vulnerabilities_for_text_input(search_text, db_table)
-#         queryset = queryset.union(queryset_std)
-#         return highlight_keywords_in_description(words, queryset)
-#     else:
-#         queryset = search_vulnerabilities_for_description(search_text, db_table)
-#         if len(queryset) > 0:
-#             return highlight_keywords_in_description(words, queryset)
-#         else:
-#             queryset = search_vulnerabilities_for_file(search_text, db_table)
-#             if len(queryset) > 0:
-#                 return highlight_keywords_in_file(words, queryset)
-#             else:
-#                 queryset = search_vulnerabilities_for_author(search_text, db_table)
-#                 return highlight_keywords_in_author(words, queryset)
+def search_vulnerabilities_in_db(word_list, db_table):
+    searched_text = word_list[0]
+    for word in word_list[1:]:
+        searched_text = searched_text + ' ' + word
+
+    if str(searched_text).isnumeric():
+        print('numerical')
+        return search_vulnerabilities_numerical(word_list[0], db_table)
+    elif str_is_num_version(str(searched_text)) and str(searched_text).__contains__(' ') and not str(
+            searched_text).__contains__('<'):
+        print('version')
+        queryset = search_vulnerabilities_version(word_list, db_table)
+        # TODO union with standard research (test)
+        return queryset
+    else:
+        print('standard')
+        queryset = search_vulnerabilities_for_description(word_list, db_table)
+        if len(queryset) > 0:
+            return queryset
+        else:
+            queryset = search_vulnerabilities_for_file(word_list, db_table)
+            if len(queryset) > 0:
+                return queryset
+            else:
+                return search_vulnerabilities_for_author(word_list, db_table)
 
 
-# def search_vulnerabilities_numerical(search_text, db_table):
-#     """
-#     Perform a search based on vulnerabilities' description, file, id, and port (only if it is an exploit) for an only
-#     numerical search input.
-#     :param search_text: the search input.
-#     :param db_table: the DB table in which we want to perform the search.
-#     :return: a queryset with search results.
-#     """
-#     if db_table == 'searcher_exploit':
-#         return Exploit.objects.filter(
-#             Q(id__exact=int(search_text)) | Q(file__contains=search_text) | Q(description__contains=search_text) | Q(
-#                 port__exact=int(search_text)))
-#     else:
-#         return Shellcode.objects.filter(
-#             Q(id__exact=int(search_text)) | Q(file__contains=search_text) | Q(description__contains=search_text))
+def search_vulnerabilities_numerical(searched_text, db_table):
+    """
+    Perform a search based on vulnerabilities' description, file, id, and port (only if it is an exploit) for an only
+    numerical search input.
+    :param searched_text: the search input.
+    :param db_table: the DB table in which we want to perform the search.
+    :return: a queryset with search results.
+    """
+    session = start_session()
+    if db_table == 'searcher_exploit':
+        queryset = session.query(Exploit).filter(or_(Exploit.description.like('%' + searched_text + '%'),
+                                                     Exploit.id == int(searched_text),
+                                                     Exploit.file.like('%' + searched_text + '%'),
+                                                     Exploit.port == int(searched_text)
+                                                     ))
+    else:
+        queryset = session.query(Shellcode).filter(or_(Shellcode.description.like('%' + searched_text + '%'),
+                                                       Shellcode.id == int(searched_text),
+                                                       Shellcode.file.like('%' + searched_text + '%')
+                                                       ))
+    session.close()
+    return queryset
 
 
 def search_vulnerabilities_for_description(word_list, db_table):
@@ -112,70 +99,72 @@ def search_vulnerabilities_for_author(word_list, db_table):
     return queryset
 
 
-# def search_vulnerabilities_version(search_text, db_table):
-#     """
-#     Perform a search based on vulnerabilities' description for an input search that contains a number of version.
-#     :param search_text: the search input containing also the number of version.
-#     :param db_table: the DB table in which we want to perform the search.
-#     :return: a queryset with search results.
-#     """
-#     words = str(search_text).upper().split()
-#     software_name = words[0]
-#     for word in words[1:]:
-#         if not str_is_num_version(word):
-#             software_name = software_name + ' ' + word
-#         else:
-#             num_version = word
-#     if db_table == 'searcher_exploit':
-#         return search_exploits_version(software_name, num_version)
-#     else:
-#         return search_shellcodes_version(software_name, num_version)
-#
-#
-# def search_exploits_version(software_name, num_version):
-#     """
-#     Perform a search based on exploits' description for an input search that contains a number of version.
-#     This function is called by 'search_vulnerabilities_version' method.
-#     :param software_name: the name of the software that the user is searching for.
-#     :param num_version: the specific number of version the user is searching for.
-#     :return: a queryset with search result found in 'searcher_exploit' DB table.
-#     """
-#     queryset = Exploit.objects.filter(description__icontains=software_name)
-#     # limit the time spent for searching useless results.
-#     if queryset.count() > N_MAX_RESULTS_NUMB_VERSION:
-#         return Exploit.objects.none()
-#     for exploit in queryset:
-#         # if exploit not contains '<'
-#         if not str(exploit.description).__contains__('<'):
-#             queryset = filter_exploits_without_comparator(exploit, num_version, software_name, queryset)
-#         # if exploit contains '<'
-#         else:
-#             queryset = filter_exploits_with_comparator(exploit, num_version, software_name, queryset)
-#     return queryset
-#
-#
-# def search_shellcodes_version(software_name, num_version):
-#     """
-#     Perform a search based on shellcodes' description for an input search that contains a number of version.
-#     This function is called by 'search_vulnerabilities_version' method.
-#     :param software_name: the name of the software that the user is searching for.
-#     :param num_version: the specific number of version the user is searching for.
-#     :return: a queryset with search result found in 'searcher_shellcode' DB table.
-#     """
-#     queryset = Shellcode.objects.filter(description__icontains=software_name)
-#     # limit the time spent for searching useless results.
-#     if queryset.count() > N_MAX_RESULTS_NUMB_VERSION:
-#         return Shellcode.objects.none()
-#     for shellcode in queryset:
-#         # if shellcode not contains '<'
-#         if not str(shellcode.description).__contains__('<'):
-#             queryset = filter_shellcodes_without_comparator(shellcode, num_version, software_name, queryset)
-#         # if shellcode contains '<'
-#         else:
-#             queryset = filter_shellcodes_with_comparator(shellcode, num_version, software_name, queryset)
-#     return queryset
-#
-#
+def search_vulnerabilities_version(word_list, db_table):
+    software_name = word_list[0]
+    for word in word_list[1:]:
+        if not str_is_num_version(word):
+            software_name = software_name + ' ' + word
+        else:
+            num_version = word
+    if db_table == 'searcher_exploit':
+        return search_exploits_version(software_name, num_version)
+    else:
+        return search_shellcodes_version(software_name, num_version)
+
+
+def search_exploits_version(software_name, num_version):
+    """
+    Perform a search based on exploits' description for an input search that contains a number of version.
+    This function is called by 'search_vulnerabilities_version' method.
+    :param software_name: the name of the software that the user is searching for.
+    :param num_version: the specific number of version the user is searching for.
+    :return: a queryset with search result found in 'searcher_exploit' DB table.
+    """
+    session = start_session()
+    queryset = session.query(Exploit).filter(and_(Exploit.description.like('%' + software_name + '%')))
+    session.close()
+    # limit the time spent for searching useless results.
+    if queryset.count() > N_MAX_RESULTS_NUMB_VERSION:
+        # return Exploit.objects.none()
+        session = start_session()
+        queryset = session.query(Exploit).filter(Exploit.description(''))
+        return queryset
+    for exploit in queryset:
+        # if exploit not contains '<'
+        if not str(exploit.description).__contains__('<'):
+            queryset = filter_exploits_without_comparator(exploit, num_version, software_name, queryset)
+        # if exploit contains '<'
+        else:
+            queryset = filter_exploits_with_comparator(exploit, num_version, software_name, queryset)
+    return queryset
+
+
+def search_shellcodes_version(software_name, num_version):
+    """
+    Perform a search based on shellcodes' description for an input search that contains a number of version.
+    This function is called by 'search_vulnerabilities_version' method.
+    :param software_name: the name of the software that the user is searching for.
+    :param num_version: the specific number of version the user is searching for.
+    :return: a queryset with search result found in 'searcher_shellcode' DB table.
+    """
+    session = start_session()
+    queryset = session.query(Exploit).filter(and_(Exploit.description.like('%' + software_name + '%')))
+    session.close()
+    # limit the time spent for searching useless results.
+    if queryset.count() > N_MAX_RESULTS_NUMB_VERSION:
+        session = start_session()
+        queryset = session.query(Shellcode).filter(Exploit.description(''))
+        return queryset
+    for shellcode in queryset:
+        # if shellcode not contains '<'
+        if not str(shellcode.description).__contains__('<'):
+            queryset = filter_shellcodes_without_comparator(shellcode, num_version, software_name, queryset)
+        # if shellcode contains '<'
+        else:
+            queryset = filter_shellcodes_with_comparator(shellcode, num_version, software_name, queryset)
+    return queryset
+
+
 # def search_vulnerabilities_advanced(search_text, db_table, operator_filter, type_filter, platform_filter, author_filter,
 #                                     port_filter, start_date_filter, end_date_filter):
 #     """
