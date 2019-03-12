@@ -1,30 +1,26 @@
-class ResultSet:
+def queryset2list(queryset):
     list = []
-
-    def __init__(self, queryset):
-        l = list()
-        for instance in queryset:
-            l.append(instance)
-        self.list = l
-
-
-def new_result_set(queryset):
-    return ResultSet(queryset)
+    for instance in queryset:
+        list.append(instance)
+    return list
 
 
 def print_instances(result_set):
-    for instance in result_set.list:
+    for instance in result_set:
         print(instance.description)
 
 
 def void_result_set():
-    return ResultSet()
+    list = []
+    return list
 
 
 def exclude(result_set, description):
-    print(result_set.list.__len__())
-    for instance in result_set.list:
-        if instance.description == description:
-            result_set.list = result_set.list.remove(instance)
+    try:
+        for instance in result_set:
+            if instance.description == description:
+                to_remove = instance
+        result_set.remove(to_remove)
+    except UnboundLocalError:
+        pass
     return result_set
-

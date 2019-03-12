@@ -12,6 +12,7 @@ def main(argv):
     # shellcodes_result_set = search_vulnerabilities_in_db(argv, 'searcher_shellcode')
     # print(str(exploits_result_set.list.__len__()) + ' exploits and ' + str(shellcodes_result_set.list.__len__()) +
     #       ' shellcodes found')
+    print(exploits_result_set.__len__())
     print('Exploits:')
     # print_exploits(queryset)
     print_instances(exploits_result_set)
