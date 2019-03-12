@@ -21,7 +21,16 @@ def search_vulnerabilities_in_db(word_list, db_table):
             searched_text).__contains__('<'):
         result_set = search_vulnerabilities_version(word_list, db_table)
         # TODO union with standard research (test)
-        return result_set
+        standard_result_set = search_vulnerabilities_for_text_input(word_list, db_table)
+
+        in_first = set(result_set)
+        in_second = set(standard_result_set)
+
+        in_second_but_not_in_first = in_second - in_first
+
+        result = result_set + list(in_second_but_not_in_first)
+
+        return result
     else:
         result_set = search_vulnerabilities_for_description(word_list, db_table)
         if len(result_set) > 0:
@@ -237,47 +246,50 @@ def search_shellcodes_version(software_name, num_version):
 #     else:
 #         queryset = search_vulnerabilities_for_description(search_text, db_table)
 #     return queryset
-#
-#
-# def search_vulnerabilities_for_text_input(search_text, db_table):
-#     """
-#     Perform a search in description based on characters contained by this attribute.
-#     This queryset can be joined with the search results based on the number of version.
-#     :param search_text: the search input.
-#     :param db_table: the DB table in which we want to perform the search.
-#     :return: a queryset containing the search results found with a search based on the characters contained by
-#                 the attribute 'description'
-#     """
-#     words_list = str(search_text).split()
-#     words_list_num = []
-#     for word in words_list:
-#         if word.isnumeric():
-#             words_list.remove(word)
-#             words_list_num.append(' ' + word)
-#             words_list_num.append('/' + word)
-#         if word.__contains__('.'):
-#             words_list.remove(word)
-#             words_list_num.append(' ' + word)
-#             words_list_num.append('/' + word)
-#     try:
-#         query = reduce(operator.and_, (Q(description__icontains=word) for word in words_list))
-#         if db_table == 'searcher_exploit':
-#             queryset = Exploit.objects.filter(query)
-#         else:
-#             queryset = Shellcode.objects.filter(query)
-#     except TypeError:
-#         if db_table == 'searcher_exploit':
-#             queryset = Exploit.objects.none()
-#         else:
-#             queryset = Shellcode.objects.none()
-#     try:
-#         query = reduce(operator.or_, (Q(description__icontains=word) for word in words_list_num))
-#         queryset = queryset.filter(query)
-#     except TypeError:
-#         pass
-#     return queryset
-#
-#
+
+
+def search_vulnerabilities_for_text_input(word_list, db_table):
+    """
+    Perform a search in description based on characters contained by this attribute.
+    This queryset can be joined with the search results based on the number of version.
+    :param search_text: the search input.
+    :param db_table: the DB table in which we want to perform the search.
+    :return: a queryset containing the search results found with a search based on the characters contained by
+                the attribute 'description'
+    """
+    word_list_num = []
+    for word in word_list:
+        if word.isnumeric():
+            word_list.remove(word)
+            word_list_num.append(' ' + word)
+            word_list_num.append('/' + word)
+        if word.__contains__('.'):
+            word_list.remove(word)
+            word_list_num.append(' ' + word)
+            word_list_num.append('/' + word)
+    try:
+        session = start_session()
+        if db_table == 'searcher_exploit':
+            queryset = session.query(Exploit).filter(
+                and_(Exploit.description.like('%' + word + '%') for word in word_list))
+        else:
+            queryset = session.query(Shellcode).filter(
+                and_(Shellcode.description.like('%' + word + '%') for word in word_list))
+        session.close()
+        query_result_set = queryset2list(queryset)
+    except TypeError:
+        query_result_set = void_result_set()
+    final_result_set = []
+    try:
+        for instance in query_result_set:
+            for word in word_list_num:
+                if str(instance.description).__contains__(word):
+                    final_result_set.append(instance)
+    except TypeError:
+        pass
+    return final_result_set
+
+
 # def search_vulnerabilities_for_text_input_advanced(search_text, db_table, type_filter, platform_filter, author_filter,
 #                                                    port_filter, start_date_filter, end_date_filter):
 #     """
