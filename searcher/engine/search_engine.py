@@ -1,6 +1,6 @@
 from searcher.engine.string import str_is_num_version
 from searcher.engine.filter_query import filter_exploits_without_comparator, filter_exploits_with_comparator,\
-    filter_shellcodes_with_comparator, filter_shellcodes_with_comparator
+    filter_shellcodes_without_comparator, filter_shellcodes_with_comparator
 
 from sqlalchemy import and_, or_
 from searcher.db_manager.models import Exploit, Shellcode
@@ -107,8 +107,7 @@ def search_vulnerabilities_version(word_list, db_table):
     if db_table == 'searcher_exploit':
         return search_exploits_version(software_name, num_version)
     else:
-        pass
-        # return search_shellcodes_version(software_name, num_version)
+        return search_shellcodes_version(software_name, num_version)
 
 
 def search_exploits_version(software_name, num_version):
