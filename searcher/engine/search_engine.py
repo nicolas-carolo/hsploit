@@ -1,5 +1,5 @@
 from searcher.engine.string import str_is_num_version
-from searcher.engine.filter_query import filter_exploits_without_comparator
+from searcher.engine.filter_query import filter_exploits_without_comparator, filter_exploits_with_comparator
 
 from sqlalchemy import and_, or_
 from searcher.db_manager.models import Exploit, Shellcode
@@ -133,8 +133,7 @@ def search_exploits_version(software_name, num_version):
             final_result_set = filter_exploits_without_comparator(exploit, num_version, software_name, final_result_set)
         # if exploit contains '<'
         else:
-            pass
-            # final_result_set = filter_exploits_with_comparator(exploit, num_version, software_name, query_result_set)
+            final_result_set = filter_exploits_with_comparator(exploit, num_version, software_name, final_result_set)
     return final_result_set
 
 
