@@ -15,12 +15,8 @@ def void_result_set():
     return list
 
 
-def exclude(result_set, description):
+def result_set_len(result_set):
     try:
-        for instance in result_set:
-            if instance.description == description:
-                to_remove = instance
-        result_set.remove(to_remove)
-    except UnboundLocalError:
-        pass
-    return result_set
+        return len(result_set)
+    except TypeError:
+        return 0

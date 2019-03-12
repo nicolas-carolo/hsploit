@@ -1,6 +1,6 @@
 import sys
 from searcher.engine.search_engine import search_vulnerabilities_in_db
-from searcher.db_manager.result_set import print_instances
+from searcher.db_manager.result_set import print_instances, result_set_len
 
 
 def main(argv):
@@ -9,25 +9,12 @@ def main(argv):
         exit(0)
 
     exploits_result_set = search_vulnerabilities_in_db(argv, 'searcher_exploit')
-    # shellcodes_result_set = search_vulnerabilities_in_db(argv, 'searcher_shellcode')
-    # print(str(exploits_result_set.list.__len__()) + ' exploits and ' + str(shellcodes_result_set.list.__len__()) +
-    #       ' shellcodes found')
-    print(exploits_result_set.__len__())
+    shellcodes_result_set = search_vulnerabilities_in_db(argv, 'searcher_shellcode')
+    print(str(result_set_len(exploits_result_set)) + ' exploits and ' + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
     print('Exploits:')
-    # print_exploits(queryset)
     print_instances(exploits_result_set)
-    # print('\nShellcodes:')
-    # print_shellcodes(queryset)
-    # print_instances(shellcodes_result_set)
-
-# def print_exploits(queryset):
-#     for exploit in queryset:
-#         print(exploit.description)
-#
-#
-# def print_shellcodes(queryset):
-#     for shellcode in queryset:
-#         print(shellcode.description)
+    print('\nShellcodes:')
+    print_instances(shellcodes_result_set)
 
 
 if __name__ == "__main__":

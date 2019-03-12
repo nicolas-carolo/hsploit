@@ -1,5 +1,6 @@
 from searcher.engine.string import str_is_num_version
-from searcher.engine.filter_query import filter_exploits_without_comparator, filter_exploits_with_comparator
+from searcher.engine.filter_query import filter_exploits_without_comparator, filter_exploits_with_comparator,\
+    filter_shellcodes_with_comparator, filter_shellcodes_with_comparator
 
 from sqlalchemy import and_, or_
 from searcher.db_manager.models import Exploit, Shellcode
@@ -124,7 +125,6 @@ def search_exploits_version(software_name, num_version):
     session.close()
     # limit the time spent for searching useless results.
     if queryset.count() > N_MAX_RESULTS_NUMB_VERSION:
-        # return Exploit.objects.none()
         return void_result_set()
     final_result_set = []
     for exploit in query_result_set:
@@ -137,29 +137,31 @@ def search_exploits_version(software_name, num_version):
     return final_result_set
 
 
-# def search_shellcodes_version(software_name, num_version):
-#     """
-#     Perform a search based on shellcodes' description for an input search that contains a number of version.
-#     This function is called by 'search_vulnerabilities_version' method.
-#     :param software_name: the name of the software that the user is searching for.
-#     :param num_version: the specific number of version the user is searching for.
-#     :return: a queryset with search result found in 'searcher_shellcode' DB table.
-#     """
-#     session = start_session()
-#     queryset = session.query(Exploit).filter(and_(Exploit.description.like('%' + software_name + '%')))
-#     result_set = queryset2list(queryset)
-#     session.close()
-#     # limit the time spent for searching useless results.
-#     if queryset.count() > N_MAX_RESULTS_NUMB_VERSION:
-#         return void_result_set()
-#     for shellcode in result_set:
-#         # if shellcode not contains '<'
-#         if not str(shellcode.description).__contains__('<'):
-#             result_set = filter_shellcodes_without_comparator(shellcode, num_version, software_name, result_set)
-#         # if shellcode contains '<'
-#         else:
-#             result_set = filter_shellcodes_with_comparator(shellcode, num_version, software_name, result_set)
-#     return result_set
+def search_shellcodes_version(software_name, num_version):
+    """
+    Perform a search based on exploits' description for an input search that contains a number of version.
+    This function is called by 'search_vulnerabilities_version' method.
+    :param software_name: the name of the software that the user is searching for.
+    :param num_version: the specific number of version the user is searching for.
+    :return: a queryset with search result found in 'searcher_exploit' DB table.
+    """
+    session = start_session()
+    queryset = session.query(Shellcode).filter(and_(Shellcode.description.like('%' + software_name + '%')))
+    query_result_set = queryset2list(queryset)
+    session.close()
+    # limit the time spent for searching useless results.
+    if queryset.count() > N_MAX_RESULTS_NUMB_VERSION:
+        # return Exploit.objects.none()
+        return void_result_set()
+    final_result_set = []
+    for shellcode in query_result_set:
+        # if exploit not contains '<'
+        if not str(shellcode.description).__contains__('<'):
+            final_result_set = filter_shellcodes_without_comparator(shellcode, num_version, software_name, final_result_set)
+        # if exploit contains '<'
+        else:
+            final_result_set = filter_shellcodes_with_comparator(shellcode, num_version, software_name, final_result_set)
+    return final_result_set
 
 
 # def search_vulnerabilities_advanced(search_text, db_table, operator_filter, type_filter, platform_filter, author_filter,
