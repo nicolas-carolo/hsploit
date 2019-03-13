@@ -5,6 +5,15 @@ from searcher.engine.string import str_contains_num_version_range_with_x, str_co
 
 
 def filter_exploits_without_comparator(exploit, num_version, software_name, final_result_set):
+    """
+    Add the exploit (without comparator) to the final_result_set if respect the condition set by the user.
+    :param exploit: the exploit we have to check if it has a number of version that matches the value passed by
+                    the user.
+    :param num_version: the number of version searched by the user.
+    :param software_name: the name of the software searched by the user.
+    :param final_result_set: the result set that
+    :return: the result set that
+    """
     if not exploit.description.__contains__('.x'):
         # exclude the exploit from results table if the number of version is not equal and contains 'x'
         try:
@@ -24,15 +33,13 @@ def filter_exploits_without_comparator(exploit, num_version, software_name, fina
 
 def filter_exploits_with_comparator(exploit, num_version, software_name, final_result_set):
     """
-    Remove a exploit by the queryset if it has a number of version that does not match the value passed by the user.
-    This method is used only for exploits containing '<' char in the description.
+    Add the exploit (with comparator) to the final_result_set if respect the condition set by the user.
     :param exploit: the exploit we have to check if it has a number of version that matches the value passed by
                     the user.
     :param num_version: the number of version searched by the user.
     :param software_name: the name of the software searched by the user.
-    :param queryset: the queryset we have to filter.
-    :return: the original queryset if the exploit matches the number of version searched by the user,
-                the original queryset without the exploit if it does not.
+    :param final_result_set: the result set that
+    :return: the result set that
     """
     if not exploit.description.__contains__('.x'):
         final_result_set = filter_exploits_with_comparator_and_without_x(exploit, num_version, software_name, final_result_set)
@@ -43,17 +50,13 @@ def filter_exploits_with_comparator(exploit, num_version, software_name, final_r
 
 def filter_exploits_with_comparator_and_without_x(exploit, num_version, software_name, final_result_set):
     """
-    Remove a exploit by the queryset if it has a number of version that does not match the value passed by the
-    user.
-    This method is used only for exploits containing '<' char in the description and that does not contain
-    'x' char in the number of version.
+    Add exploit (with comparator and without the x in number version) to the final_result_set if respect the condition set by the user.
     :param exploit: the exploit we have to check if it has a number of version that matches the value passed by
-                        the user.
+                    the user.
     :param num_version: the number of version searched by the user.
     :param software_name: the name of the software searched by the user.
-    :param queryset: the queryset we have to filter.
-    :return: the original queryset if the exploit matches the number of version searched by the user,
-                the original queryset without the exploit if it does not.
+    :param final_result_set: the result set that
+    :return: the result set that
     """
     if str_contains_num_version_range(str(exploit.description)):
         if is_in_version_range(num_version, software_name, exploit.description):
@@ -70,17 +73,13 @@ def filter_exploits_with_comparator_and_without_x(exploit, num_version, software
 
 def filter_exploits_with_comparator_and_x(exploit, num_version, software_name, final_result_set):
     """
-    Remove a exploit by the queryset if it has a number of version that does not match the value passed by the
-    user.
-    This method is used only for exploits containing '<' char in the description and that contain
-    'x' char in the number of version.
+    Add exploit (with comparator and x in the number version) to the final_result_set if respect the condition set by the user.
     :param exploit: the exploit we have to check if it has a number of version that matches the value passed by
                     the user.
     :param num_version: the number of version searched by the user.
     :param software_name: the name of the software searched by the user.
-    :param queryset: the queryset we have to filter.
-    :return: the original queryset if the exploit matches the number of version searched by the user,
-                the original queryset without the exploit if it does not.
+    :param final_result_set: the result set that
+    :return: the result set that
     """
     if str_contains_num_version_range_with_x(str(exploit.description)):
         if is_in_version_range_with_x(num_version, software_name, exploit.description):
@@ -95,6 +94,15 @@ def filter_exploits_with_comparator_and_x(exploit, num_version, software_name, f
 
 
 def filter_shellcodes_without_comparator(shellcode, num_version, software_name, final_result_set):
+    """
+    Add the shellcode (without comparator) to the final_result_set if respect the condition set by the user.
+    :param shellcode: the shellcode we have to check if it has a number of version that matches the value passed by
+                        the user.
+    :param num_version: the number of version searched by the user.
+    :param software_name: the name of the software searched by the user.
+    :param final_result_set: the result set that
+    :return: the result set that
+    """
     if not shellcode.description.__contains__('.x'):
         # exclude the exploit from results table if the number of version is not equal and contains 'x'
         try:
@@ -114,15 +122,13 @@ def filter_shellcodes_without_comparator(shellcode, num_version, software_name, 
 
 def filter_shellcodes_with_comparator(shellcode, num_version, software_name, final_result_set):
     """
-    Remove a exploit by the queryset if it has a number of version that does not match the value passed by the user.
-    This method is used only for exploits containing '<' char in the description.
-    :param exploit: the exploit we have to check if it has a number of version that matches the value passed by
-                    the user.
+    Add the shellcode (with comparator) to the final_result_set if respect the condition set by the user.
+    :param shellcode: the shellcode we have to check if it has a number of version that matches the value passed by
+                        the user.
     :param num_version: the number of version searched by the user.
     :param software_name: the name of the software searched by the user.
-    :param queryset: the queryset we have to filter.
-    :return: the original queryset if the exploit matches the number of version searched by the user,
-                the original queryset without the exploit if it does not.
+    :param final_result_set: the result set that
+    :return: the result set that
     """
     if not shellcode.description.__contains__('.x'):
         final_result_set = filter_shellcodes_with_comparator_and_without_x(shellcode, num_version, software_name, final_result_set)
@@ -133,17 +139,13 @@ def filter_shellcodes_with_comparator(shellcode, num_version, software_name, fin
 
 def filter_shellcodes_with_comparator_and_without_x(shellcode, num_version, software_name, final_result_set):
     """
-    Remove a exploit by the queryset if it has a number of version that does not match the value passed by the
-    user.
-    This method is used only for exploits containing '<' char in the description and that does not contain
-    'x' char in the number of version.
-    :param exploit: the exploit we have to check if it has a number of version that matches the value passed by
+    Add the shellcode (with comparator and without x) to the final_result_set if respect the condition set by the user.
+    :param shellcode: the shellcode we have to check if it has a number of version that matches the value passed by
                         the user.
     :param num_version: the number of version searched by the user.
     :param software_name: the name of the software searched by the user.
-    :param queryset: the queryset we have to filter.
-    :return: the original queryset if the exploit matches the number of version searched by the user,
-                the original queryset without the exploit if it does not.
+    :param final_result_set: the result set that
+    :return: the result set that
     """
     if str_contains_num_version_range(str(shellcode.description)):
         if is_in_version_range(num_version, software_name, shellcode.description):
@@ -160,17 +162,13 @@ def filter_shellcodes_with_comparator_and_without_x(shellcode, num_version, soft
 
 def filter_shellcodes_with_comparator_and_x(shellcode, num_version, software_name, final_result_set):
     """
-    Remove a exploit by the queryset if it has a number of version that does not match the value passed by the
-    user.
-    This method is used only for exploits containing '<' char in the description and that contain
-    'x' char in the number of version.
-    :param exploit: the exploit we have to check if it has a number of version that matches the value passed by
-                    the user.
+    Add the shellcode (with comparator and x) to the final_result_set if respect the condition set by the user.
+    :param shellcode: the shellcode we have to check if it has a number of version that matches the value passed by
+                        the user.
     :param num_version: the number of version searched by the user.
     :param software_name: the name of the software searched by the user.
-    :param queryset: the queryset we have to filter.
-    :return: the original queryset if the exploit matches the number of version searched by the user,
-                the original queryset without the exploit if it does not.
+    :param final_result_set: the result set that
+    :return: the result set that
     """
     if str_contains_num_version_range_with_x(str(shellcode.description)):
         if is_in_version_range_with_x(num_version, software_name, shellcode.description):

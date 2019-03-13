@@ -11,15 +11,19 @@ N_MAX_RESULTS_NUMB_VERSION = 20000
 
 
 def search_vulnerabilities_in_db(searched_text, db_table):
-
+    """
+    Perform a search in the database.
+    :param searched_text: the text searched by the user.
+    :param db_table: the database table in which perform the search.
+    :return: the list containing the result of the performed search.
+    """
     word_list = str(searched_text).split()
-
     if str(searched_text).isnumeric():
         return search_vulnerabilities_numerical(word_list[0], db_table)
     elif str_is_num_version(str(searched_text)) and str(searched_text).__contains__(' ') and not str(
             searched_text).__contains__('<'):
         result_set = search_vulnerabilities_version(word_list, db_table)
-        # TODO union with standard research (test)
+        # union with standard research
         std_result_set = search_vulnerabilities_for_text_input(word_list, db_table)
         union_result_set = join_result_sets(result_set, std_result_set, db_table)
         if len(union_result_set) > 0:
@@ -63,6 +67,12 @@ def search_vulnerabilities_numerical(searched_text, db_table):
 
 
 def search_vulnerabilities_for_description(word_list, db_table):
+    """
+    Search vulnerabilities for description.
+    :param word_list: the list of words searched by the user.
+    :param db_table: the database table in which perform the search.
+    :return: the list containing the results of the performed search.
+    """
     session = start_session()
 
     if db_table == 'searcher_exploit':
@@ -76,6 +86,12 @@ def search_vulnerabilities_for_description(word_list, db_table):
 
 
 def search_vulnerabilities_for_file(word_list, db_table):
+    """
+    Search vulnerabilities for file.
+    :param word_list: the list of words searched by the user.
+    :param db_table: the database table in which perform the search.
+    :return: the list containing the results of the performed search.
+    """
     session = start_session()
 
     if db_table == 'searcher_exploit':
@@ -89,6 +105,12 @@ def search_vulnerabilities_for_file(word_list, db_table):
 
 
 def search_vulnerabilities_for_author(word_list, db_table):
+    """
+    Search vulnerabilities for author.
+    :param word_list: the list of words searched by the user.
+    :param db_table: the database table in which perform the search.
+    :return: the list containing the results of the performed search.
+    """
     session = start_session()
 
     if db_table == 'searcher_exploit':
@@ -102,6 +124,12 @@ def search_vulnerabilities_for_author(word_list, db_table):
 
 
 def search_vulnerabilities_version(word_list, db_table):
+    """
+    Search vulnerabilities for version number.
+    :param word_list: the list of words searched by the user.
+    :param db_table: the database table in which perform the search.
+    :return: the list containing the results of the performed search.
+    """
     software_name = word_list[0]
     for word in word_list[1:]:
         if not str_is_num_version(word):

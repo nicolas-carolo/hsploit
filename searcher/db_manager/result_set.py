@@ -1,11 +1,15 @@
 from sqlalchemy import or_
-
 from searcher.db_manager.models import Exploit, Shellcode
 from searcher.db_manager.session_manager import start_session
 from tabulate import tabulate
 
 
 def queryset2list(queryset):
+    """
+    Convert a queryset into a list
+    :param queryset: the queryset to be converted.
+    :return: the list corresponding to the queryset.
+    """
     list = []
     for instance in queryset:
         list.append(instance)
@@ -13,16 +17,29 @@ def queryset2list(queryset):
 
 
 def print_result_set(result_set):
+    """
+    Print the result set.
+    :param result_set: the result set to be printed.
+    """
     print(tabulate([[instance.id, instance.file, instance.description] for instance in result_set],
                    ['ID', 'FILE', 'DESCRIPTION'], tablefmt='grid'))
 
 
 def void_result_set():
+    """
+    Create a void result set.
+    :return: a void list.
+    """
     list = []
     return list
 
 
 def result_set_len(result_set):
+    """
+    Calculate the length of a result set.
+    :param result_set: the result set we want to know the length.
+    :return: the length of the result set.
+    """
     try:
         return len(result_set)
     except TypeError:
@@ -30,6 +47,13 @@ def result_set_len(result_set):
 
 
 def join_result_sets(result_set_1, result_set_2, db_table):
+    """
+    Make the union of two result sets, excluding the duplicates.
+    :param result_set_1: the first result set.
+    :param result_set_2: the second result set.
+    :param db_table: the database table.
+    :return: the result set obtained by the union of the two result sets.
+    """
     list_id_1 = []
     list_id_2 = []
     for instance in result_set_1:

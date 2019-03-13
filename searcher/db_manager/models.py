@@ -5,6 +5,9 @@ Base = declarative_base()
 
 
 class Exploit(Base):
+    """
+    The database object Exploit
+    """
     __tablename__ = 'searcher_exploit'
 
     id = Column(Integer, primary_key=True)
@@ -18,6 +21,9 @@ class Exploit(Base):
 
 
 class Shellcode(Base):
+    """
+    The database object Shellcode
+    """
     __tablename__ = 'searcher_shellcode'
 
     id = Column(Integer, primary_key=True)
