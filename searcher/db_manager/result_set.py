@@ -2,6 +2,7 @@ from sqlalchemy import or_
 
 from searcher.db_manager.models import Exploit, Shellcode
 from searcher.db_manager.session_manager import start_session
+from tabulate import tabulate
 
 
 def queryset2list(queryset):
@@ -11,9 +12,9 @@ def queryset2list(queryset):
     return list
 
 
-def print_instances(result_set):
-    for instance in result_set:
-        print(instance.description)
+def print_result_set(result_set):
+    print(tabulate([[instance.id, instance.file, instance.description] for instance in result_set],
+                   ['ID', 'FILE', 'DESCRIPTION'], tablefmt='grid'))
 
 
 def void_result_set():
