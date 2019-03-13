@@ -22,7 +22,10 @@ def search_vulnerabilities_in_db(searched_text, db_table):
         # TODO union with standard research (test)
         std_result_set = search_vulnerabilities_for_text_input(word_list, db_table)
         union_result_set = join_result_sets(result_set, std_result_set, db_table)
-        return union_result_set
+        if len(union_result_set) > 0:
+            return union_result_set
+        else:
+            return search_vulnerabilities_for_description(word_list, db_table)
     else:
         result_set = search_vulnerabilities_for_description(word_list, db_table)
         if len(result_set) > 0:

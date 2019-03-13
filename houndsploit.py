@@ -5,7 +5,7 @@ from searcher.db_manager.result_set import print_instances, result_set_len
 
 def main(argv):
     if argv.__len__() == 0:
-        print('show guide!')
+        print('usage: python houndsploit.py "[text to search]"')
         exit(0)
 
     searched_text = argv[0]
