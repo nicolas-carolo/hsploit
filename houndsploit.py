@@ -8,13 +8,17 @@ def main(argv):
         print('show guide!')
         exit(0)
 
-    exploits_result_set = search_vulnerabilities_in_db(argv, 'searcher_exploit')
-    shellcodes_result_set = search_vulnerabilities_in_db(argv, 'searcher_shellcode')
+    searched_text = argv[0]
+
+    exploits_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_exploit')
+    shellcodes_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_shellcode')
     print(str(result_set_len(exploits_result_set)) + ' exploits and ' + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
-    print('Exploits:')
-    print_instances(exploits_result_set)
-    print('\nShellcodes:')
-    print_instances(shellcodes_result_set)
+    if result_set_len(exploits_result_set) > 0:
+        print('Exploits:')
+        print_instances(exploits_result_set)
+    if result_set_len(shellcodes_result_set) > 0:
+        print('\nShellcodes:')
+        print_instances(shellcodes_result_set)
 
 
 if __name__ == "__main__":

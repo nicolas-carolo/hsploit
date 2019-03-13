@@ -10,10 +10,9 @@ from searcher.db_manager.result_set import queryset2list, void_result_set, join_
 N_MAX_RESULTS_NUMB_VERSION = 20000
 
 
-def search_vulnerabilities_in_db(word_list, db_table):
-    searched_text = word_list[0]
-    for word in word_list[1:]:
-        searched_text = searched_text + ' ' + word
+def search_vulnerabilities_in_db(searched_text, db_table):
+
+    word_list = str(searched_text).split()
 
     if str(searched_text).isnumeric():
         return search_vulnerabilities_numerical(word_list[0], db_table)

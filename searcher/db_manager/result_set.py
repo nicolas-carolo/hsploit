@@ -36,8 +36,9 @@ def join_result_sets(result_set_1, result_set_2, db_table):
     for instance in result_set_2:
         list_id_2.append(instance.id)
     union_list_id = set(list_id_1) | set(list_id_2)
-    print(union_list_id)
-    print(union_list_id.__len__())
+
+    if len(union_list_id) == 0:
+        return void_result_set()
 
     session = start_session()
     if db_table == 'searcher_exploit':
