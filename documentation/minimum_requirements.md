@@ -6,7 +6,7 @@
 * MySQL
 * nano
 * venv [optional]
-* git
+* wget
 
 ## Requested packages
 
