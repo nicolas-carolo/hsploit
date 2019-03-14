@@ -1,1 +1,1 @@
-I have edited the documentation
+I have edited the help printed on the console

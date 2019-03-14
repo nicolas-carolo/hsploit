@@ -16,6 +16,7 @@ def print_guide():
                     [G + 'Open the shellcode\'s source code with nano' + W,
                      'python houndsploit.py -os [shellcode\'s id]'],
                     [G + 'Show software information' + W, 'python houndsploit.py -v'],
+                    [G + 'Check for software updates' + W, 'python houndsploit.py -u'],
                     [G + 'Show help' + W, 'python houndsploit.py -help']],
                    [R + 'ACTION' + W, R + 'COMMAND LINE' + W], tablefmt='grid'))
     exit(0)
