@@ -6,6 +6,7 @@
 * MySQL
 * nano
 * venv [optional]
+* git
 
 ## Requested packages
 
@@ -17,3 +18,4 @@
 * pyfiglet
 * tabulate
 * termcolor
+* requests

@@ -3,12 +3,15 @@ from searcher.engine.search_engine import search_vulnerabilities_in_db
 from searcher.db_manager.result_set import print_result_set, result_set_len
 from console_manager.colors import O, W, R
 from console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info, show_shellcode_info,\
-    print_software_information
+    print_software_information, check_for_updates
 
 
 def main(argv):
     if argv.__len__() == 0 or argv[0] == '-help':
         print_guide()
+
+    if argv[0] == '-u':
+        check_for_updates()
 
     if argv[0] == '-v':
         print_software_information()

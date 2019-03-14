@@ -3,6 +3,7 @@ from searcher.db_manager.models import Exploit, Shellcode
 import os, sys
 from tabulate import tabulate
 from console_manager.colors import W, O, R, G
+from searcher.engine.updates import is_update_available, git_pull
 
 
 def print_guide():
@@ -22,7 +23,7 @@ def print_guide():
 
 def print_software_information():
     print_ascii_art('Hound\nSploit')
-    print(tabulate([[O + 'Version:' + W, '0.2.0 (Bash Version)'],
+    print(tabulate([[O + 'Version:' + W, '0.3.0 (Bash Version)'],
                     [O + 'Release date:' + W, 'March 14, 2019'],
                     [O + 'Developer:' + W, 'Nicolas Carolo'],
                     [O + 'Last Database update:' + W, 'March 9, 2019']], tablefmt='grid'))
@@ -113,3 +114,19 @@ def print_ascii_art(text_to_print):
 
     cprint(figlet_format(text_to_print, font='starwars'),
            'yellow', attrs=['bold'])
+
+
+def check_for_updates():
+    if is_update_available():
+        print('A new software update is available!')
+        choice = input('Do you want to download and install it? (Y/N): ')
+        if choice.upper() == 'Y' or choice.upper() == 'YES':
+            git_pull()
+        elif choice.upper() == 'N' or choice.upper() == 'NO':
+            exit(0)
+        else:
+            print('ERROR: Bad input! Choose yes (Y) or no (N)')
+            check_for_updates()
+    else:
+        print('The software is up-to-date!')
+    exit(0)

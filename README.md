@@ -8,6 +8,7 @@ aim of showing the user the most accurate search results.
 * Effective version number filtering
 * Syntax highlighting of the source code of exploits and shellcodes
 * View information about the characteristics of exploits and shellcodes
+* Automatic check for updates
 
 ### Effective version number filtering examples
 #### Example I
@@ -61,7 +62,7 @@ Papers: No Result
 
 ```
 nicolas@carolo:~$ python houndsploit.py "linux kernel 4.2.3"
-14 exploits and 1 shellcodes found.
+14 exploits and 0 shellcodes found.
 
 EXPLOITS:
 +-------+-------------------------------------------------------------------------------------------------------+
@@ -95,13 +96,6 @@ EXPLOITS:
 +-------+-------------------------------------------------------------------------------------------------------+
 | 45553 | Linux Kernel < 4.11.8 - 'mq_notify: double sock_put()' Local Privilege Escalation                     |
 +-------+-------------------------------------------------------------------------------------------------------+
-
-SHELLCODES:
-+-------+----------------------------------------------------------------------------+
-|    ID | DESCRIPTION                                                                |
-+=======+============================================================================+
-| 43630 | Linux/x86 - setuid(0) + Load Kernel Module (/tmp/o.o) Shellcode (67 bytes) |
-+-------+----------------------------------------------------------------------------+
 ```
 
 ## Guide
