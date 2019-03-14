@@ -109,6 +109,7 @@ EXPLOITS:
 | Open the shellcode's source code with nano | python houndsploit.py -os [shellcode's id] |
 | Show software information                  | python houndsploit.py -v                   |
 | Show help                                  | python houndsploit.py -help                |
+| Check for software updates                 | python houndsploit.py -u                   |
 
 ## Installation procedure
 
