@@ -22,7 +22,7 @@ def print_guide():
 
 def print_software_information():
     print_ascii_art('Hound\nSploit')
-    print(tabulate([[O + 'Version:' + W, '0.1.0'],
+    print(tabulate([[O + 'Version:' + W, '0.1.0 (Bash Version)'],
                     [O + 'Release date:' + W, 'March 14, 2019'],
                     [O + 'Developer:' + W, 'Nicolas Carolo'],
                     [O + 'Last Database update:' + W, 'March 9, 2019']], tablefmt='grid'))
