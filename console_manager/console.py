@@ -6,14 +6,26 @@ from console_manager.colors import W, O, R, G
 
 
 def print_guide():
-    print_ascii_art('Hound\n\tSploit')
+    print_ascii_art('Hound\nSploit')
     print(O + 'USAGE:' + W)
     print(tabulate([[G + 'Perform a search' + W, 'python houndsploit.py "[search text]"'],
-                    [G + 'show info about the exploit' + W, 'python houndsploit.py -ie [exploit\'s id]'],
-                    [G + 'show info about the shellcode' + W, 'python houndsploit.py -is [shellcode\'s id]'],
-                    [G + 'open the exploit\'s source code with nano' + W, 'python houndsploit.py -oe [exploit\'s id]'],
-                    [G + 'open the shellcode\'s source code with nano' + W, 'python houndsploit.py -os [shellcode\'s id]']],
+                    [G + 'Show info about the exploit' + W, 'python houndsploit.py -ie [exploit\'s id]'],
+                    [G + 'Show info about the shellcode' + W, 'python houndsploit.py -is [shellcode\'s id]'],
+                    [G + 'Open the exploit\'s source code with nano' + W, 'python houndsploit.py -oe [exploit\'s id]'],
+                    [G + 'Open the shellcode\'s source code with nano' + W,
+                     'python houndsploit.py -os [shellcode\'s id]'],
+                    [G + 'Show software information' + W, 'python houndsploit.py -v'],
+                    [G + 'Show help' + W, 'python houndsploit.py -help']],
                    [R + 'ACTION' + W, R + 'COMMAND LINE' + W], tablefmt='grid'))
+    exit(0)
+
+
+def print_software_information():
+    print_ascii_art('Hound\nSploit')
+    print(tabulate([[O + 'Version:' + W, '0.1.0'],
+                    [O + 'Release date:' + W, 'March 14, 2019'],
+                    [O + 'Developer:' + W, 'Nicolas Carolo'],
+                    [O + 'Last Database update:' + W, 'March 9, 2019']], tablefmt='grid'))
     exit(0)
 
 
