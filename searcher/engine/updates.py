@@ -28,7 +28,8 @@ def is_update_available():
         return False
 
 
-def git_pull():
-    os.system('git pull')
-    print('Remember to update manually the Database!')
+def download_update():
+    os.system('wget https://github.com/nicolas-carolo/HoundSploitBash/archive/master.zip -O ~/HoundSploitBash.zip')
+    print('The zip archive \'HoundSploitBash.zip\' has been saved in your home directory.')
+    print('Remember to update manually the Database before use HoundSploit again.')
     exit(0)

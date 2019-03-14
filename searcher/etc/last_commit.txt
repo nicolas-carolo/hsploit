@@ -1,1 +1,1 @@
-Automatic check for updates
+Bug fix in software update
