@@ -2,13 +2,12 @@ import sys
 from searcher.engine.search_engine import search_vulnerabilities_in_db
 from searcher.db_manager.result_set import print_result_set, result_set_len
 from console_manager.colors import O, W
-from console_manager.console import open_exploit, open_shellcode, show_exploit_info, show_shellcode_info
+from console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info, show_shellcode_info
 
 
 def main(argv):
     if argv.__len__() == 0:
-        print('usage: python houndsploit.py "[text to search]"')
-        exit(0)
+        print_guide()
 
     if argv[0] == '-oe' and not argv[1] is None:
         open_exploit(argv[1])

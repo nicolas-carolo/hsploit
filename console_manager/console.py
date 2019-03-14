@@ -1,8 +1,20 @@
 from searcher.db_manager.session_manager import start_session
 from searcher.db_manager.models import Exploit, Shellcode
-import os
+import os, sys
 from tabulate import tabulate
-from console_manager.colors import W, O
+from console_manager.colors import W, O, R, G
+
+
+def print_guide():
+    print_ascii_art('Hound\n\tSploit')
+    print(O + 'USAGE:' + W)
+    print(tabulate([[G + 'Perform a search' + W, 'python houndsploit.py "[search text]"'],
+                    [G + 'show info about the exploit' + W, 'python houndsploit.py -ie [exploit\'s id]'],
+                    [G + 'show info about the shellcode' + W, 'python houndsploit.py -is [shellcode\'s id]'],
+                    [G + 'open the exploit\'s source code with nano' + W, 'python houndsploit.py -oe [exploit\'s id]'],
+                    [G + 'open the shellcode\'s source code with nano' + W, 'python houndsploit.py -os [shellcode\'s id]']],
+                   [R + 'ACTION' + W, R + 'COMMAND LINE' + W], tablefmt='grid'))
+    exit(0)
 
 
 def open_exploit(id):
@@ -79,3 +91,13 @@ def show_shellcode_info(id):
     except IndexError:
         print('ERROR: Shellcode not found!')
     return exit(0)
+
+
+def print_ascii_art(text_to_print):
+    from colorama import init
+    init(strip=not sys.stdout.isatty())  # strip colors if stdout is redirected
+    from termcolor import cprint
+    from pyfiglet import figlet_format
+
+    cprint(figlet_format(text_to_print, font='starwars'),
+           'yellow', attrs=['bold'])
