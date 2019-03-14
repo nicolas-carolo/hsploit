@@ -104,9 +104,23 @@ SHELLCODES:
 +-------+----------------------------------------------------------------------------+
 ```
 
+## Guide
+
+| ACTION                                     | COMMAND LINE                               |
+|--------------------------------------------|--------------------------------------------|
+| Perform a search                           | python houndsploit.py "[search text]"      |
+| Show info about the exploit                | python houndsploit.py -ie [exploit's id]   |
+| Show info about the shellcode              | python houndsploit.py -is [shellcode's id] |
+| Open the exploit's source code with nano   | python houndsploit.py -oe [exploit's id]   |
+| Open the shellcode's source code with nano | python houndsploit.py -os [shellcode's id] |
+| Show software information                  | python houndsploit.py -v                   |
+| Show help                                  | python houndsploit.py -help                |
+
 ## Documentation
+
 [Here](https://github.com/nicolas-carolo/HoundSploitBash/tree/master/documentation)
 you can read the software documentation.
 
 ## Updates
+
 The database of exploits and shellcodes will be weekly updated.
