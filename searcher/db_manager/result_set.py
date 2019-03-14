@@ -21,8 +21,8 @@ def print_result_set(result_set):
     Print the result set.
     :param result_set: the result set to be printed.
     """
-    print(tabulate([[instance.id, instance.file, instance.description] for instance in result_set],
-                   ['ID', 'FILE', 'DESCRIPTION'], tablefmt='grid'))
+    print(tabulate([[instance.id, instance.description] for instance in result_set],
+                   ['ID', 'DESCRIPTION'], tablefmt='grid'))
 
 
 def void_result_set():
