@@ -6,7 +6,7 @@ aim of showing the user the most accurate search results.
 ## Features
 
 * Effective version number filtering
-* Syntax highlighting of the source code of exploits and shellcodes
+* Open the source code of exploits and shellcodes using _nano_
 * View information about the characteristics of exploits and shellcodes
 * Automatic check for updates
 
@@ -109,6 +109,12 @@ EXPLOITS:
 | Open the shellcode's source code with nano | python houndsploit.py -os [shellcode's id] |
 | Show software information                  | python houndsploit.py -v                   |
 | Show help                                  | python houndsploit.py -help                |
+
+## Installation procedure
+
+1. [Download](https://github.com/nicolas-carolo/HoundSploitBash/archive/master.zip) HoundSploit Bash and decompress the zip archive
+2. Install [software dependencies](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md)
+3. [Configure](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/mysql-db.md) MySQL Database
 
 ## Documentation
 

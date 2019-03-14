@@ -1,1 +1,1 @@
-Bug fix in software update
+I have added installation procedure in README.md file

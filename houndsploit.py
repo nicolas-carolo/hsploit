@@ -32,7 +32,8 @@ def main(argv):
         searched_text = argv[0]
         exploits_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_exploit')
         shellcodes_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_shellcode')
-        print(str(result_set_len(exploits_result_set)) + ' exploits and ' + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
+        print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
+              + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
         if result_set_len(exploits_result_set) > 0:
             print(O + 'EXPLOITS:' + W)
             print_result_set(exploits_result_set)
