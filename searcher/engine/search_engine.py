@@ -24,7 +24,7 @@ def search_vulnerabilities_in_db(searched_text, db_table):
             searched_text).__contains__('<'):
         result_set = search_vulnerabilities_version(word_list, db_table)
         # union with standard research
-        std_result_set = search_vulnerabilities_for_text_input(word_list, db_table)
+        std_result_set = search_vulnerabilities_for_text_input(searched_text, db_table)
         union_result_set = join_result_sets(result_set, std_result_set, db_table)
         if len(union_result_set) > 0:
             return union_result_set
@@ -195,7 +195,7 @@ def search_shellcodes_version(software_name, num_version):
     return final_result_set
 
 
-def search_vulnerabilities_for_text_input(word_list, db_table):
+def search_vulnerabilities_for_text_input(searched_text, db_table):
     """
     Perform a search in description based on characters contained by this attribute.
     This queryset can be joined with the search results based on the number of version.
@@ -204,6 +204,7 @@ def search_vulnerabilities_for_text_input(word_list, db_table):
     :return: a queryset containing the search results found with a search based on the characters contained by
                 the attribute 'description'
     """
+    word_list = str(searched_text).split()
     word_list_num = []
     for word in word_list:
         if word.isnumeric():
