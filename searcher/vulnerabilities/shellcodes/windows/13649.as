@@ -14,7 +14,7 @@
 //      This version is more universal than old STAGE-0 (that have use Flash Dictionary addr leakage)
 //
 //
-//      Example of usage and console_manager for modify:  http://www.dsecrg.com/files/pub/tools/JIT.zip
+//      Example of usage and tools for modify:  http://www.dsecrg.com/files/pub/tools/JIT.zip
 //
 //      Find shellcode by TAG          - need time ))
 //      Find kernel32.dll module
