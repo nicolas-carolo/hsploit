@@ -1,1 +1,1 @@
-Last DB update on March 15, 2019
+Script for automated creation of the database added and guide updated
