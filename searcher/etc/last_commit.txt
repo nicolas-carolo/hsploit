@@ -1,1 +1,1 @@
-Script for automated creation of the database added and guide updated
+Software information updated
