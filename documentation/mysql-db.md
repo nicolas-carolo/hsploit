@@ -15,7 +15,7 @@ manage the DB.
     * `files_exploits.sql`: `$ mysql -u root -p HOUNDSPLOIT < sql_scripts/files_exploits.sql`
     * `files_shellcodes.sql`: `$ mysql -u root -p HOUNDSPLOIT < sql_scripts/files_shellcodes.sql`
     * `files_exceptions.sql`: `$ mysql -u root -p HOUNDSPLOIT < sql_scripts/files_exceptions.sql`
-4. Now you can run _HoundSploit.
+4. Now you can run _HoundSploit_.
 
 ### Starting from .csv files
 1. Get `files_exploits.csv` and `files_shellcodes.csv` from the
