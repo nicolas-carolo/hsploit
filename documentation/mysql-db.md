@@ -7,6 +7,16 @@ manage the DB.
 
 ## Create HOUNDSPLOIT DB connection and the relative tables
 
+### Automated procedure
+
+1. Go to `sql_scripts` directory
+2. Run `houndsploit_db_setup.sql script`: `$ mysql -u root -p < houndsploit_db_setup.sql`
+3. Run also the following scripts:
+    * `files_exploits.sql`: `$ mysql -u root -p HOUNDSPLOIT < sql_scripts/files_exploits.sql`
+    * `files_shellcodes.sql`: `$ mysql -u root -p HOUNDSPLOIT < sql_scripts/files_shellcodes.sql`
+    * `files_exceptions.sql`: `mysql -u root -p HOUNDSPLOIT < sql_scripts/files_exceptions.sql`
+4. Now you can run _HoundSploit
+
 ### Starting from .csv files
 1. Get `files_exploits.csv` and `files_shellcodes.csv` from the
 [Exploit-DB repository on GitHub](https://github.com/offensive-security/exploitdb).
@@ -18,22 +28,26 @@ as `files_exploits.sql` and `files_shellcodes.sql`.
 
 ### Starting from SQL scripts
 
-**N.B.:** In this guide I am going to describe the procedure using _MySQLWorkbench_.
-
-1. Open _MySQLWorkbench_.
-2. Create a new connection named `HOUNDSPLOIT` on `localhost` (IP address `127.0.0.1`) and port `3306`.
-3. Create a new schema named `HOUNDSPLOIT` and select `utf32` as `Character set` and `Default Collation` as `Collation`.
+1. Open MySQL: `$ mysql -u root -p`
+2. Create a new schema named `HOUNDSPLOIT`: `mysql> CREATE DATABASE IF NOT EXISTS HOUNDSPLOIT CHARACTER SET utf32;`
 This choice is necessary because some vulnerabilities' authors have names that contain a set of characters that belong
 to a great variety of alphabets.
-4. Create `searcher_exploit` and `searcher_shellcode` tables executing `files_exploits.sql` and `files_shellcodes.sql`
-scripts.
-5. Create a new db user:
+3. Create `searcher_exploit`, `searcher_shellcode` and `searcher_suggestion` tables running the following scripts:
+    * `files_exploits.sql`: `$ mysql -u root -p HOUNDSPLOIT < sql_scripts/files_exploits.sql`
+    * `files_shellcodes.sql`: `$ mysql -u root -p HOUNDSPLOIT < sql_scripts/files_shellcodes.sql`
+    * `files_exceptions.sql`: `mysql -u root -p HOUNDSPLOIT < sql_scripts/files_exceptions.sql`
+4. Create a new db user:
 
     user: `hound-user`
-
+    
     password: `Hound-password9`
+    
+    using the following command: `mysql> CREATE USER IF NOT EXISTS 'hound-user'@'localhost' IDENTIFIED BY 'Hound-password9';`
 
-    and remember to assign him the privileges to run `ALTER`, `CREATE`, `DELETE`, `INSERT`, `REFERENCES`, `SELECT`, `UPDATE` operations.
-6. Now you can run _HoundSploit_ and test if it works fine!
+    and assign him the privileges to run `ALTER`, `CREATE`, `DELETE`, `INSERT`, `REFERENCES`, `SELECT`, `UPDATE` operations:
+   
+    `mysql> GRANT ALTER, CREATE, DELETE, INSERT, REFERENCES, SELECT, UPDATE ON 'HOUNDSPLOIT'.* TO 'hound-user'@'localhost' IDENTIFIED BY 'Hound-password9';`
+   
+5. Now you can run _HoundSploit_ and test if it works fine!
 
 
