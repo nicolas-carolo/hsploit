@@ -1,1 +1,1 @@
-Software information updated
+Version 1.1.0
