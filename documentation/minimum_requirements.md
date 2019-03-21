@@ -8,7 +8,7 @@
 * venv [optional]
 * wget
 
-## Requested packages
+## Required packages
 
 * pip
 * setuptools

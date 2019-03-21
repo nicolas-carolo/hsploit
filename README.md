@@ -111,11 +111,25 @@ EXPLOITS:
 | Show help                                  | python houndsploit.py -help                |
 | Check for software updates                 | python houndsploit.py -u                   |
 
-## Installation procedure
+## Installation procedures
+
+### New procedure
 
 1. [Download](https://github.com/nicolas-carolo/HoundSploitBash/archive/master.zip) HoundSploit Bash and decompress the zip archive
-2. Install [software dependencies](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md)
-3. [Configure](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/mysql-db.md) MySQL Database
+2. Install [the interpreter and the required tools](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md)
+(only interpreter and tools)
+3. Create and configure the virtual environment `venv` (optional, but recommended)
+4. Run: `$ python setup.py`
+5. Run: `$ python houndsploit.py`
+
+### Old procedure
+
+1. [Download](https://github.com/nicolas-carolo/HoundSploitBash/archive/master.zip) HoundSploit Bash and decompress the zip archive
+2. Install [the interpreter and the required tools](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md)
+3. [Configure](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/mysql-db.md) MySQL Database,
+4. Create and configure the virtual environment `venv` (optional, but recommended)
+5. Install the [required packages](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md) (in the virual environment)
+6. Run: `$ python houndsploit.py`
 
 ## Documentation
 

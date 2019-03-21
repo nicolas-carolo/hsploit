@@ -7,7 +7,12 @@ manage the DB.
 
 ## Create HOUNDSPLOIT DB connection and the relative tables
 
-### Automated procedure
+### New Automated procedure
+
+1. Run `python setup.py`
+2. If the setup is terminated successfully, now you can run _HoundSploit_. 
+
+### Old Automated procedure
 
 **N.B.:** For the following steps, if your computer is running macOS, you have to run the command `/usr/local/mysql/bin/mysql -u root -p [...]`
 instead of the command `mysql -u root -p [...]`.
@@ -20,7 +25,7 @@ instead of the command `mysql -u root -p [...]`.
     * `files_exceptions.sql`: `$ mysql -u root -p HOUNDSPLOIT < files_exceptions.sql`
 4. Now you can run _HoundSploit_.
 
-### Starting from .csv files
+### Manual procedure: starting from .csv files
 1. Get `files_exploits.csv` and `files_shellcodes.csv` from the
 [Exploit-DB repository on GitHub](https://github.com/offensive-security/exploitdb).
 2. Now you have to create a SQL script for each file. For example I have used the online converter available on this
@@ -29,7 +34,7 @@ that the exploits table have to be named as `searcher_exploit`, while the shellc
 After making the convertion, download and save the two SQL scripts you have just created. I have saved them respectively
 as `files_exploits.sql` and `files_shellcodes.sql`. 
 
-### Starting from SQL scripts
+### Manual procedure: starting from SQL scripts
 
 1. Open MySQL: `$ mysql -u root -p`
 2. Create a new schema named `HOUNDSPLOIT`: `mysql> CREATE DATABASE IF NOT EXISTS HOUNDSPLOIT CHARACTER SET utf32;`

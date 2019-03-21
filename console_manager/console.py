@@ -6,6 +6,13 @@ from console_manager.colors import W, O, R, G
 from searcher.engine.updates import is_update_available, download_update
 
 
+# Software information constants
+SW_VERSION = '1.2.0 (Bash Version)'
+RELEASE_DATE = 'March 21, 2019'
+DEVELOPER = 'Nicolas Carolo'
+LAST_DB_UPDATE = 'March 15, 2019'
+
+
 def print_guide():
     print_ascii_art('Hound\nSploit')
     print(O + 'USAGE:' + W)
@@ -24,10 +31,10 @@ def print_guide():
 
 def print_software_information():
     print_ascii_art('Hound\nSploit')
-    print(tabulate([[O + 'Version:' + W, '1.1.0 (Bash Version)'],
-                    [O + 'Release date:' + W, 'March 19, 2019'],
-                    [O + 'Developer:' + W, 'Nicolas Carolo'],
-                    [O + 'Last Database update:' + W, 'March 15, 2019']], tablefmt='grid'))
+    print(tabulate([[O + 'Version:' + W, SW_VERSION],
+                    [O + 'Release date:' + W, RELEASE_DATE],
+                    [O + 'Developer:' + W, DEVELOPER],
+                    [O + 'Last Database update:' + W, LAST_DB_UPDATE]], tablefmt='grid'))
     exit(0)
 
 
