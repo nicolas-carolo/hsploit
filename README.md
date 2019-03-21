@@ -117,7 +117,6 @@ EXPLOITS:
 
 1. [Download](https://github.com/nicolas-carolo/HoundSploitBash/archive/master.zip) HoundSploit Bash and decompress the zip archive
 2. Install [the interpreter and the required tools](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md)
-(only interpreter and tools)
 3. Create and configure the virtual environment `venv` (optional, but recommended)
 4. Run: `$ python setup.py`
 5. Run: `$ python houndsploit.py`
