@@ -1,2 +1,10 @@
 .idea
 venv
+.DS_Store
+searcher/.DS_Store
+searcher/vulnerabilities/.DS_Store
+__pycache__
+console_manager/__pycache__
+searcher/engine/__pycache__
+searcher/__pycache__
+searcher/db_manager/__pycache__
