@@ -7,10 +7,10 @@ from searcher.engine.updates import is_update_available, download_update
 
 
 # Software information constants
-SW_VERSION = '1.2.5 (Bash Version)'
-RELEASE_DATE = 'April 19, 2019'
+SW_VERSION = '1.2.6 (Bash Version)'
+RELEASE_DATE = 'April 25, 2019'
 DEVELOPER = 'Nicolas Carolo'
-LAST_DB_UPDATE = 'April 19, 2019'
+LAST_DB_UPDATE = 'April 24, 2019'
 
 
 def print_guide():
