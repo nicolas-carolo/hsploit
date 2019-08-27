@@ -3,7 +3,7 @@ from searcher.engine.search_engine import search_vulnerabilities_in_db
 from searcher.db_manager.result_set import print_result_set, result_set_len
 from console_manager.colors import O, W, R
 from console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info, show_shellcode_info,\
-    print_software_information, check_for_updates
+    print_software_information, check_for_updates, check_for_exploitdb_updates
 
 
 def main(argv):
@@ -12,6 +12,9 @@ def main(argv):
 
     if argv[0] == '-u':
         check_for_updates()
+
+    if argv[0] == '-udb':
+        check_for_exploitdb_updates()
 
     if argv[0] == '-v':
         print_software_information()

@@ -3,7 +3,7 @@ from searcher.db_manager.models import Exploit, Shellcode
 import os, sys
 from tabulate import tabulate
 from console_manager.colors import W, O, R, G
-from searcher.engine.updates import is_update_available, download_update
+from searcher.engine.updates import is_update_available, download_update, install_exploitdb_update
 
 
 # Software information constants
@@ -24,6 +24,7 @@ def print_guide():
                      'python houndsploit.py -os [shellcode\'s id]'],
                     [G + 'Show software information' + W, 'python houndsploit.py -v'],
                     [G + 'Check for software updates' + W, 'python houndsploit.py -u'],
+                    [G + 'Check for database updates' + W, 'python houndsploit.py -udb'],
                     [G + 'Show help' + W, 'python houndsploit.py -help']],
                    [R + 'ACTION' + W, R + 'COMMAND LINE' + W], tablefmt='grid'))
     exit(0)
@@ -125,7 +126,7 @@ def print_ascii_art(text_to_print):
 
 
 def check_for_updates():
-    if is_update_available():
+    if is_update_available("nicolas-carolo/HoundSploitBash", "./searcher/etc/last_hs_commit.txt"):
         print('A new software update is available!')
         choice = input('Do you want to download it? (Y/N): ')
         if choice.upper() == 'Y' or choice.upper() == 'YES':
@@ -137,4 +138,20 @@ def check_for_updates():
             check_for_updates()
     else:
         print('The software is up-to-date!')
+    exit(0)
+
+
+def check_for_exploitdb_updates():
+    if is_update_available("offensive-security/exploitdb", "./searcher/etc/last_exploitdb_commit.txt"):
+        print('A new database update is available!')
+        choice = input('Do you want to download and install it? (Y/N): ')
+        if choice.upper() == 'Y' or choice.upper() == 'YES':
+            install_exploitdb_update()
+        elif choice.upper() == 'N' or choice.upper() == 'NO':
+            exit(0)
+        else:
+            print('ERROR: Bad input! Choose yes (Y) or no (N)')
+            check_for_updates()
+    else:
+        print('The database is up-to-date!')
     exit(0)
