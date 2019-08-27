@@ -1,1 +1,1 @@
-1.2.10: Last DB update on June 14, 2019
+1.3.0: HoundSploit is based on SQLite instead of MySQL
