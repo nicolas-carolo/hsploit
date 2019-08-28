@@ -8,3 +8,5 @@ console_manager/__pycache__
 searcher/engine/__pycache__
 searcher/__pycache__
 searcher/db_manager/__pycache__
+searcher/engine/vulnerabilities
+csv
