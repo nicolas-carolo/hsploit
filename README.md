@@ -110,25 +110,17 @@ EXPLOITS:
 | Show software information                  | python houndsploit.py -v                   |
 | Show help                                  | python houndsploit.py -help                |
 | Check for software updates                 | python houndsploit.py -u                   |
+| Check for database updates                 | python houndsploit.py -udb                 |
 
-## Installation procedures
+## Installation procedure
 
-### New procedure
-
-1. [Download](https://github.com/nicolas-carolo/HoundSploitBash/archive/master.zip) HoundSploit Bash and decompress the zip archive
-2. Install [the interpreter and the required tools](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md)
-3. Create and configure the virtual environment `venv` (optional, but recommended)
+1. Clone or [download the repository](https://github.com/nicolas-carolo/HoundSploitBash/archive/master.zip) of HoundSploit Bash:
+    * `$ git clone https://github.com/nicolas-carolo/HoundSploitBash.git`
+2. Install [the **interpreter** and the **required tools**](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md)
+3. Create and configure the virtual environment `venv` (optional, but recommended):
+    * `$ python -m venv ./venv`
 4. Run: `$ python setup.py`
 5. Run: `$ python houndsploit.py`
-
-### Old procedure
-
-1. [Download](https://github.com/nicolas-carolo/HoundSploitBash/archive/master.zip) HoundSploit Bash and decompress the zip archive
-2. Install [the interpreter and the required tools](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md)
-3. [Configure](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/mysql-db.md) MySQL Database,
-4. Create and configure the virtual environment `venv` (optional, but recommended)
-5. Install the [required packages](https://github.com/nicolas-carolo/HoundSploitBash/blob/master/documentation/minimum_requirements.md) (in the virual environment)
-6. Run: `$ python houndsploit.py`
 
 ## Documentation
 
@@ -137,4 +129,8 @@ you can read the software documentation.
 
 ## Updates
 
-The database of exploits and shellcodes will be weekly updated.
+Check for software updates:
+`$ python houndsploit.py -u`
+
+Check for database updates:
+`$ python houndsploit.py -udb`

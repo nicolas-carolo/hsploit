@@ -1,9 +1,14 @@
 # Minimum requirements
 
+## Supported OS
+
+* Linux
+* macOS
+
 ## Interpreter and tools
 
 * Python 3
-* MySQL
+* SQLite 3
 * nano
 * venv [optional]
 * wget
@@ -12,7 +17,6 @@
 
 * pip
 * setuptools
-* PyMySQL
 * SQLAlchemy
 * colorama
 * pyfiglet
