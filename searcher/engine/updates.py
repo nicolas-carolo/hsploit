@@ -52,6 +52,10 @@ def install_exploitdb_update():
             os.system('rm ./hound_db.sqlite3')
         if os.path.isdir("exploitdb_temp"):
             os.system('rm -fr exploitdb_temp')
+        if not os.path.isdir("csv"):
+            os.system('mkdir csv')
+        if not os.path.isdir("./searcher/vulnerabilities"):
+            os.system('mkdir ./searcher/vulnerabilities')
         os.system('wget https://github.com/offensive-security/exploitdb/archive/master.zip -O ./exploitdb.zip')
         os.system('mkdir exploitdb_temp')
         with zipfile.ZipFile("./exploitdb.zip", 'r') as zip_ref:

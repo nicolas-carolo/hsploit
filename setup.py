@@ -1,5 +1,4 @@
 import os
-from searcher.engine.updates import install_exploitdb_update
 
 
 def main():
@@ -40,6 +39,7 @@ def main():
     except ImportError:
         os.system('pip install requests')
 
+    from searcher.engine.updates import install_exploitdb_update
     install_exploitdb_update()
 
 
