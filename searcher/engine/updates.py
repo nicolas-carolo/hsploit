@@ -40,20 +40,31 @@ def download_update():
 
 
 def install_exploitdb_update():
-    os.system('rm -fr ./searcher/vulnerabilities/*')
-    if os.path.isfile("/hound_db.sqlite3"):
-        os.system('rm ./hound_db.sqlite3')
-    if os.path.isdir("exploitdb_temp"):
+    try:
+        info_request = requests.get('https://api.github.com/repos/{0}/commits?per_page=1'.format("offensive-security/exploitdb"))
+        commit = info_request.json()[0]["commit"]
+        regex = re.search(r'\'message\': \'(?P<last_git_commit>[^\']*)\'', str(commit))
+        last_git_commit = regex.group('last_git_commit')
+        f = open("./searcher/etc/last_exploitdb_commit.txt", "w")
+        f.write(last_git_commit)
+        f.close()
+        os.system('rm -fr ./searcher/vulnerabilities/*')
+        if os.path.isfile("/hound_db.sqlite3"):
+            os.system('rm ./hound_db.sqlite3')
+        if os.path.isdir("exploitdb_temp"):
+            os.system('rm -fr exploitdb_temp')
+        os.system('wget https://github.com/offensive-security/exploitdb/archive/master.zip -O ./exploitdb.zip')
+        os.system('mkdir exploitdb_temp')
+        with zipfile.ZipFile("./exploitdb.zip", 'r') as zip_ref:
+            zip_ref.extractall("exploitdb_temp")
+        os.system('mv ./exploitdb_temp/exploitdb-master/exploits ./searcher/vulnerabilities/exploits')
+        os.system('mv ./exploitdb_temp/exploitdb-master/shellcodes ./searcher/vulnerabilities/shellcodes')
+        os.system('mv ./exploitdb_temp/exploitdb-master/files_exploits.csv ./csv')
+        os.system('mv ./exploitdb_temp/exploitdb-master/files_shellcodes.csv ./csv')
+        create_db()
         os.system('rm -fr exploitdb_temp')
-    os.system('wget https://github.com/offensive-security/exploitdb/archive/master.zip -O ./exploitdb.zip')
-    os.system('mkdir exploitdb_temp')
-    with zipfile.ZipFile("./exploitdb.zip", 'r') as zip_ref:
-        zip_ref.extractall("exploitdb_temp")
-    os.system('mv ./exploitdb_temp/exploitdb-master/exploits ./searcher/vulnerabilities/exploits')
-    os.system('mv ./exploitdb_temp/exploitdb-master/shellcodes ./searcher/vulnerabilities/shellcodes')
-    os.system('mv ./exploitdb_temp/exploitdb-master/files_exploits.csv ./csv')
-    os.system('mv ./exploitdb_temp/exploitdb-master/files_shellcodes.csv ./csv')
-    create_db()
-    os.system('rm -fr exploitdb_temp')
-    os.system('rm exploitdb.zip')
-    print('The database has been updated successfully!')
+        os.system('rm exploitdb.zip')
+        print('The database has been updated successfully!')
+    except AttributeError:
+        print('Error in updating the database')
+
