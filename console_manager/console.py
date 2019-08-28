@@ -3,14 +3,15 @@ from searcher.db_manager.models import Exploit, Shellcode
 import os, sys
 from tabulate import tabulate
 from console_manager.colors import W, O, R, G
-from searcher.engine.updates import is_update_available, download_update, install_exploitdb_update
+from searcher.engine.updates import is_update_available, download_update, install_exploitdb_update,\
+    get_latest_db_update_date
 
 
 # Software information constants
-SW_VERSION = '1.3.0 (Bash Version)'
-RELEASE_DATE = 'August 27, 2019'
+SW_VERSION = '1.3.1 (Bash Version)'
+RELEASE_DATE = '2019-08-28'
 DEVELOPER = 'Nicolas Carolo'
-LAST_DB_UPDATE = 'August 27, 2019'
+LAST_DB_UPDATE = get_latest_db_update_date()
 
 
 def print_guide():
@@ -126,7 +127,7 @@ def print_ascii_art(text_to_print):
 
 
 def check_for_updates():
-    if is_update_available("nicolas-carolo/HoundSploitBash", "./searcher/etc/last_hs_commit.txt"):
+    if is_update_available("nicolas-carolo/HoundSploitBash", "./searcher/etc/latest_hs_commit.txt"):
         print('A new software update is available!')
         choice = input('Do you want to download it? (Y/N): ')
         if choice.upper() == 'Y' or choice.upper() == 'YES':
@@ -142,7 +143,7 @@ def check_for_updates():
 
 
 def check_for_exploitdb_updates():
-    if is_update_available("offensive-security/exploitdb", "./searcher/etc/last_exploitdb_commit.txt"):
+    if is_update_available("offensive-security/exploitdb", "./searcher/etc/latest_exploitdb_commit.txt"):
         print('A new database update is available!')
         choice = input('Do you want to download and install it? (Y/N): ')
         if choice.upper() == 'Y' or choice.upper() == 'YES':

@@ -7,9 +7,11 @@ from searcher.engine.csv2sqlite import create_db
 
 
 def is_update_available(repo, filename_last_commit):
+    if not os.path.isfile('houndsploit.py'):
+        print("Change the current working directory to the directory of \'houndsploit.py\'"
+              " before checking for new updates!")
+        exit(0)
     try:
-        # repo = 'nicolas-carolo/HoundSploitBash'
-        # './searcher/etc/last_hs_commit.txt'
         info_request = requests.get('https://api.github.com/repos/{0}/commits?per_page=1'.format(repo))
         commit = info_request.json()[0]["commit"]
         regex = re.search(r'\'message\': \'(?P<last_git_commit>[^\']*)\'', str(commit))
@@ -45,9 +47,6 @@ def install_exploitdb_update():
         commit = info_request.json()[0]["commit"]
         regex = re.search(r'\'message\': \'(?P<last_git_commit>[^\']*)\'', str(commit))
         last_git_commit = regex.group('last_git_commit')
-        f = open("./searcher/etc/last_exploitdb_commit.txt", "w")
-        f.write(last_git_commit)
-        f.close()
         os.system('rm -fr ./searcher/vulnerabilities/*')
         if os.path.isfile("/hound_db.sqlite3"):
             os.system('rm ./hound_db.sqlite3')
@@ -64,7 +63,25 @@ def install_exploitdb_update():
         create_db()
         os.system('rm -fr exploitdb_temp')
         os.system('rm exploitdb.zip')
-        print('The database has been updated successfully!')
+        f = open("./searcher/etc/latest_exploitdb_commit.txt", "w")
+        f.write(last_git_commit)
+        f.close()
+        print('The latest version of the database has been download successfully!')
     except AttributeError:
         print('Error in updating the database')
+
+
+def get_latest_db_update_date():
+    try:
+        with open("./searcher/etc/latest_exploitdb_commit.txt", 'r') as f:
+            content = f.readlines()
+            latest_local_commit = ''.join(content)
+        regex = re.search(r'DB: (?P<date>\d\d\d\d\-\d\d\-\d\d)', str(latest_local_commit))
+        try:
+            latest_db_update_date = regex.group('date')
+            return latest_db_update_date
+        except AttributeError:
+            return ""
+    except FileNotFoundError:
+        return ""
 

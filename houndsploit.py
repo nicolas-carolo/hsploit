@@ -1,4 +1,5 @@
 import sys
+import os
 from searcher.engine.search_engine import search_vulnerabilities_in_db
 from searcher.db_manager.result_set import print_result_set, result_set_len
 from console_manager.colors import O, W, R
@@ -7,6 +8,15 @@ from console_manager.console import print_guide, open_exploit, open_shellcode, s
 
 
 def main(argv):
+    if not os.path.isfile('houndsploit.py'):
+        print("Change the current working directory to the directory of \'houndsploit.py\'"
+              " for executing HoundSploit.")
+        exit(0)
+
+    if not os.path.isfile('hound_db.sqlite3'):
+        print("Run \'setup.py\' before executing \'houndsploit.py\'.")
+        exit(0)
+
     if argv.__len__() == 0 or argv[0] == '-help':
         print_guide()
 
