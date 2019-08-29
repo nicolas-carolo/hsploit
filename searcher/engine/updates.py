@@ -7,14 +7,10 @@ from searcher.engine.csv2sqlite import create_db
 
 
 def is_update_available(repo, filename_last_commit):
-    if not os.path.isfile('houndsploit.py'):
-        print("Change the current working directory to the directory of \'houndsploit.py\'"
-              " before checking for new updates!")
-        exit(0)
     try:
         info_request = requests.get('https://api.github.com/repos/{0}/commits?per_page=1'.format(repo))
         commit = info_request.json()[0]["commit"]
-        regex = re.search(r'\'message\': \'(?P<last_git_commit>[^\']*)\'', str(commit))
+        regex = re.search(r'\'message\': (\'|\")(?P<last_git_commit>.*)(\'|\")\, \'tree\'', str(commit))
         try:
             last_git_commit = regex.group('last_git_commit')
             try:
@@ -28,6 +24,7 @@ def is_update_available(repo, filename_last_commit):
             except FileNotFoundError:
                 return True
         except AttributeError:
+            print("error")
             return False
     except KeyError:
         return False
@@ -45,10 +42,10 @@ def install_exploitdb_update():
     try:
         info_request = requests.get('https://api.github.com/repos/{0}/commits?per_page=1'.format("offensive-security/exploitdb"))
         commit = info_request.json()[0]["commit"]
-        regex = re.search(r'\'message\': \'(?P<last_git_commit>[^\']*)\'', str(commit))
+        regex = re.search(r'\'message\': (\'|\")(?P<last_git_commit>.*)(\'|\")\, \'tree\'', str(commit))
         last_git_commit = regex.group('last_git_commit')
         os.system('rm -fr ./searcher/vulnerabilities/*')
-        if os.path.isfile("/hound_db.sqlite3"):
+        if os.path.isfile("./hound_db.sqlite3"):
             os.system('rm ./hound_db.sqlite3')
         if os.path.isdir("exploitdb_temp"):
             os.system('rm -fr exploitdb_temp')

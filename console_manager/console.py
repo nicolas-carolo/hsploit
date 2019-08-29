@@ -8,8 +8,8 @@ from searcher.engine.updates import is_update_available, download_update, instal
 
 
 # Software information constants
-SW_VERSION = '1.3.1 (Bash Version)'
-RELEASE_DATE = '2019-08-28'
+SW_VERSION = '1.3.2 (Bash Version)'
+RELEASE_DATE = '2019-08-29'
 DEVELOPER = 'Nicolas Carolo'
 LAST_DB_UPDATE = get_latest_db_update_date()
 
@@ -36,7 +36,7 @@ def print_software_information():
     print(tabulate([[O + 'Version:' + W, SW_VERSION],
                     [O + 'Release date:' + W, RELEASE_DATE],
                     [O + 'Developer:' + W, DEVELOPER],
-                    [O + 'Last Database update:' + W, LAST_DB_UPDATE]], tablefmt='grid'))
+                    [O + 'Latest Database update:' + W, LAST_DB_UPDATE]], tablefmt='grid'))
     exit(0)
 
 
