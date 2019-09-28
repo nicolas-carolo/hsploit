@@ -1,0 +1,11 @@
+requests
+twine
+pytest
+coverage
+pytest-cov
+sqlalchemy
+colorama
+pyfiglet
+tabulate
+termcolor
+requests
