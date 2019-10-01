@@ -8,11 +8,11 @@ from HoundSploitBash.searcher.engine.updates import is_db_update_available, is_h
 
 
 # Software information constants
-SW_VERSION = '1.4.0 (Bash Version)'
-RELEASE_DATE = '2019-09-28'
+SW_VERSION = '1.4.1 (Bash Version)'
+RELEASE_DATE = '2019-10-01'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
-LATEST_HS_COMMIT = "1.4.0: README.md and check on blank input"
+LATEST_HS_COMMIT = "1.4.1: bug fix in update"
 
 
 def print_guide():
@@ -151,7 +151,7 @@ def check_for_exploitdb_updates():
         print('A new database update is available!')
         choice = input('Do you want to download and install it? (Y/N): ')
         if choice.upper() == 'Y' or choice.upper() == 'YES':
-            install_exploitdb_update()
+            install_exploitdb_update(os.path.split(sys.executable)[0])
         elif choice.upper() == 'N' or choice.upper() == 'NO':
             exit(0)
         else:
