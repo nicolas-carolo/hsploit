@@ -8,11 +8,11 @@ from HoundSploitBash.searcher.engine.updates import is_db_update_available, is_h
 
 
 # Software information constants
-SW_VERSION = '1.4.1 (Bash Version)'
-RELEASE_DATE = '2019-10-01'
+SW_VERSION = '1.4.2 (Bash Version)'
+RELEASE_DATE = '2019-10-02'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
-LATEST_HS_COMMIT = "1.4.1: bug fix in update"
+LATEST_HS_COMMIT = "1.4.2: improvements in SQLAlchemy queries"
 
 
 def print_guide():

@@ -52,15 +52,15 @@ def search_vulnerabilities_numerical(searched_text, db_table):
     """
     session = start_session()
     if db_table == 'searcher_exploit':
-        queryset = session.query(Exploit).filter(or_(Exploit.description.like('%' + searched_text + '%'),
+        queryset = session.query(Exploit).filter(or_(Exploit.description.contains(searched_text),
                                                      Exploit.id == int(searched_text),
-                                                     Exploit.file.like('%' + searched_text + '%'),
+                                                     Exploit.file.contains(searched_text),
                                                      Exploit.port == int(searched_text)
                                                      ))
     else:
-        queryset = session.query(Shellcode).filter(or_(Shellcode.description.like('%' + searched_text + '%'),
+        queryset = session.query(Shellcode).filter(or_(Shellcode.description.contains(searched_text),
                                                        Shellcode.id == int(searched_text),
-                                                       Shellcode.file.like('%' + searched_text + '%')
+                                                       Shellcode.file.contains(searched_text)
                                                        ))
     session.close()
     return queryset2list(queryset)
@@ -76,10 +76,10 @@ def search_vulnerabilities_for_description(word_list, db_table):
     session = start_session()
 
     if db_table == 'searcher_exploit':
-        queryset = session.query(Exploit).filter(and_(Exploit.description.like('%' + word + '%') for word in word_list))
+        queryset = session.query(Exploit).filter(and_(Exploit.description.contains(word) for word in word_list))
     else:
         queryset = session.query(Shellcode).filter(
-            and_(Shellcode.description.like('%' + word + '%') for word in word_list))
+            and_(Shellcode.description.contains(word) for word in word_list))
 
     session.close()
     return queryset2list(queryset)
@@ -95,10 +95,10 @@ def search_vulnerabilities_for_file(word_list, db_table):
     session = start_session()
 
     if db_table == 'searcher_exploit':
-        queryset = session.query(Exploit).filter(and_(Exploit.file.like('%' + word + '%') for word in word_list))
+        queryset = session.query(Exploit).filter(and_(Exploit.file.contains(word) for word in word_list))
     else:
         queryset = session.query(Shellcode).filter(
-            and_(Shellcode.file.like('%' + word + '%') for word in word_list))
+            and_(Shellcode.file.contains(word) for word in word_list))
 
     session.close()
     return queryset2list(queryset)
@@ -114,10 +114,10 @@ def search_vulnerabilities_for_author(word_list, db_table):
     session = start_session()
 
     if db_table == 'searcher_exploit':
-        queryset = session.query(Exploit).filter(and_(Exploit.author.like('%' + word + '%') for word in word_list))
+        queryset = session.query(Exploit).filter(and_(Exploit.author.contains(word) for word in word_list))
     else:
         queryset = session.query(Shellcode).filter(
-            and_(Shellcode.author.like('%' + word + '%') for word in word_list))
+            and_(Shellcode.author.contains(word) for word in word_list))
 
     session.close()
     return queryset2list(queryset)
@@ -151,7 +151,7 @@ def search_exploits_version(software_name, num_version):
     :return: a queryset with search result found in 'searcher_exploit' DB table.
     """
     session = start_session()
-    queryset = session.query(Exploit).filter(and_(Exploit.description.like('%' + software_name + '%')))
+    queryset = session.query(Exploit).filter(and_(Exploit.description.contains(software_name)))
     query_result_set = queryset2list(queryset)
     session.close()
     # limit the time spent for searching useless results.
@@ -177,7 +177,7 @@ def search_shellcodes_version(software_name, num_version):
     :return: a queryset with search result found in 'searcher_exploit' DB table.
     """
     session = start_session()
-    queryset = session.query(Shellcode).filter(and_(Shellcode.description.like('%' + software_name + '%')))
+    queryset = session.query(Shellcode).filter(and_(Shellcode.description.contains(software_name)))
     query_result_set = queryset2list(queryset)
     session.close()
     # limit the time spent for searching useless results.
@@ -219,10 +219,10 @@ def search_vulnerabilities_for_text_input(searched_text, db_table):
         session = start_session()
         if db_table == 'searcher_exploit':
             queryset = session.query(Exploit).filter(
-                and_(Exploit.description.like('%' + word + '%') for word in word_list))
+                and_(Exploit.description.contains(word) for word in word_list))
         else:
             queryset = session.query(Shellcode).filter(
-                and_(Shellcode.description.like('%' + word + '%') for word in word_list))
+                and_(Shellcode.description.contains(word) for word in word_list))
         session.close()
         query_result_set = queryset2list(queryset)
     except TypeError:

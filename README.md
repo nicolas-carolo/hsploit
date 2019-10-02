@@ -5,9 +5,9 @@ Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2019, Nicolas Carolo.
 
-Date: 2019-10-01
+Date: 2019-10-02
 
-Version: 1.4.1
+Version: 1.4.2
 
 
 ## PURPOSE
@@ -109,6 +109,20 @@ EXPLOITS:
 | 45553 | Linux Kernel < 4.11.8 - 'mq_notify: double sock_put()' Local Privilege Escalation                     |
 +-------+-------------------------------------------------------------------------------------------------------+
 ```
+
+## MINIMUM REQUIREMENTS
+
+### Supported OS
+
+* Linux
+* macOS
+
+### Interpreter and tools
+
+* Python 3
+* SQLite 3
+* nano
+* wget
 
 ## INSTALLATION
 
