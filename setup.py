@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 
 setup(name='HoundSploitBash',
-      version='1.4.0',
+      version='1.5.0',
       description='An advanced command-line search engine for Exploit-DB',
       keywords='HoundSploitBash',
       author='Nicolas Carolo',

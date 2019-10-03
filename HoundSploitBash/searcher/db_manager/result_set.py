@@ -25,6 +25,15 @@ def print_result_set(result_set):
                    ['ID', 'DESCRIPTION'], tablefmt='grid'))
 
 
+def print_result_set_no_table(result_set):
+    """
+    Print the result set.
+    :param result_set: the result set to be printed.
+    """
+    for instance in result_set:
+        print(instance.id + ": " + instance.description)
+
+
 def void_result_set():
     """
     Create a void result set.

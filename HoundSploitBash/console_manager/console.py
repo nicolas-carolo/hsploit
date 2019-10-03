@@ -8,17 +8,20 @@ from HoundSploitBash.searcher.engine.updates import is_db_update_available, is_h
 
 
 # Software information constants
-SW_VERSION = '1.4.2 (Bash Version)'
-RELEASE_DATE = '2019-10-02'
+SW_VERSION = '1.5.0'
+RELEASE_DATE = '2019-10-03'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
-LATEST_HS_COMMIT = "1.4.2: improvements in SQLAlchemy queries"
+LATEST_HS_COMMIT = "1.5.0: keywords highlighting and possibility of viewing search results without a table"
 
 
 def print_guide():
     print_ascii_art('Hound\nSploit')
     print(O + 'USAGE:' + W)
     print(tabulate([[G + 'Perform a search' + W, 'HoundSploitBash "[search text]"'],
+                    [G + 'Perform a search (without keywords highlighting)' + W,
+                     'HoundSploitBash --nokeywords "[search text]"'],
+                    [G + 'Perform a search (no table for results)' + W, 'HoundSploitBash --notable "[search text]"'],
                     [G + 'Show info about the exploit' + W, 'HoundSploitBash -ie [exploit\'s id]'],
                     [G + 'Show info about the shellcode' + W, 'HoundSploitBash -is [shellcode\'s id]'],
                     [G + 'Open the exploit\'s source code with nano' + W, 'HoundSploitBash -oe [exploit\'s id]'],

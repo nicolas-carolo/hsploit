@@ -5,9 +5,9 @@ Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2019, Nicolas Carolo.
 
-Date: 2019-10-02
+Date: 2019-10-03
 
-Version: 1.4.2
+Version: 1.5.0
 
 
 ## PURPOSE
@@ -136,17 +136,19 @@ python setup.py install
 
 ## USAGE
 
-| ACTION                                     | COMMAND LINE                               |
-|--------------------------------------------|--------------------------------------------|
-| Perform a search                           | HoundSploitBash "[search text]"      |
-| Show info about the exploit                | HoundSploitBash -ie [exploit's id]   |
-| Show info about the shellcode              | HoundSploitBash -is [shellcode's id] |
-| Open the exploit's source code with nano   | HoundSploitBash -oe [exploit's id]   |
-| Open the shellcode's source code with nano | HoundSploitBash -os [shellcode's id] |
-| Show software information                  | HoundSploitBash -v                   |
-| Show help                                  | HoundSploitBash -help                |
-| Check for software updates                 | HoundSploitBash -u                   |
-| Check for database updates                 | HoundSploitBash -udb                 |
+| ACTION                                             | COMMAND LINE                                     |
+|----------------------------------------------------|--------------------------------------------------|
+| Perform a search                                   | HoundSploitBash "[search text]"                  |
+| Perform a search (without keywords highlighting)   | HoundSploitBash --nokeywords "[search text]"     |
+| Perform a search (no table for results)            | HoundSploitBash --notable "[search text]"        |
+| Show info about the exploit                        | HoundSploitBash -ie [exploit's id]               |
+| Show info about the shellcode                      | HoundSploitBash -is [shellcode's id]             |
+| Open the exploit's source code with nano           | HoundSploitBash -oe [exploit's id]               |
+| Open the shellcode's source code with nano         | HoundSploitBash -os [shellcode's id]             |
+| Show software information                          | HoundSploitBash -v                               |
+| Show help                                          | HoundSploitBash -help                            |
+| Check for software updates                         | HoundSploitBash -u                               |
+| Check for database updates                         | HoundSploitBash -udb                             |
 
 
 ## COPYRIGHT

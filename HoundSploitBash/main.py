@@ -14,14 +14,14 @@ INSERT MODULE DESCRIPTION HERE.
 __all__ = ()
 
 import sys
-from HoundSploitBash.cl_parser import parse_args
-
 import os
 from HoundSploitBash.searcher.engine.search_engine import search_vulnerabilities_in_db
-from HoundSploitBash.searcher.db_manager.result_set import print_result_set, result_set_len
+from HoundSploitBash.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
 from HoundSploitBash.console_manager.colors import O, W, R
-from HoundSploitBash.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info, show_shellcode_info,\
-    print_software_information, check_for_updates, check_for_exploitdb_updates, install_exploitdb_update
+from HoundSploitBash.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
+    show_shellcode_info,print_software_information, check_for_updates, check_for_exploitdb_updates,\
+    install_exploitdb_update
+from HoundSploitBash.searcher.engine.keywords_highlighter import highlight_keywords_in_description
 
 
 def main(args=None):
@@ -34,7 +34,7 @@ def main(args=None):
     if args is None:
         args = sys.argv[1:]
 
-    if args.__len__() == 0 or args[0] == '-help' or str(args[0]).isspace():
+    if args.__len__() == 0 or args[0] == '-help' or str(args[0]).isspace() or str(args[0]) == "":
         print_guide()
 
     if args[0] == '-u':
@@ -60,6 +60,19 @@ def main(args=None):
 
     if len(args) == 1:
         searched_text = args[0]
+        key_words_list = (str(searched_text).upper()).split()
+        exploits_result_set = highlight_keywords_in_description(key_words_list, search_vulnerabilities_in_db(searched_text, 'searcher_exploit'))
+        shellcodes_result_set = highlight_keywords_in_description(key_words_list, search_vulnerabilities_in_db(searched_text, 'searcher_shellcode'))
+        print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
+              + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
+        if result_set_len(exploits_result_set) > 0:
+            print(O + 'EXPLOITS:' + W)
+            print_result_set(exploits_result_set)
+        if result_set_len(shellcodes_result_set) > 0:
+            print('\n' + O + 'SHELLCODES:' + W)
+            print_result_set(shellcodes_result_set)
+    elif len(args) == 2 and args[0] == '--nokeywords' and not (str(args[1]).isspace() or str(args[1]) == ""):
+        searched_text = args[1]
         exploits_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_exploit')
         shellcodes_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_shellcode')
         print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
@@ -70,6 +83,18 @@ def main(args=None):
         if result_set_len(shellcodes_result_set) > 0:
             print('\n' + O + 'SHELLCODES:' + W)
             print_result_set(shellcodes_result_set)
+    elif len(args) == 2 and args[0] == '--notable' and not (str(args[1]).isspace() or str(args[1]) == ""):
+        searched_text = args[1]
+        exploits_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_exploit')
+        shellcodes_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_shellcode')
+        print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
+              + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
+        if result_set_len(exploits_result_set) > 0:
+            print('EXPLOITS:')
+            print_result_set_no_table(exploits_result_set)
+        if result_set_len(shellcodes_result_set) > 0:
+            print('\n' + 'SHELLCODES:')
+            print_result_set_no_table(shellcodes_result_set)
     else:
         print(R + 'ERROR: ' + W + ' Bad input!')
         print_guide()

@@ -5,8 +5,8 @@ Appendix B. License for HoundSploitBash
 :Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 :Copyright: © 2019, Nicolas Carolo.
 :License: BSD (see /LICENSE or :doc:`Appendix B <LICENSE>`.)
-:Date: 2019-09-27
-:Version: 1.4.0
+:Date: 2019-10-03
+:Version: 1.5.0
 
 .. index:: LICENSE
 

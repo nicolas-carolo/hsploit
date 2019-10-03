@@ -4,8 +4,8 @@ HoundSploitBash.  An advanced command-line search engine for Exploit-DB
 :Info: This is the README file for HoundSploitBash.
 :Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 :Copyright: © 2019, Nicolas Carolo.
-:Date: 2019-10-02
-:Version: 1.4.2
+:Date: 2019-10-03
+:Version: 1.5.0
 
 .. index: README
 .. image:: https://travis-ci.org/nicolas-carolo/HoundSploitBash.svg?branch=master
