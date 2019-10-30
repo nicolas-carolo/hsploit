@@ -1,11 +1,11 @@
 # -*- encoding: utf-8 -*-
-# HoundSploitBash v1.4.0
+# hsploit v1.6.0
 # An advanced command-line search engine for Exploit-DB
 # Copyright © 2019, Nicolas Carolo.
 # See /LICENSE for licensing information.
 
 """
-Command Line Parsing Module for HoundSploitBash
+Command Line Parsing Module for hsploit
 
 :Copyright: © 2019, Nicolas Carolo.
 :License: BSD (see /LICENSE).
@@ -31,7 +31,7 @@ def parse_args(args):
     Returns: a parser with the provided arguments, which can be used in a
             simpler format
     """
-    parser = argparse.ArgumentParser(prog='HoundSploitBash',
+    parser = argparse.ArgumentParser(prog='hsploit',
                                      description='An advanced command-line search engine for Exploit-DB')
 
     parser.add_argument(

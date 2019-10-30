@@ -1,8 +1,8 @@
 .PHONY: default, lint
 
 default:
-	python -m HoundSploitBash
+	python -m hsploit
 lint:
-	pylint HoundSploitBash
+	pylint hsploit
 pep8:
-	autopep8 HoundSploitBash --in-place --recursive --aggressive --aggressive
+	autopep8 hsploit --in-place --recursive --aggressive --aggressive

@@ -4,13 +4,13 @@ import io
 from setuptools import setup, find_packages
 
 
-setup(name='HoundSploitBash',
-      version='1.5.0',
+setup(name='hsploit',
+      version='1.6.0',
       description='An advanced command-line search engine for Exploit-DB',
-      keywords='HoundSploitBash',
+      keywords='hsploit',
       author='Nicolas Carolo',
       author_email='nicolascarolo.dev@gmail.com',
-      url='https://github.com/nicolas-carolo/HoundSploitBash',
+      url='https://github.com/nicolas-carolo/hsploit',
       license='3-clause BSD',
       long_description=io.open(
           './docs/README.rst', 'r', encoding='utf-8').read(),
@@ -31,7 +31,7 @@ setup(name='HoundSploitBash',
       install_requires=[],
       entry_points={
            'console_scripts':[
-               'HoundSploitBash = HoundSploitBash.main:main',
+               'hsploit = HoundSploit.main:main',
            ]
       },
       )

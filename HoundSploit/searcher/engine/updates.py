@@ -4,7 +4,7 @@ import re
 import os
 import sys
 
-from HoundSploitBash.searcher.engine.csv2sqlite import create_db
+from HoundSploit.searcher.engine.csv2sqlite import create_db
 
 
 def is_db_update_available(filename_latest_commit):
@@ -34,7 +34,7 @@ def is_db_update_available(filename_latest_commit):
 
 def is_hs_update_available(latest_commit):
     try:
-        repo = "nicolas-carolo/HoundSploitBash"
+        repo = "nicolas-carolo/hsploit"
         info_request = requests.get('https://api.github.com/repos/{0}/commits?per_page=1'.format(repo))
         commit = info_request.json()[0]["commit"]
         regex = re.search(r'\'message\': (\'|\")(?P<latest_git_commit>.*)(\'|\")\, \'tree\'', str(commit))
@@ -52,8 +52,8 @@ def is_hs_update_available(latest_commit):
 
 
 def download_update():
-    os.system('wget https://github.com/nicolas-carolo/HoundSploitBash/archive/master.zip -O ~/HoundSploitBash.zip')
-    print('Download commpleted! The zip archive \'HoundSploitBash.zip\' has been saved in your home directory.')
+    os.system('wget https://github.com/nicolas-carolo/hsploit/archive/master.zip -O ~/hsploit.zip')
+    print('Download commpleted! The zip archive \'hsploit.zip\' has been saved in your home directory.')
     print('Follow the installation procedure on GitHub and install the new version.')
     exit(0)
 

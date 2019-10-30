@@ -1,6 +1,6 @@
 from sqlalchemy import or_
-from HoundSploitBash.searcher.db_manager.models import Exploit, Shellcode
-from HoundSploitBash.searcher.db_manager.session_manager import start_session
+from HoundSploit.searcher.db_manager.models import Exploit, Shellcode
+from HoundSploit.searcher.db_manager.session_manager import start_session
 from tabulate import tabulate
 
 

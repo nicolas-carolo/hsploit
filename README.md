@@ -1,18 +1,18 @@
-# HoundSploitBash.  An advanced command-line search engine for Exploit-DB
+# hsploit.  An advanced command-line search engine for Exploit-DB
 
 
 Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2019, Nicolas Carolo.
 
-Date: 2019-10-03
+Date: 2019-10-30
 
-Version: 1.5.0
+Version: 1.6.0
 
 
 ## PURPOSE
 
-HoundSploit Bash is an advanced command-line search engine for Exploit-DB developed in Python, born with the
+_hsploit_ is an advanced command-line search engine for Exploit-DB developed in Python, born with the
 aim of showing the user the most accurate search results.
 
 ### Features
@@ -33,7 +33,7 @@ WordPress Plugin Sodahead Polls 2.0.2 - Multiple Cross
 ```
 
 ```
-nicolas@carolo:~$ HoundSploitBash "wordpress 2.0.2"
+nicolas@carolo:~$ hsploit "wordpress 2.0.2"
 10 exploits and 0 shellcodes found.
 
 EXPLOITS:
@@ -73,7 +73,7 @@ Papers: No Result
 ```
 
 ```
-nicolas@carolo:~$ HoundSploitBash "linux kernel 4.2.3"
+nicolas@carolo:~$ hsploit "linux kernel 4.2.3"
 14 exploits and 0 shellcodes found.
 
 EXPLOITS:
@@ -126,10 +126,10 @@ EXPLOITS:
 
 ## INSTALLATION
 
-We can install HoundSploitBash simply by doing:
+We can install hsploit simply by doing:
 ```sh
-git clone https://github.com/nicolas-carolo/HoundSploitBash
-cd HoundSploitBash
+git clone https://github.com/nicolas-carolo/hsploit
+cd hsploit
 pip install -r requirements.txt
 python setup.py install
 ```
@@ -138,17 +138,17 @@ python setup.py install
 
 | ACTION                                             | COMMAND LINE                                     |
 |----------------------------------------------------|--------------------------------------------------|
-| Perform a search                                   | HoundSploitBash "[search text]"                  |
-| Perform a search (without keywords highlighting)   | HoundSploitBash --nokeywords "[search text]"     |
-| Perform a search (no table for results)            | HoundSploitBash --notable "[search text]"        |
-| Show info about the exploit                        | HoundSploitBash -ie [exploit's id]               |
-| Show info about the shellcode                      | HoundSploitBash -is [shellcode's id]             |
-| Open the exploit's source code with nano           | HoundSploitBash -oe [exploit's id]               |
-| Open the shellcode's source code with nano         | HoundSploitBash -os [shellcode's id]             |
-| Show software information                          | HoundSploitBash -v                               |
-| Show help                                          | HoundSploitBash -help                            |
-| Check for software updates                         | HoundSploitBash -u                               |
-| Check for database updates                         | HoundSploitBash -udb                             |
+| Perform a search                                   | hsploit "[search text]"                  |
+| Perform a search (without keywords highlighting)   | hsploit --nokeywords "[search text]"     |
+| Perform a search (no table for results)            | hsploit --notable "[search text]"        |
+| Show info about the exploit                        | hsploit -ie [exploit's id]               |
+| Show info about the shellcode                      | hsploit -is [shellcode's id]             |
+| Open the exploit's source code with nano           | hsploit -oe [exploit's id]               |
+| Open the shellcode's source code with nano         | hsploit -os [shellcode's id]             |
+| Show software information                          | hsploit -v                               |
+| Show help                                          | hsploit -help                            |
+| Check for software updates                         | hsploit -u                               |
+| Check for database updates                         | hsploit -udb                             |
 
 
 ## COPYRIGHT

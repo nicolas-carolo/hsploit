@@ -1,42 +1,42 @@
-from HoundSploitBash.searcher.db_manager.session_manager import start_session
-from HoundSploitBash.searcher.db_manager.models import Exploit, Shellcode
+from HoundSploit.searcher.db_manager.session_manager import start_session
+from HoundSploit.searcher.db_manager.models import Exploit, Shellcode
 import os, sys
 from tabulate import tabulate
-from HoundSploitBash.console_manager.colors import W, O, R, G
-from HoundSploitBash.searcher.engine.updates import is_db_update_available, is_hs_update_available, download_update, install_exploitdb_update,\
+from HoundSploit.console_manager.colors import W, O, R, G
+from HoundSploit.searcher.engine.updates import is_db_update_available, is_hs_update_available, download_update, install_exploitdb_update,\
     get_latest_db_update_date
 
 
 # Software information constants
-SW_VERSION = '1.5.0'
-RELEASE_DATE = '2019-10-03'
+SW_VERSION = '1.6.0'
+RELEASE_DATE = '2019-10-30'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
-LATEST_HS_COMMIT = "1.5.0: keywords highlighting and possibility of viewing search results without a table"
+LATEST_HS_COMMIT = "1.6.0: HoundSploitBash was renamed in hsploit"
 
 
 def print_guide():
-    print_ascii_art('Hound\nSploit')
+    print_ascii_art('hsploit')
     print(O + 'USAGE:' + W)
-    print(tabulate([[G + 'Perform a search' + W, 'HoundSploitBash "[search text]"'],
+    print(tabulate([[G + 'Perform a search' + W, 'hsploit "[search text]"'],
                     [G + 'Perform a search (without keywords highlighting)' + W,
-                     'HoundSploitBash --nokeywords "[search text]"'],
-                    [G + 'Perform a search (no table for results)' + W, 'HoundSploitBash --notable "[search text]"'],
-                    [G + 'Show info about the exploit' + W, 'HoundSploitBash -ie [exploit\'s id]'],
-                    [G + 'Show info about the shellcode' + W, 'HoundSploitBash -is [shellcode\'s id]'],
-                    [G + 'Open the exploit\'s source code with nano' + W, 'HoundSploitBash -oe [exploit\'s id]'],
+                     'hsploit --nokeywords "[search text]"'],
+                    [G + 'Perform a search (no table for results)' + W, 'hsploit --notable "[search text]"'],
+                    [G + 'Show info about the exploit' + W, 'hsploit -ie [exploit\'s id]'],
+                    [G + 'Show info about the shellcode' + W, 'hsploit -is [shellcode\'s id]'],
+                    [G + 'Open the exploit\'s source code with nano' + W, 'hsploit -oe [exploit\'s id]'],
                     [G + 'Open the shellcode\'s source code with nano' + W,
-                     'HoundSploitBash -os [shellcode\'s id]'],
-                    [G + 'Show software information' + W, 'HoundSploitBash -v'],
-                    [G + 'Check for software updates' + W, 'HoundSploitBash -u'],
-                    [G + 'Check for database updates' + W, 'HoundSploitBash -udb'],
-                    [G + 'Show help' + W, 'HoundSploitBash -help']],
+                     'hsploit -os [shellcode\'s id]'],
+                    [G + 'Show software information' + W, 'hsploit -v'],
+                    [G + 'Check for software updates' + W, 'hsploit -u'],
+                    [G + 'Check for database updates' + W, 'hsploit -udb'],
+                    [G + 'Show help' + W, 'hsploit -help']],
                    [R + 'ACTION' + W, R + 'COMMAND LINE' + W], tablefmt='grid'))
     exit(0)
 
 
 def print_software_information():
-    print_ascii_art('Hound\nSploit')
+    print_ascii_art('hsploit')
     print(tabulate([[O + 'Version:' + W, SW_VERSION],
                     [O + 'Release date:' + W, RELEASE_DATE],
                     [O + 'Developer:' + W, DEVELOPER],

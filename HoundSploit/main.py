@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# HoundSploitBash v1.4.0
+# hsploit v1.6.0
 # An advanced command-line search engine for Exploit-DB
 # Copyright © 2019, Nicolas Carolo.
 # See /LICENSE for licensing information.
@@ -15,17 +15,17 @@ __all__ = ()
 
 import sys
 import os
-from HoundSploitBash.searcher.engine.search_engine import search_vulnerabilities_in_db
-from HoundSploitBash.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
-from HoundSploitBash.console_manager.colors import O, W, R
-from HoundSploitBash.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
+from HoundSploit.searcher.engine.search_engine import search_vulnerabilities_in_db
+from HoundSploit.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
+from HoundSploit.console_manager.colors import O, W, R
+from HoundSploit.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
     show_shellcode_info,print_software_information, check_for_updates, check_for_exploitdb_updates,\
     install_exploitdb_update
-from HoundSploitBash.searcher.engine.keywords_highlighter import highlight_keywords_in_description
+from HoundSploit.searcher.engine.keywords_highlighter import highlight_keywords_in_description
 
 
 def main(args=None):
-    """Main routine of HoundSploitBash."""
+    """Main routine of hsploit."""
     init_path = os.path.split(sys.executable)[0]
     if not os.path.isfile(init_path + "/hound_db.sqlite3"):
         print(init_path + "/hound_db.sqlite3")

@@ -1,4 +1,4 @@
-graft HoundSploitBash
+graft hsploit
 graft docs
 graft tests
 include README.rst AUTHORS LICENSE CHANGELOG.rst setup.py setup.cfg requirements.txt

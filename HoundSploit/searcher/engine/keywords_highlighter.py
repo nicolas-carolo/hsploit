@@ -1,5 +1,5 @@
 import re
-from HoundSploitBash.console_manager.colors import W, R
+from HoundSploit.console_manager.colors import W, R
 
 
 def highlight_keywords_in_description(keywords_list, vulnerabilities_list):

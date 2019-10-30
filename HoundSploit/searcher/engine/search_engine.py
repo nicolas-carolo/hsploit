@@ -1,11 +1,11 @@
-from HoundSploitBash.searcher.engine.string import str_is_num_version
-from HoundSploitBash.searcher.engine.filter_query import filter_exploits_without_comparator, filter_exploits_with_comparator,\
+from HoundSploit.searcher.engine.string import str_is_num_version
+from HoundSploit.searcher.engine.filter_query import filter_exploits_without_comparator, filter_exploits_with_comparator,\
     filter_shellcodes_without_comparator, filter_shellcodes_with_comparator
 
 from sqlalchemy import and_, or_
-from HoundSploitBash.searcher.db_manager.models import Exploit, Shellcode
-from HoundSploitBash.searcher.db_manager.session_manager import start_session
-from HoundSploitBash.searcher.db_manager.result_set import queryset2list, void_result_set, join_result_sets
+from HoundSploit.searcher.db_manager.models import Exploit, Shellcode
+from HoundSploit.searcher.db_manager.session_manager import start_session
+from HoundSploit.searcher.db_manager.result_set import queryset2list, void_result_set, join_result_sets
 
 N_MAX_RESULTS_NUMB_VERSION = 20000
 
