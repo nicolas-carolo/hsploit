@@ -94,7 +94,7 @@ def install_exploitdb_update(init_path):
         f = open(latest_db_update_path, "w")
         f.write(latest_git_commit)
         f.close()
-        print('The latest version of the database has been download successfully!')
+        print('The latest version of the database has been downloaded successfully!')
     except AttributeError:
         print('Error in updating the database')
 
