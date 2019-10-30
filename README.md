@@ -7,7 +7,7 @@ Copyright: © 2019, Nicolas Carolo.
 
 Date: 2019-10-30
 
-Version: 1.6.0
+Version: 1.6.1
 
 
 ## PURPOSE

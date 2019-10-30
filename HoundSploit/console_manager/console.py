@@ -8,11 +8,11 @@ from HoundSploit.searcher.engine.updates import is_db_update_available, is_hs_up
 
 
 # Software information constants
-SW_VERSION = '1.6.0'
+SW_VERSION = '1.6.1'
 RELEASE_DATE = '2019-10-30'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
-LATEST_HS_COMMIT = "1.6.0: HoundSploitBash was renamed in hsploit"
+LATEST_HS_COMMIT = "1.6.1: HoundSploitBash was renamed in hsploit"
 
 
 def print_guide():
