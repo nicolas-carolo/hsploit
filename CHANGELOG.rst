@@ -5,8 +5,8 @@ Appendix C. Changelog
 :Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 :Copyright: © 2019, Nicolas Carolo.
 :License: BSD (see /LICENSE or :doc:`Appendix B <LICENSE>`.)
-:Date: 2019-10-30
-:Version: 1.6.1
+:Date: 2019-11-17
+:Version: 1.7.0
 
 .. index:: CHANGELOG
 

@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# HoundSploitBash v1.4.0
+# HoundSploitBash v1.7.0
 # An advanced command-line search engine for Exploit-DB
 # Copyright © 2019, Nicolas Carolo.
 # All rights reserved.
@@ -40,7 +40,7 @@ An advanced command-line search engine for Exploit-DB
 """
 
 __title__ = 'HoundSploitBash'
-__version__ = '1.4.0'
+__version__ = '1.7.0'
 __author__ = 'Nicolas Carolo'
 __license__ = '3-clause BSD'
 __docformat__ = 'restructuredtext en'

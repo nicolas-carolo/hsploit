@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# hsploit v1.6.1
+# hsploit v1.7.0
 # An advanced command-line search engine for Exploit-DB
 # Copyright © 2019, Nicolas Carolo.
 # See /LICENSE for licensing information.

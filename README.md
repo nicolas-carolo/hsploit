@@ -5,9 +5,9 @@ Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2019, Nicolas Carolo.
 
-Date: 2019-10-30
+Date: 2019-11-17
 
-Version: 1.6.1
+Version: 1.7.0
 
 
 ## PURPOSE
@@ -136,19 +136,35 @@ python setup.py install
 
 ## USAGE
 
-| ACTION                                             | COMMAND LINE                                     |
-|----------------------------------------------------|--------------------------------------------------|
-| Perform a search                                   | hsploit "[search text]"                  |
-| Perform a search (without keywords highlighting)   | hsploit --nokeywords "[search text]"     |
-| Perform a search (no table for results)            | hsploit --notable "[search text]"        |
-| Show info about the exploit                        | hsploit -ie [exploit's id]               |
-| Show info about the shellcode                      | hsploit -is [shellcode's id]             |
-| Open the exploit's source code with nano           | hsploit -oe [exploit's id]               |
-| Open the shellcode's source code with nano         | hsploit -os [shellcode's id]             |
-| Show software information                          | hsploit -v                               |
-| Show help                                          | hsploit -help                            |
-| Check for software updates                         | hsploit -u                               |
-| Check for database updates                         | hsploit -udb                             |
++------------------------------------------------------------+---------------------------------------------------+
+| ACTION                                                     | COMMAND LINE                                      |
++============================================================+===================================================+
+| Perform a search                                           | hsploit "[search text]"                           |
++------------------------------------------------------------+---------------------------------------------------+
+| Perform a search (without keywords highlighting)           | hsploit --nokeywords "[search text]"              |
++------------------------------------------------------------+---------------------------------------------------+
+| Perform a search (no table for results)                    | hsploit --notable "[search text]"                 |
++------------------------------------------------------------+---------------------------------------------------+
+| Show info about the exploit                                | hsploit -ie [exploit's id]                        |
++------------------------------------------------------------+---------------------------------------------------+
+| Show info about the shellcode                              | hsploit -is [shellcode's id]                      |
++------------------------------------------------------------+---------------------------------------------------+
+| Open the exploit's source code with nano                   | hsploit -oe [exploit's id]                        |
++------------------------------------------------------------+---------------------------------------------------+
+| Open the shellcode's source code with nano                 | hsploit -os [shellcode's id]                      |
++------------------------------------------------------------+---------------------------------------------------+
+| Copy the exploit's file into a chosen file or directory   | hsploit -cpe [exploit's id] [file or directory]   |
++------------------------------------------------------------+---------------------------------------------------+
+| Copy the shellcode's file into a chosen file or directory | hsploit -cps [shellcode's id] [file or directory] |
++------------------------------------------------------------+---------------------------------------------------+
+| Show software information                                  | hsploit -v                                        |
++------------------------------------------------------------+---------------------------------------------------+
+| Check for software updates                                 | hsploit -u                                        |
++------------------------------------------------------------+---------------------------------------------------+
+| Check for database updates                                 | hsploit -udb                                      |
++------------------------------------------------------------+---------------------------------------------------+
+| Show help                                                  | hsploit -help                                     |
++------------------------------------------------------------+---------------------------------------------------+
 
 
 ## COPYRIGHT

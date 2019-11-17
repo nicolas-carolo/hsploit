@@ -5,14 +5,16 @@ from tabulate import tabulate
 from HoundSploit.console_manager.colors import W, O, R, G
 from HoundSploit.searcher.engine.updates import is_db_update_available, is_hs_update_available, download_update, install_exploitdb_update,\
     get_latest_db_update_date
+from shutil import copyfile
+from HoundSploit.searcher.engine.string import get_vulnerability_extension
 
 
 # Software information constants
-SW_VERSION = '1.6.1'
-RELEASE_DATE = '2019-10-30'
+SW_VERSION = '1.7.0'
+RELEASE_DATE = '2019-11-17'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
-LATEST_HS_COMMIT = "1.6.1: HoundSploitBash was renamed in hsploit"
+LATEST_HS_COMMIT = "1.7.0: possibility of copy the files of exploits into a chosen directory"
 
 
 def print_guide():
@@ -26,7 +28,11 @@ def print_guide():
                     [G + 'Show info about the shellcode' + W, 'hsploit -is [shellcode\'s id]'],
                     [G + 'Open the exploit\'s source code with nano' + W, 'hsploit -oe [exploit\'s id]'],
                     [G + 'Open the shellcode\'s source code with nano' + W,
-                     'hsploit -os [shellcode\'s id]'],
+                    'hsploit -os [shellcode\'s id]'],
+                    [G + 'Copy the exploit\'s file into a chosen file or directory' + W,
+                    'hsploit -cpe [exploit\'s id] [file or directory]'],
+                    [G + 'Copy the shellcode\'s file into a chosen file or directory' + W,
+                    'hsploit -cps [shellcode\'s id] [file or directory]'],
                     [G + 'Show software information' + W, 'hsploit -v'],
                     [G + 'Check for software updates' + W, 'hsploit -u'],
                     [G + 'Check for database updates' + W, 'hsploit -udb'],
@@ -163,3 +169,53 @@ def check_for_exploitdb_updates():
     else:
         print('The database is up-to-date!')
     exit(0)
+
+
+def copy_exploit(id, dst):
+    """
+    Copy the exploit identified by the id into the destination specified by the user.
+    :param id: the exploit's id.
+    :return: exit the program.
+    """
+    session = start_session()
+    queryset = session.query(Exploit).filter(Exploit.id == id)
+    session.close()
+    try:
+        vulnerabilities_path = os.path.split(sys.executable)[0] + "/vulnerabilities/"
+        src = vulnerabilities_path + queryset[0].file
+        try:
+            copyfile(src, dst)
+        except IsADirectoryError:
+            if src[-1:] == '/':
+                dst = dst + queryset[0].id + get_vulnerability_extension(queryset[0].file)
+            else:
+                dst = dst + '/' + queryset[0].id + get_vulnerability_extension(queryset[0].file)
+            copyfile(src, dst)
+    except IndexError:
+        print('ERROR: Exploit not found!')
+    return exit(0)
+
+
+def copy_shellcode(id, dst):
+    """
+    Copy the shellcode identified by the id into the destination specified by the user.
+    :param id: the shellcode's id.
+    :return: exit the program.
+    """
+    session = start_session()
+    queryset = session.query(Shellcode).filter(Shellcode.id == id)
+    session.close()
+    try:
+        vulnerabilities_path = os.path.split(sys.executable)[0] + "/vulnerabilities/"
+        src = vulnerabilities_path + queryset[0].file
+        try:
+            copyfile(src, dst)
+        except IsADirectoryError:
+            if src[-1:] == '/':
+                dst = dst + queryset[0].id + get_vulnerability_extension(queryset[0].file)
+            else:
+                dst = dst + '/' + queryset[0].id + get_vulnerability_extension(queryset[0].file)
+            copyfile(src, dst)
+    except IndexError:
+        print('ERROR: Exploit not found!')
+    return exit(0)

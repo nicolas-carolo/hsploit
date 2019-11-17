@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# hsploit v1.6.1
+# hsploit v1.7.0
 # An advanced command-line search engine for Exploit-DB
 # Copyright © 2019, Nicolas Carolo.
 # See /LICENSE for licensing information.
@@ -20,7 +20,7 @@ from HoundSploit.searcher.db_manager.result_set import print_result_set, result_
 from HoundSploit.console_manager.colors import O, W, R
 from HoundSploit.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
     show_shellcode_info,print_software_information, check_for_updates, check_for_exploitdb_updates,\
-    install_exploitdb_update
+    install_exploitdb_update, copy_exploit, copy_shellcode
 from HoundSploit.searcher.engine.keywords_highlighter import highlight_keywords_in_description
 
 
@@ -57,6 +57,22 @@ def main(args=None):
 
     if args[0] == '-is' and not args[1] is None:
         show_shellcode_info(args[1])
+    
+    if (args[0] == '-cps' or args[0] == '-cpe') and len(args) < 3:
+        print(len(args))
+        print(R + 'ERROR: ' + W + "\'-cps\' and \'-cpe\' options require three arguments")
+        exit(0)
+    else:
+        if args[0] == '-cpe' and not args[1] is None and not args[2] is None:
+            id = args[1]
+            dst = args[2]
+            copy_exploit(id, dst)
+
+        if args[0] == '-cps' and not args[1] is None and not args[2] is None:
+            id = args[1]
+            dst = args[2]
+            copy_shellcode(id, dst)
+    
 
     if len(args) == 1:
         searched_text = args[0]
