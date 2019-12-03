@@ -134,7 +134,7 @@ pip install -r requirements.txt
 python setup.py install
 ```
 
-### Remove not necessary file used for hsploit (HoundSploitBash) < 1.7.1
+### Remove not necessary files used for hsploit (HoundSploitBash) < 1.7.1
 
 Find the directory of your Python installation:
 ```sh
@@ -145,7 +145,7 @@ import os
 import sys
 print(os.path.split(sys.executable)[0])
 ```
-go to it and then delete the following directories:
+**go to it** and then delete the following directories:
 * `./csv`
 * `./etc`
 * `./vulnerabilities`
