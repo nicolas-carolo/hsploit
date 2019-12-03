@@ -145,7 +145,7 @@ import os
 import sys
 print(os.path.split(sys.executable)[0])
 ```
-**go to it** and then delete the following directories:
+<u>**go to it**</u> and then delete the following directories:
 * `./csv`
 * `./etc`
 * `./vulnerabilities`
