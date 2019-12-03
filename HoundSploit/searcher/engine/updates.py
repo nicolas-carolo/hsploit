@@ -64,13 +64,18 @@ def install_exploitdb_update(init_path):
         commit = info_request.json()[0]["commit"]
         regex = re.search(r'\'message\': (\'|\")(?P<latest_git_commit>.*)(\'|\")\, \'tree\'', str(commit))
         latest_git_commit = regex.group('latest_git_commit')
-        vulnerabilities_path = init_path + "/vulnerabilities"
+        
+        houndsploit_path = init_path + "/HoundSploit"
+        if not os.path.isdir(houndsploit_path):
+            os.system('mkdir ' + houndsploit_path)
+
+        vulnerabilities_path = init_path + "/HoundSploit/vulnerabilities"
         if os.path.isdir(vulnerabilities_path):
             os.system('rm -fr ' + vulnerabilities_path)
-        db_path = init_path + "/hound_db.sqlite3"
+        db_path = init_path + "/HoundSploit/hound_db.sqlite3"
         if os.path.isfile(db_path):
             os.system('rm ' + db_path)
-        csv_path = init_path + "/csv"
+        csv_path = init_path + "/HoundSploit/csv"
         if not os.path.isdir(csv_path):
             os.system('mkdir ' + csv_path)
         os.system('mkdir ' + vulnerabilities_path)
@@ -87,7 +92,7 @@ def install_exploitdb_update(init_path):
         create_db(init_path)
         os.system('rm -fr ' + temp_path)
         os.system('rm ' + zip_path)
-        etc_path = init_path + "/etc"
+        etc_path = init_path + "/HoundSploit/etc"
         if not os.path.isdir(etc_path):
             os.system('mkdir ' + etc_path)
         latest_db_update_path = etc_path + "/latest_exploitdb_commit.txt"
@@ -101,7 +106,7 @@ def install_exploitdb_update(init_path):
 
 def get_latest_db_update_date():
     try:
-        latest_db_update_path = os.path.split(sys.executable)[0] + "/etc/latest_exploitdb_commit.txt"
+        latest_db_update_path = os.path.split(sys.executable)[0] + "/HoundSploit/etc/latest_exploitdb_commit.txt"
         with open(latest_db_update_path, 'r') as f:
             content = f.readlines()
             latest_local_commit = ''.join(content)

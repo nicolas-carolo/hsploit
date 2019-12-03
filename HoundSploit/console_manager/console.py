@@ -10,11 +10,11 @@ from HoundSploit.searcher.engine.string import get_vulnerability_extension
 
 
 # Software information constants
-SW_VERSION = '1.7.0'
-RELEASE_DATE = '2019-11-17'
+SW_VERSION = '1.7.1'
+RELEASE_DATE = '2019-12-03'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
-LATEST_HS_COMMIT = "1.7.0: possibility of copy the files of exploits into a chosen directory"
+LATEST_HS_COMMIT = "1.7.1: New directory for organizing files"
 
 
 def print_guide():
@@ -60,7 +60,7 @@ def open_exploit(id):
     queryset = session.query(Exploit).filter(Exploit.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.split(sys.executable)[0] + "/vulnerabilities/"
+        vulnerabilities_path = os.path.split(sys.executable)[0] + "/HoundSploit/vulnerabilities/"
         os.system('nano ' + vulnerabilities_path + queryset[0].file)
     except IndexError:
         print('ERROR: Exploit not found!')
@@ -77,7 +77,7 @@ def open_shellcode(id):
     queryset = session.query(Shellcode).filter(Shellcode.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.split(sys.executable)[0] + "/vulnerabilities/"
+        vulnerabilities_path = os.path.split(sys.executable)[0] + "/HoundSploit/vulnerabilities/"
         os.system('nano ' + vulnerabilities_path + queryset[0].file)
     except IndexError:
         print('ERROR: Shellcode not found!')
@@ -155,7 +155,7 @@ def check_for_updates():
 
 
 def check_for_exploitdb_updates():
-    latest_db_update_path = os.path.split(sys.executable)[0] + "/etc/latest_exploitdb_commit.txt"
+    latest_db_update_path = os.path.split(sys.executable)[0] + "/HoundSploit/etc/latest_exploitdb_commit.txt"
     if is_db_update_available(latest_db_update_path):
         print('A new database update is available!')
         choice = input('Do you want to download and install it? (Y/N): ')
@@ -181,7 +181,7 @@ def copy_exploit(id, dst):
     queryset = session.query(Exploit).filter(Exploit.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.split(sys.executable)[0] + "/vulnerabilities/"
+        vulnerabilities_path = os.path.split(sys.executable)[0] + "/HoundSploit/vulnerabilities/"
         src = vulnerabilities_path + queryset[0].file
         try:
             copyfile(src, dst)
@@ -206,7 +206,7 @@ def copy_shellcode(id, dst):
     queryset = session.query(Shellcode).filter(Shellcode.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.split(sys.executable)[0] + "/vulnerabilities/"
+        vulnerabilities_path = os.path.split(sys.executable)[0] + "/HoundSploit/vulnerabilities/"
         src = vulnerabilities_path + queryset[0].file
         try:
             copyfile(src, dst)

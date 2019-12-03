@@ -1,5 +1,5 @@
 # -*- encoding: utf-8 -*-
-# hsploit v1.7.0
+# hsploit v1.7.1
 # An advanced command-line search engine for Exploit-DB
 # Copyright © 2019, Nicolas Carolo.
 # See /LICENSE for licensing information.
@@ -27,8 +27,7 @@ from HoundSploit.searcher.engine.keywords_highlighter import highlight_keywords_
 def main(args=None):
     """Main routine of hsploit."""
     init_path = os.path.split(sys.executable)[0]
-    if not os.path.isfile(init_path + "/hound_db.sqlite3"):
-        print(init_path + "/hound_db.sqlite3")
+    if not os.path.isfile(init_path + "/HoundSploit/hound_db.sqlite3"):
         install_exploitdb_update(init_path)
 
     if args is None:
@@ -59,7 +58,6 @@ def main(args=None):
         show_shellcode_info(args[1])
     
     if (args[0] == '-cps' or args[0] == '-cpe') and len(args) < 3:
-        print(len(args))
         print(R + 'ERROR: ' + W + "\'-cps\' and \'-cpe\' options require three arguments")
         exit(0)
     else:

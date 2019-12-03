@@ -5,9 +5,9 @@ Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2019, Nicolas Carolo.
 
-Date: 2019-11-17
+Date: 2019-12-03
 
-Version: 1.7.0
+Version: 1.7.1
 
 
 ## PURPOSE
@@ -133,6 +133,22 @@ cd hsploit
 pip install -r requirements.txt
 python setup.py install
 ```
+
+### Remove not necessary file used for hsploit (HoundSploitBash) < 1.7.1
+
+Find the directory of your Python installation:
+```sh
+$ python
+```
+```py
+import os
+import sys
+print(os.path.split(sys.executable)[0])
+```
+go to it and then delete the following directories:
+* `./csv`
+* `./etc`
+* `./vulnerabilities`
 
 ## USAGE
 

@@ -53,3 +53,5 @@ nosetests.xml
 .idea/
 csv
 hound_db.sqlite3
+
+.vscode

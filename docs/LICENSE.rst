@@ -1,12 +1,12 @@
 =======================================================
-Appendix B. License for HoundSploitBash
+Appendix B. License for hsploit
 =======================================================
-:Info: This is the license for HoundSploitBash.
+:Info: This is the license for hsploit.
 :Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 :Copyright: © 2019, Nicolas Carolo.
 :License: BSD (see /LICENSE or :doc:`Appendix B <LICENSE>`.)
-:Date: 2019-10-03
-:Version: 1.5.0
+:Date: 2019-12-03
+:Version: 1.7.1
 
 .. index:: LICENSE
 

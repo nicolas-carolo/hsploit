@@ -10,7 +10,7 @@ def start_session():
     :return: a new database session.
     """
     init_path = os.path.split(sys.executable)[0]
-    db_path = "sqlite:///" + init_path + "/hound_db.sqlite3"
+    db_path = "sqlite:///" + init_path + "/HoundSploit/hound_db.sqlite3"
     engine = sqlalchemy.create_engine(db_path)
     Session = sessionmaker(bind=engine)
     return Session()
