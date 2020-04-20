@@ -1,5 +1,14 @@
 # hsploit.  An advanced command-line search engine for Exploit-DB
 
+```
+.__                   .__         .__  __
+|  |__   ____________ |  |   ____ |__|/  |_              __    
+|  |  \ /  ___/\____ \|  |  /  _ \|  \   __\ (\,--------'()'--o
+|   Y  \___ \ |  |_> >  |_(  <_> )  ||  |    (_    ___    /~" 
+|___|  /____  >|   __/|____/\____/|__||__|     (_)_)  (_)_)    
+     \/     \/ |__|                         
+
+```
 
 Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
