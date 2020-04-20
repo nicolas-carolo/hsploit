@@ -10,7 +10,7 @@ from hsploit.searcher.engine.updates import get_latest_db_update_date, install_u
 
 # Software information constants
 SW_VERSION = '1.8.4'
-RELEASE_DATE = '2020-04-17'
+RELEASE_DATE = '2020-04-20'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
 
