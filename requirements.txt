@@ -1,0 +1,5 @@
+sqlalchemy
+colorama
+pyfiglet
+tabulate
+termcolor
