@@ -43,6 +43,7 @@ else
     echo "Latest version of hsploit downloaded"
     echo "Run the following commands (be sure to use the Python 3 interpreter)"
     echo -e "\t$ pip install -r $HOUNDSPLOIT_PATH/hsploit/requirements.txt"
-    echo -e "\t$ python $HOUNDSPLOIT_PATH/hsploit/setup.py install"
+    echo -e "\t$ cd $HOUNDSPLOIT_PATH/hsploit"
+    echo -e "\t$ python setup.py install"
     echo -e "\t$ hsploit"
 fi
