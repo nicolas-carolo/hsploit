@@ -14,9 +14,9 @@ Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2020, Nicolas Carolo.
 
-Date: 2020-04-20
+Date: 2020-04-22
 
-Version: 1.8.4
+Version: 1.8.5
 
 
 ## PURPOSE
@@ -139,12 +139,25 @@ EXPLOITS:
 
 ## INSTALLATION
 
-### Linux
+### Linux (not-root user) [recommended]
 We can install hsploit simply by doing:
 ```sh
 $ git clone https://github.com/nicolas-carolo/hsploit
 $ cd hsploit
-$ sh install_db_linux.sh
+$ ./install_db_linux.sh
+$ pip install -r requirements.txt
+$ sudo python setup.py install
+```
+Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/HoundSploit/hsploit` for supporting automatic updates.
+
+### Linux (root user)
+We can install hsploit simply by doing:
+```sh
+$ git clone https://github.com/nicolas-carolo/hsploit
+$ cd hsploit
+$ mkdir /root/HoundSploit
+$ touch /root/HoundSploit/enable_root.cfg
+$ ./install_db_linux.sh
 $ pip install -r requirements.txt
 $ python setup.py install
 ```
@@ -155,9 +168,9 @@ We can install hsploit simply by doing:
 ```sh
 $ git clone https://github.com/nicolas-carolo/hsploit
 $ cd hsploit
-$ sh install_db_darwin.sh
+$ ./install_db_darwin.sh
 $ pip install -r requirements.txt
-$ python setup.py install
+$ sudo python setup.py install
 ```
 Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/HoundSploit/hsploit` for supporting automatic updates.
 
