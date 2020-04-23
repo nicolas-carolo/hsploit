@@ -21,8 +21,10 @@ def print_result_set(result_set):
     Print the result set.
     :param result_set: the result set to be printed.
     """
+    print()
     print(tabulate([[instance.id, instance.description] for instance in result_set],
                    ['ID', 'DESCRIPTION'], tablefmt='grid'))
+    print()
 
 
 def print_result_set_no_table(result_set):

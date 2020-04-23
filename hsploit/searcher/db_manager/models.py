@@ -33,3 +33,19 @@ class Shellcode(Base):
     author = Column(String)
     type = Column(String)
     platform = Column(String)
+
+
+class Suggestion(Base):
+    """
+    The database object Suggestion
+    """
+    __tablename__ = 'searcher_suggestion'
+
+    searched = Column(String, primary_key=True)
+    suggestion = Column(String)
+    autoreplacement = Column(String)
+
+    def __init__(self, searched, suggestion, autoreplacement):
+        self.searched = searched
+        self.suggestion = suggestion
+        self.autoreplacement = autoreplacement

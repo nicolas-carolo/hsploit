@@ -6,10 +6,14 @@ from hsploit.console_manager.colors import W, O, R, G
 from shutil import copyfile
 from hsploit.searcher.engine.string import get_vulnerability_extension
 from hsploit.searcher.engine.updates import get_latest_db_update_date, install_updates
+from hsploit.searcher.engine.suggestions import substitute_with_suggestions, propose_suggestions, get_suggestions_list
+from hsploit.searcher.engine.keywords_highlighter import highlight_keywords_in_description
+from hsploit.searcher.engine.search_engine import search_vulnerabilities_in_db
+from hsploit.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
 
 
 # Software information constants
-SW_VERSION = '1.8.5'
+SW_VERSION = '1.9.0'
 RELEASE_DATE = '2020-04-22'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
@@ -31,6 +35,7 @@ def print_guide():
                     'hsploit -cpe [exploit\'s id] [file or directory]'],
                     [G + 'Copy the shellcode\'s file into a chosen file or directory' + W,
                     'hsploit -cps [shellcode\'s id] [file or directory]'],
+                    [G + 'List suggestions' + W, 'hsploit -ls'],
                     [G + 'Show software information' + W, 'hsploit -v'],
                     [G + 'Check for software and database updates' + W, 'hsploit -u'],
                     [G + 'Show help' + W, 'hsploit -help']],
@@ -45,6 +50,74 @@ def print_software_information():
                     [O + 'Developer:' + W, DEVELOPER],
                     [O + 'Latest Database update:' + W, LATEST_DB_UPDATE]], tablefmt='grid'))
     exit(0)
+
+
+def perform_search(searched_text):
+    searched_text = substitute_with_suggestions(searched_text)
+    suggested_search_text = propose_suggestions(searched_text)
+    key_words_list = (str(searched_text).upper()).split()
+    exploits_result_set = highlight_keywords_in_description(key_words_list, search_vulnerabilities_in_db(searched_text, 'searcher_exploit'))
+    shellcodes_result_set = highlight_keywords_in_description(key_words_list, search_vulnerabilities_in_db(searched_text, 'searcher_shellcode'))
+    print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
+        + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
+    if result_set_len(exploits_result_set) > 0:
+        print(O + 'EXPLOITS:' + W)
+        print_result_set(exploits_result_set)
+    if result_set_len(shellcodes_result_set) > 0:
+        print('\n' + O + 'SHELLCODES:' + W)
+        print_result_set(shellcodes_result_set)
+    if suggested_search_text != "":
+        perform_suggested_search(suggested_search_text, "")
+
+
+def perform_search_no_keywords(searched_text):
+    searched_text = substitute_with_suggestions(searched_text)
+    suggested_search_text = propose_suggestions(searched_text)
+    exploits_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_exploit')
+    shellcodes_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_shellcode')
+    print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
+        + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
+    if result_set_len(exploits_result_set) > 0:
+        print(O + 'EXPLOITS:' + W)
+        print_result_set(exploits_result_set)
+    if result_set_len(shellcodes_result_set) > 0:
+        print('\n' + O + 'SHELLCODES:' + W)
+        print_result_set(shellcodes_result_set)
+    if suggested_search_text != "":
+        perform_suggested_search(suggested_search_text, "nokeywords")
+
+
+def perform_search_no_table(searched_text):
+    searched_text = substitute_with_suggestions(searched_text)
+    suggested_search_text = propose_suggestions(searched_text)
+    exploits_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_exploit')
+    shellcodes_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_shellcode')
+    print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
+        + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
+    if result_set_len(exploits_result_set) > 0:
+        print('EXPLOITS:')
+        print_result_set_no_table(exploits_result_set)
+    if result_set_len(shellcodes_result_set) > 0:
+        print('\n' + 'SHELLCODES:')
+        print_result_set_no_table(shellcodes_result_set)
+    if suggested_search_text != "":
+        perform_suggested_search(suggested_search_text, "notable")
+
+
+def perform_suggested_search(suggested_search, output_type):
+    answer = ""
+    while not answer in ['y', 'n', 'yes', 'no']:
+        answer = input("\nDo you wish to search also for '" + suggested_search + "'?: ")
+        answer = str(answer).lower()
+    if answer[0:1] == 'n':
+        exit(0)
+    else:
+        if output_type == 'nokeywords':
+            perform_search_no_keywords(suggested_search)
+        elif output_type == 'notable':
+            perform_search_no_table(suggested_search)
+        else:
+            perform_search(suggested_search)
 
 
 def open_exploit(id):
@@ -189,3 +262,11 @@ def copy_shellcode(id, dst):
     except IndexError:
         print('ERROR: Exploit not found!')
     return exit(0)
+
+
+def print_suggestions_list():
+    print()
+    print(tabulate([[instance.searched, instance.suggestion, instance.autoreplacement] for instance in get_suggestions_list()],
+                   [O + 'SEARCHED WORDS' + W, O + 'SUGGESTIONS' + W, O + 'AUTOREPLACEMENT' + W], tablefmt='grid'))
+    print()
+    exit(0)
