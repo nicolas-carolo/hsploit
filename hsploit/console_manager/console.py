@@ -6,7 +6,8 @@ from hsploit.console_manager.colors import W, O, R, G
 from shutil import copyfile
 from hsploit.searcher.engine.string import get_vulnerability_extension
 from hsploit.searcher.engine.updates import get_latest_db_update_date, install_updates
-from hsploit.searcher.engine.suggestions import substitute_with_suggestions, propose_suggestions, get_suggestions_list
+from hsploit.searcher.engine.suggestions import substitute_with_suggestions, propose_suggestions, get_suggestions_list, new_suggestion,\
+    remove_suggestion, get_suggestion, DEFAULT_SUGGESTIONS
 from hsploit.searcher.engine.keywords_highlighter import highlight_keywords_in_description
 from hsploit.searcher.engine.search_engine import search_vulnerabilities_in_db
 from hsploit.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
@@ -14,7 +15,7 @@ from hsploit.searcher.db_manager.result_set import print_result_set, result_set_
 
 # Software information constants
 SW_VERSION = '1.9.0'
-RELEASE_DATE = '2020-04-22'
+RELEASE_DATE = '2020-04-24'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
 
@@ -36,6 +37,8 @@ def print_guide():
                     [G + 'Copy the shellcode\'s file into a chosen file or directory' + W,
                     'hsploit -cps [shellcode\'s id] [file or directory]'],
                     [G + 'List suggestions' + W, 'hsploit -ls'],
+                    [G + 'Add or edit a suggestion' + W, 'hsploit -as [keyword(s)]'],
+                    [G + 'Remove a suggestion' + W, 'hsploit -rs [keyword(s)]'],
                     [G + 'Show software information' + W, 'hsploit -v'],
                     [G + 'Check for software and database updates' + W, 'hsploit -u'],
                     [G + 'Show help' + W, 'hsploit -help']],
@@ -267,6 +270,64 @@ def copy_shellcode(id, dst):
 def print_suggestions_list():
     print()
     print(tabulate([[instance.searched, instance.suggestion, instance.autoreplacement] for instance in get_suggestions_list()],
-                   [O + 'SEARCHED WORDS' + W, O + 'SUGGESTIONS' + W, O + 'AUTOREPLACEMENT' + W], tablefmt='grid'))
+                   [O + 'SEARCHED WORDS' + W, O + 'SUGGESTION' + W, O + 'AUTOREPLACEMENT' + W], tablefmt='grid'))
     print()
     exit(0)
+
+
+def add_suggestion(searched):
+    searched = str(searched).lower()
+    suggestion = ""
+    autoreplacement = ""
+    answer = ""
+    if searched in DEFAULT_SUGGESTIONS:
+        print(R +"ERROR:" + W + " default suggestions cannot be modified.")
+        exit(1)
+    while suggestion == "":
+        suggestion = input("Suggestion: ")
+        suggestion = str(suggestion).lower()
+    while not autoreplacement in ['y', 'n', 'yes', 'no']:
+        autoreplacement = input("Autoreplacement [Y/N]: ")
+        autoreplacement = str(autoreplacement).lower()
+    if autoreplacement[0:1] == "y":
+        autoreplacement = "true"
+    else:
+        autoreplacement = "false"
+    print()
+    print(tabulate([[G + searched + W, G + suggestion + W, G + autoreplacement + W]],
+                   [O + 'SEARCHED WORDS' + W, O + 'SUGGESTIONS' + W, O + 'AUTOREPLACEMENT' + W], tablefmt='grid'))
+    print()
+    while not answer in ['y', 'n', 'yes', 'no']:
+        answer = input("\nDo you wish to save the new suggestion? [Y/N]: ")
+        answer = str(answer).lower()
+    if answer[0:1] == "y":
+        new_suggestion(searched, suggestion, autoreplacement)
+        print("New suggestion added!\n")
+    else:
+        print("New suggestion cancelled!\n")
+    exit(0)
+
+
+def delete_suggestion(searched):
+    answer = ""
+    searched = str(searched).lower()
+    if searched in DEFAULT_SUGGESTIONS:
+        print(R +"ERROR:" + W + " default suggestions cannot be remove.")
+        exit(1)
+    suggestion_item = get_suggestion(searched)
+    if suggestion_item is not None:
+        print()
+        print(tabulate([[R + suggestion_item.searched + W, R + suggestion_item.suggestion + W, R + suggestion_item.autoreplacement + W]],
+            [O + 'SEARCHED WORDS' + W, O + 'SUGGESTIONS' + W, O + 'AUTOREPLACEMENT' + W], tablefmt='grid'))
+        while not answer in ['y', 'n', 'yes', 'no']:
+            answer = input("\nDo you really want to remove this suggestion? [Y/N]: ")
+            answer = str(answer).lower()
+        if answer[0:1] == "y":
+            remove_suggestion(searched)
+            print("Suggestion removed!")
+        else:
+            print()
+        exit(0)
+    else:
+        print(R +"ERROR:" + W + " suggestion not found.")
+        exit(1)

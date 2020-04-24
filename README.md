@@ -14,7 +14,7 @@ Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2020, Nicolas Carolo.
 
-Date: 2020-04-22
+Date: 2020-04-24
 
 Version: 1.9.0
 
@@ -30,6 +30,7 @@ aim of showing the user the most accurate search results.
 * View search results in a table with keywords highlighting
 * View search results in a table without keywords highlighting
 * View search results in a without a table
+* Search suggestions with customization
 * Open the source code of exploits and shellcodes using _vim_
 * View information about the characteristics of exploits and shellcodes
 * Copy an exploit or a shellcode file into a directory specified by the user

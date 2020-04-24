@@ -6,7 +6,7 @@ import os
 from hsploit.console_manager.colors import O, W, R
 from hsploit.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
     show_shellcode_info,print_software_information, copy_exploit, copy_shellcode, check_for_updates, perform_search,\
-    perform_search_no_keywords, perform_search_no_table, print_suggestions_list
+    perform_search_no_keywords, perform_search_no_table, print_suggestions_list, add_suggestion, delete_suggestion
 from hsploit.searcher.engine.csv2sqlite import create_db
 from hsploit.searcher.engine.updates import install_updates
 
@@ -44,6 +44,18 @@ def main(args=None):
 
     if args[0] == '-is' and not args[1] is None:
         show_shellcode_info(args[1])
+
+    if args[0] == '-as' and not args[1] is None:
+        try:
+            add_suggestion(args[1])
+        except KeyboardInterrupt:
+            keyboard_exit()
+
+    if args[0] == '-rs' and not args[1] is None:
+        try:
+            delete_suggestion(args[1])
+        except KeyboardInterrupt:
+            keyboard_exit()
     
     if (args[0] == '-cps' or args[0] == '-cpe') and len(args) < 3:
         print(R + 'ERROR: ' + W + "\'-cps\' and \'-cpe\' options require three arguments")
@@ -60,11 +72,19 @@ def main(args=None):
             copy_shellcode(id, dst)       
     
 
-    if len(args) == 2 and args[0] == '-s':
-        perform_search(args[1])
-    elif len(args) == 3 and args[0] == '-s' and args[1] == '--nokeywords' and not (str(args[2]).isspace() or str(args[2]) == ""):
-        perform_search_no_keywords(args[2])
-    elif len(args) == 3 and args[0] == '-s' and args[1] == '--notable' and not (str(args[2]).isspace() or str(args[2]) == ""):
-        perform_search_no_table(args[2])
-    else:
-        print_guide()
+    try:
+        if len(args) == 2 and args[0] == '-s':
+            perform_search(args[1])
+        elif len(args) == 3 and args[0] == '-s' and args[1] == '--nokeywords' and not (str(args[2]).isspace() or str(args[2]) == ""):
+            perform_search_no_keywords(args[2])
+        elif len(args) == 3 and args[0] == '-s' and args[1] == '--notable' and not (str(args[2]).isspace() or str(args[2]) == ""):
+            perform_search_no_table(args[2])
+        else:
+            print_guide()
+    except KeyboardInterrupt:
+            keyboard_exit()
+
+
+def keyboard_exit():
+    print()
+    exit(0)

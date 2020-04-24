@@ -127,3 +127,12 @@ def delete_suggestion_from_csv(searched):
         for line in lines[1:]:
             if not line.startswith(searched):
                 f.write(line)
+
+
+def get_suggestion(searched):
+    session = start_session()
+    suggestion_item = session.query(Suggestion).get(searched)
+    if suggestion_item is not None:
+        return suggestion_item
+    else:
+        return None
