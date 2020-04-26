@@ -14,8 +14,8 @@ from hsploit.searcher.db_manager.result_set import print_result_set, result_set_
 
 
 # Software information constants
-SW_VERSION = '1.9.0'
-RELEASE_DATE = '2020-04-24'
+SW_VERSION = '1.9.1'
+RELEASE_DATE = '2020-04-26'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
 
