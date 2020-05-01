@@ -11,6 +11,7 @@ from hsploit.searcher.engine.suggestions import substitute_with_suggestions, pro
 from hsploit.searcher.engine.keywords_highlighter import highlight_keywords_in_description
 from hsploit.searcher.engine.search_engine import search_vulnerabilities_in_db, search_vulnerabilities_advanced, get_vulnerability_filters
 from hsploit.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
+import datetime
 
 
 # Software information constants
@@ -80,9 +81,7 @@ def perform_advanced_search(searched_text):
     author_filter = ""
     type_filter = ""
     platform_filter = ""
-    port_filter = "" # from 0 to 65535
-    date_from_filter = "mm/dd/yyyy"
-    date_to_filter = "mm/dd/yyyy"
+    port_filter = None
     vulnerability_types_list, vulnerability_platforms_list = get_vulnerability_filters()
     while not operator_filter in ['AND', 'OR']:
         operator_filter = input("Search operator [AND/OR]: ")
@@ -107,6 +106,14 @@ def perform_advanced_search(searched_text):
         if platform_filter == '-list':
             for item in vulnerability_platforms_list:
                 print(G + item + W)
+    ports_list = [str(x) for x in range(0, 65536)]
+    ports_list.insert(0, "")
+    while not port_filter in ports_list:
+        port_filter = input("Port (0 <= port <= 65535): ")
+    date_from_filter, date_to_filter = get_input_date()
+    while not (datetime.datetime.now() >= datetime.datetime.strptime(date_to_filter, '%Y-%m-%d') >= datetime.datetime.strptime(date_from_filter, '%Y-%m-%d')) :
+        print(R + "Error:" + W + " please insert a valid date interval")
+        date_from_filter, date_to_filter = get_input_date()
 
     searched_text = substitute_with_suggestions(searched_text)
     suggested_search_text = propose_suggestions(searched_text)
@@ -131,6 +138,29 @@ def perform_advanced_search(searched_text):
         perform_suggested_search(suggested_search_text, "")
     else:
         exit(0)
+
+
+def get_input_date():
+    while True:
+        try:
+            date_from_filter = input("Date from (yyyy-mm-dd): ")
+            datetime.datetime.strptime(date_from_filter, '%Y-%m-%d')
+            break
+        except ValueError:
+            if date_from_filter == "":
+                break
+    while True:
+        try:
+            date_to_filter = input("Date to (yyyy-mm-dd): ")
+            datetime.datetime.strptime(date_to_filter, '%Y-%m-%d')
+            break
+        except ValueError:
+            if date_to_filter == "":
+                break
+    if date_from_filter == "" and date_to_filter == "":
+        return "1900-01-01", datetime.datetime.now().strftime("%Y-%m-%d")
+    else:
+        return date_from_filter, date_to_filter
 
 
 def perform_search_no_keywords(searched_text):
