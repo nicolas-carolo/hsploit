@@ -9,7 +9,7 @@ from hsploit.searcher.engine.updates import get_latest_db_update_date, install_u
 from hsploit.searcher.engine.suggestions import substitute_with_suggestions, propose_suggestions, get_suggestions_list, new_suggestion,\
     remove_suggestion, get_suggestion, DEFAULT_SUGGESTIONS
 from hsploit.searcher.engine.keywords_highlighter import highlight_keywords_in_description
-from hsploit.searcher.engine.search_engine import search_vulnerabilities_in_db
+from hsploit.searcher.engine.search_engine import search_vulnerabilities_in_db, search_vulnerabilities_advanced
 from hsploit.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
 
 
@@ -71,6 +71,48 @@ def perform_search(searched_text):
         print_result_set(shellcodes_result_set)
     if suggested_search_text != "":
         perform_suggested_search(suggested_search_text, "")
+    else:
+        exit(0)
+
+
+def perform_advanced_search(searched_text):
+    operator_filter = ""
+    author_filter = "laurent gaffie"
+    type_filter = "all"
+    platform_filter = "all"
+    port_filter = ""
+    date_from_filter = "mm/dd/yyyy"
+    date_to_filter = "mm/dd/yyyy"
+    while not operator_filter in ['AND', 'OR']:
+        operator_filter = input("Search operator [AND/OR]: ")
+        operator_filter = str(operator_filter).upper()
+    
+
+    searched_text = substitute_with_suggestions(searched_text)
+    suggested_search_text = propose_suggestions(searched_text)
+    key_words_list = (str(searched_text).upper()).split()
+    exploits_list = search_vulnerabilities_advanced(searched_text, 'searcher_exploit', operator_filter, type_filter,
+                                                        platform_filter, author_filter, port_filter, date_from_filter,
+                                                        date_to_filter)
+    exploits_result_set = highlight_keywords_in_description(key_words_list, exploits_list)
+    shellcodes_list = search_vulnerabilities_advanced(searched_text, 'searcher_shellcode', operator_filter,
+                                                          type_filter, platform_filter, author_filter, port_filter,
+                                                          date_from_filter, date_to_filter)
+    shellcodes_result_set = highlight_keywords_in_description(key_words_list, shellcodes_list)
+    print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
+        + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
+    if result_set_len(exploits_result_set) > 0:
+        print(O + 'EXPLOITS:' + W)
+        # print_result_set(exploits_result_set)
+        print_result_set_no_table(exploits_result_set)
+    if result_set_len(shellcodes_result_set) > 0:
+        print('\n' + O + 'SHELLCODES:' + W)
+        # print_result_set(shellcodes_result_set)
+        print_result_set_no_table(shellcodes_result_set)
+    if suggested_search_text != "":
+        perform_suggested_search(suggested_search_text, "")
+    else:
+        exit(0)
 
 
 def perform_search_no_keywords(searched_text):
@@ -88,6 +130,8 @@ def perform_search_no_keywords(searched_text):
         print_result_set(shellcodes_result_set)
     if suggested_search_text != "":
         perform_suggested_search(suggested_search_text, "nokeywords")
+    else:
+        exit(0)
 
 
 def perform_search_no_table(searched_text):
@@ -105,6 +149,8 @@ def perform_search_no_table(searched_text):
         print_result_set_no_table(shellcodes_result_set)
     if suggested_search_text != "":
         perform_suggested_search(suggested_search_text, "notable")
+    else:
+        exit(0)
 
 
 def perform_suggested_search(suggested_search, output_type):

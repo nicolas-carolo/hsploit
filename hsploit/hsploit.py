@@ -6,7 +6,8 @@ import os
 from hsploit.console_manager.colors import O, W, R
 from hsploit.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
     show_shellcode_info,print_software_information, copy_exploit, copy_shellcode, check_for_updates, perform_search,\
-    perform_search_no_keywords, perform_search_no_table, print_suggestions_list, add_suggestion, delete_suggestion
+    perform_search_no_keywords, perform_search_no_table, print_suggestions_list, add_suggestion, delete_suggestion,\
+    perform_advanced_search
 from hsploit.searcher.engine.csv2sqlite import create_db
 from hsploit.searcher.engine.updates import install_updates
 
@@ -78,6 +79,17 @@ def main(args=None):
         elif len(args) == 3 and args[0] == '-s' and args[1] == '--nokeywords' and not (str(args[2]).isspace() or str(args[2]) == ""):
             perform_search_no_keywords(args[2])
         elif len(args) == 3 and args[0] == '-s' and args[1] == '--notable' and not (str(args[2]).isspace() or str(args[2]) == ""):
+            perform_search_no_table(args[2])
+    except KeyboardInterrupt:
+            keyboard_exit()
+
+    
+    try:
+        if len(args) == 2 and args[0] == '-sad':
+            perform_advanced_search(args[1])
+        elif len(args) == 3 and args[0] == '-sad' and args[1] == '--nokeywords' and not (str(args[2]).isspace() or str(args[2]) == ""):
+            perform_search_no_keywords(args[2])
+        elif len(args) == 3 and args[0] == '-sad' and args[1] == '--notable' and not (str(args[2]).isspace() or str(args[2]) == ""):
             perform_search_no_table(args[2])
         else:
             print_guide()

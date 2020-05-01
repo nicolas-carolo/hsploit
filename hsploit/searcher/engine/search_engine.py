@@ -1,11 +1,16 @@
+import datetime
+
 from hsploit.searcher.engine.string import str_is_num_version
 from hsploit.searcher.engine.filter_query import filter_exploits_without_comparator, filter_exploits_with_comparator,\
-    filter_shellcodes_without_comparator, filter_shellcodes_with_comparator
+    filter_shellcodes_without_comparator, filter_shellcodes_with_comparator, filter_vulnerabilities_for_author,\
+    filter_vulnerabilities_for_type, filter_vulnerabilities_for_platform, filter_exploits_for_port,\
+    filter_vulnerabilities_for_date_range
 
 from sqlalchemy import and_, or_
 from hsploit.searcher.db_manager.models import Exploit, Shellcode
 from hsploit.searcher.db_manager.session_manager import start_session
 from hsploit.searcher.db_manager.result_set import queryset2list, void_result_set, join_result_sets
+from hsploit.searcher.engine.lists import remove_duplicates_by_list, join_lists
 
 N_MAX_RESULTS_NUMB_VERSION = 20000
 
@@ -236,3 +241,111 @@ def search_vulnerabilities_for_text_input(searched_text, db_table):
     except TypeError:
         pass
     return final_result_set
+
+
+def search_vulnerabilities_advanced(searched_text, db_table, operator_filter, type_filter, platform_filter, author_filter,
+                                    port_filter, date_from_filter, date_to_filter):
+    """
+    Perform a search based on filter selected by the user for an input search.
+    :param searched_text: the search input.
+    :param db_table: the DB table in which we want to perform the search.
+    :param operator_filter: OR operator matches all search results that contain at least one search keyword,
+                            AND operator matches only search results that contain all the search keywords.
+    :param type_filter: the filter on the vulnerabilities' type.
+    :param platform_filter: the filter on the vulnerabilities' platform.
+    :param author_filter: the filter on the vulnerabilities' author.
+    :param port_filter: the filter on the exploits' port.
+    :param date_from_filter: the filter on the vulnerabilities' date (from).
+    :param date_to_filter: the filter on the vulnerabilities' date (to).
+    :return: a queryset containing all the search results.
+    """
+    session = start_session()
+    words_list = str(searched_text).upper().split()
+    if operator_filter == 'AND' and searched_text != '':
+        vulnerabilities_list = search_vulnerabilities_for_description_advanced(searched_text, db_table)
+    elif operator_filter == 'OR':
+        if db_table == 'searcher_exploit':
+            queryset = session.query(Exploit).filter(or_(Exploit.description.contains(word) for word in words_list))
+        else:
+            queryset = session.query(Shellcode).filter(or_(Shellcode.description.contains(word) for word in words_list))
+        vulnerabilities_list = queryset2list(queryset)
+    else:
+        if db_table == 'searcher_exploit':
+            queryset = session.query(Exploit)
+        else:
+            queryset = session.query(Shellcode)
+        vulnerabilities_list = queryset2list(queryset)
+    if type_filter != 'all':
+        vulnerabilities_list = filter_vulnerabilities_for_type(vulnerabilities_list, type_filter)
+    if platform_filter != 'all':
+        vulnerabilities_list = filter_vulnerabilities_for_platform(vulnerabilities_list, platform_filter)
+    if author_filter != '':
+        vulnerabilities_list = filter_vulnerabilities_for_author(vulnerabilities_list, author_filter)
+    try:
+        date_from = datetime.datetime.strptime(date_from_filter, '%Y-%m-%d')
+        date_to = datetime.datetime.strptime(date_to_filter, '%Y-%m-%d')
+        vulnerabilities_list = filter_vulnerabilities_for_date_range(vulnerabilities_list, date_from, date_to)
+    except ValueError:
+        pass
+    if port_filter != '' and db_table == 'searcher_exploit':
+        vulnerabilities_list = filter_exploits_for_port(vulnerabilities_list, port_filter)
+    elif port_filter != '' and db_table == 'searcher_shellcode':
+        vulnerabilities_list = []
+
+    queryset_std = search_vulnerabilities_for_text_input_advanced(searched_text, db_table, type_filter, platform_filter,
+                                                                  author_filter, port_filter, date_from_filter,
+                                                                  date_to_filter)
+    results_list = join_lists(vulnerabilities_list, queryset_std)
+    session.close()
+    return results_list
+
+
+def search_vulnerabilities_for_description_advanced(searched_text, db_table):
+    """
+    If the search input contains a number of version, it calls 'search_vulnerabilities_version' method,
+    else it calls 'search_vulnerabilities_for_description'.
+    :param searched_text: the search input.
+    :param db_table: the DB table in which we want to perform the search.
+    :return: a queryset containing all the search results that can be filtered with the filters selected by the user.
+    """
+    words_list = str(searched_text).upper().split()
+    if str_is_num_version(str(searched_text)) and str(searched_text).__contains__(' ') \
+            and not str(searched_text).__contains__('<'):
+        queryset = search_vulnerabilities_version(words_list, db_table)
+    else:
+        queryset = search_vulnerabilities_for_description(words_list, db_table)
+    return queryset
+
+
+def search_vulnerabilities_for_text_input_advanced(searched_text, db_table, type_filter, platform_filter, author_filter,
+                                                   port_filter, date_from_filter, date_to_filter):
+    """
+    Perform a search based on characters contained by this attribute.
+    :param searched_text: the search input.
+    :param db_table: the DB table in which we want to perform the search.
+    :param type_filter: the filter on the vulnerabilities' type.
+    :param platform_filter: the filter on the vulnerabilities' platform.
+    :param author_filter: the filter on the vulnerabilities' author.
+    :param port_filter: the filter on the exploits' port.
+    :param date_from_filter: the filter on the vulnerabilities' date (from).
+    :param date_to_filter: the filter on the vulnerabilities' date (to).
+    :return: a queryset containing all the search results.
+    """
+    vulnerabilities_list = search_vulnerabilities_for_text_input(searched_text, db_table)
+    if type_filter != 'all':
+        vulnerabilities_list = filter_vulnerabilities_for_type(vulnerabilities_list, type_filter)
+    if platform_filter != 'all':
+        vulnerabilities_list = filter_vulnerabilities_for_platform(vulnerabilities_list, platform_filter)
+    if author_filter != '':
+        vulnerabilities_list = filter_vulnerabilities_for_author(vulnerabilities_list, author_filter)
+    try:
+        date_from = datetime.datetime.strptime(date_from_filter, '%Y-%m-%d')
+        date_to = datetime.datetime.strptime(date_to_filter, '%Y-%m-%d')
+        vulnerabilities_list = filter_vulnerabilities_for_date_range(vulnerabilities_list, date_from, date_to)
+    except ValueError:
+        pass
+    if port_filter != '' and db_table == 'searcher_exploit':
+        vulnerabilities_list = filter_exploits_for_port(vulnerabilities_list, port_filter)
+    elif port_filter != '' and db_table == 'searcher_shellcode':
+        vulnerabilities_list = []
+    return vulnerabilities_list

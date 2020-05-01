@@ -182,3 +182,41 @@ def filter_shellcodes_with_comparator_and_x(shellcode, num_version, software_nam
     return final_result_set
 
 
+def filter_vulnerabilities_for_author(input_list, author_filter):
+    output_list = []
+    for vulnerability in input_list:
+        if vulnerability.author == author_filter:
+            output_list.append(vulnerability)
+    return output_list
+
+
+def filter_vulnerabilities_for_type(input_list, type_filter):
+    output_list = []
+    for vulnerability in input_list:
+        if vulnerability.type == type_filter:
+            output_list.append(vulnerability)
+    return output_list
+
+
+def filter_vulnerabilities_for_platform(input_list, platform_filter):
+    output_list = []
+    for vulnerability in input_list:
+        if vulnerability.platform == platform_filter:
+            output_list.append(vulnerability)
+    return output_list
+
+
+def filter_exploits_for_port(input_list, port_filter):
+    output_list = []
+    for vulnerability in input_list:
+        if vulnerability.port == port_filter:
+            output_list.append(vulnerability)
+    return output_list
+
+
+def filter_vulnerabilities_for_date_range(input_list, date_from, date_to):
+    output_list = []
+    for vulnerability in input_list:
+        if date_from < datetime.datetime.strptime(vulnerability.date, '%Y-%m-%d') < date_to:
+            output_list.append(vulnerability)
+    return output_list
