@@ -243,6 +243,30 @@ def search_vulnerabilities_for_text_input(searched_text, db_table):
     return final_result_set
 
 
+def get_vulnerability_filters():
+    """
+    Get the list of all vulnerability filters
+    :return: a list containing all vulnerability types and a list containing all platforms
+    """
+    session = start_session()
+    queryset = session.query(Exploit)
+    exploits_list = queryset2list(queryset)
+    types_list = []
+    platform_list = []
+    for exploit in exploits_list:
+        types_list.append(exploit.type)
+        platform_list.append(exploit.platform)
+    queryset = session.query(Shellcode)
+    shellcodes_list = queryset2list(queryset)
+    for shellcode in shellcodes_list:
+        types_list.append(shellcode.type)
+        platform_list.append(shellcode.platform)
+    types_list = sorted(remove_duplicates_by_list(types_list))
+    platform_list = sorted(remove_duplicates_by_list(platform_list))
+    session.close()
+    return types_list, platform_list
+
+
 def search_vulnerabilities_advanced(searched_text, db_table, operator_filter, type_filter, platform_filter, author_filter,
                                     port_filter, date_from_filter, date_to_filter):
     """
