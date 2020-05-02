@@ -15,7 +15,7 @@ import datetime
 
 
 # Software information constants
-SW_VERSION = '2.0.0'
+SW_VERSION = '2.0.1'
 RELEASE_DATE = '2020-05-02'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
@@ -126,6 +126,7 @@ def perform_advanced_search(searched_text, output_type, output_file, operator_fi
                                     port_filter, date_from_filter, date_to_filter):
     vulnerability_types_list, vulnerability_platforms_list = get_vulnerability_filters()
     if operator_filter == "":
+        port_filter = "none"
         while not operator_filter in ['AND', 'OR']:
             operator_filter = input("Search operator [AND/OR]: ")
             operator_filter = str(operator_filter).upper()
