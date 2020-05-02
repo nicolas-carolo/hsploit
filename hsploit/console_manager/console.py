@@ -28,6 +28,10 @@ def print_guide():
                     [G + 'Perform a search (without keywords highlighting)' + W,
                      'hsploit -s --nokeywords "[search text]"'],
                     [G + 'Perform a search (no table for results)' + W, 'hsploit -s --notable "[search text]"'],
+                    [G + 'Perform an advanced search' + W, 'hsploit -sad "[search text]"'],
+                    [G + 'Perform an advanced search (without keywords highlighting)' + W,
+                     'hsploit -sad --nokeywords "[search text]"'],
+                    [G + 'Perform an advanced search (no table for results)' + W, 'hsploit -sad --notable "[search text]"'],
                     [G + 'Show info about the exploit' + W, 'hsploit -ie [exploit\'s id]'],
                     [G + 'Show info about the shellcode' + W, 'hsploit -is [shellcode\'s id]'],
                     [G + 'Open the exploit\'s source code with vim' + W, 'hsploit -oe [exploit\'s id]'],
@@ -56,7 +60,7 @@ def print_software_information():
     exit(0)
 
 
-def perform_search(searched_text, output_type):
+def perform_search(searched_text, output_type, output_file):
     searched_text = substitute_with_suggestions(searched_text)
     suggested_search_text = propose_suggestions(searched_text)
     key_words_list = (str(searched_text).upper()).split()
@@ -90,9 +94,33 @@ def perform_search(searched_text, output_type):
             perform_suggested_search(suggested_search_text, output_type)
         else:
             exit(0)
+    if output_type == "file":
+        try:
+            f= open(output_file,"w+")
+        except FileNotFoundError:
+            print(R + "ERROR:" + W + " Please insert a valid destination path")
+            exit(1)
+        except IsADirectoryError:
+            if output_file[-1:] == '/':
+                output_file = output_file + "hsploit_output.txt"
+                f= open(output_file,"w+")
+            else:
+                output_file = output_file + "/hsploit_output.txt"
+                f= open(output_file,"w+")
+        if result_set_len(exploits_result_set) > 0:
+            f.write("EXPLOITS:\n")
+            for item in exploits_result_set:
+                f.write(item.id +": " + item.description + "\n")
+        if result_set_len(shellcodes_result_set) > 0:
+            f.write("\nSHELLCODES:\n")
+            for item in shellcodes_result_set:
+                f.write(item.id +": " + item.description + "\n")
+        f.close()
+        print("Search results are stored in " + output_file)
+        exit(0)
 
 
-def perform_advanced_search(searched_text, output_type, operator_filter, type_filter, platform_filter, author_filter,
+def perform_advanced_search(searched_text, output_type, output_file, operator_filter, type_filter, platform_filter, author_filter,
                                     port_filter, date_from_filter, date_to_filter):
     vulnerability_types_list, vulnerability_platforms_list = get_vulnerability_filters()
     if operator_filter == "":
@@ -171,6 +199,30 @@ def perform_advanced_search(searched_text, output_type, operator_filter, type_fi
                                     platform_filter, author_filter, port_filter, date_from_filter, date_to_filter)
         else:
             exit(0)
+    if output_type == "file":
+        try:
+            f= open(output_file,"w+")
+        except FileNotFoundError:
+            print(R + "ERROR:" + W + " Please insert a valid destination path")
+            exit(1)
+        except IsADirectoryError:
+            if output_file[-1:] == '/':
+                output_file = output_file + "hsploit_output.txt"
+                f= open(output_file,"w+")
+            else:
+                output_file = output_file + "/hsploit_output.txt"
+                f= open(output_file,"w+")
+        if result_set_len(exploits_result_set) > 0:
+            f.write("EXPLOITS:\n")
+            for item in exploits_result_set:
+                f.write(item.id +": " + item.description + "\n")
+        if result_set_len(shellcodes_result_set) > 0:
+            f.write("\nSHELLCODES:\n")
+            for item in shellcodes_result_set:
+                f.write(item.id +": " + item.description + "\n")
+        f.close()
+        print("Search results are stored in " + output_file)
+        exit(0)
 
 
 def get_input_date():
@@ -205,7 +257,7 @@ def perform_suggested_search(suggested_search, output_type):
     if answer[0:1] == 'n':
         exit(0)
     else:
-        perform_search(suggested_search, output_type)
+        perform_search(suggested_search, output_type, "")
 
 
 def perform_advanced_suggested_search(suggested_search, output_type, operator_filter, type_filter, platform_filter, author_filter,
@@ -217,7 +269,7 @@ def perform_advanced_suggested_search(suggested_search, output_type, operator_fi
     if answer[0:1] == 'n':
         exit(0)
     else:
-        perform_advanced_search(suggested_search, output_type, operator_filter, type_filter, platform_filter, author_filter,
+        perform_advanced_search(suggested_search, output_type, "", operator_filter, type_filter, platform_filter, author_filter,
                                     port_filter, date_from_filter, date_to_filter)
 
 

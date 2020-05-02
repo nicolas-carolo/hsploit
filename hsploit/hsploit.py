@@ -74,26 +74,30 @@ def main(args=None):
 
     try:
         if len(args) == 2 and args[0] == '-s':
-            perform_search(args[1], "standard")
+            perform_search(args[1], "standard", "")
         elif len(args) == 3 and args[0] == '-s' and args[1] == '--nokeywords' and not (str(args[2]).isspace() or str(args[2]) == ""):
-            perform_search(args[2], "nokeywords")
+            perform_search(args[2], "nokeywords", "")
         elif len(args) == 3 and args[0] == '-s' and args[1] == '--notable' and not (str(args[2]).isspace() or str(args[2]) == ""):
-            perform_search(args[2], "notable")
+            perform_search(args[2], "notable", "")
+        elif len(args) == 4 and args[0] == '-s' and args[1] == '--file' and not (str(args[2]).isspace() or str(args[2]) == "") and not (str(args[3]).isspace() or str(args[3]) == ""):
+            perform_search(args[3], "file", args[2])
     except KeyboardInterrupt:
             keyboard_exit()
 
     
     try:
         if len(args) == 2 and args[0] == '-sad':
-            perform_advanced_search(args[1], "standard", "", "", "", "", "", "", "")
+            perform_advanced_search(args[1], "standard", "", "", "", "", "", "", "", "")
         elif len(args) == 3 and args[0] == '-sad' and args[1] == '--nokeywords' and not (str(args[2]).isspace() or str(args[2]) == ""):
-            perform_advanced_search(args[2], "nokeywords", "", "", "", "", "", "", "")
+            perform_advanced_search(args[2], "nokeywords", "", "", "", "", "", "", "", "")
         elif len(args) == 3 and args[0] == '-sad' and args[1] == '--notable' and not (str(args[2]).isspace() or str(args[2]) == ""):
-            perform_advanced_search(args[2], "notable", "", "", "", "", "", "", "")
-        else:
-            print_guide()
+            perform_advanced_search(args[2], "notable", "", "", "", "", "", "", "", "")
+        elif len(args) == 4 and args[0] == '-sad' and args[1] == '--file' and not (str(args[2]).isspace() or str(args[2]) == "") and not (str(args[3]).isspace() or str(args[3]) == ""):
+            perform_advanced_search(args[3], "file", args[2], "", "", "", "", "", "", "")
     except KeyboardInterrupt:
             keyboard_exit()
+
+    print_guide()
 
 
 def keyboard_exit():
