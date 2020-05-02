@@ -142,7 +142,7 @@ results:
 ![Advanced Search](/media/sad.gif)
 
 
-#### Search suggestion
+#### Search suggestions
 
 You can choose to show a particular suggestion for a given searched string.
 For each case you can also decide to use automatic replacement or not.
