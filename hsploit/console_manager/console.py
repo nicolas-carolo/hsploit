@@ -16,7 +16,7 @@ import datetime
 
 # Software information constants
 SW_VERSION = '2.0.0'
-RELEASE_DATE = '2020-04-26'
+RELEASE_DATE = '2020-05-02'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
 
@@ -28,10 +28,12 @@ def print_guide():
                     [G + 'Perform a search (without keywords highlighting)' + W,
                      'hsploit -s --nokeywords "[search text]"'],
                     [G + 'Perform a search (no table for results)' + W, 'hsploit -s --notable "[search text]"'],
+                    [G + 'Perform a search (saving the output into a file)' + W, 'hsploit -s --file [filename] "[search text]"'],
                     [G + 'Perform an advanced search' + W, 'hsploit -sad "[search text]"'],
                     [G + 'Perform an advanced search (without keywords highlighting)' + W,
                      'hsploit -sad --nokeywords "[search text]"'],
                     [G + 'Perform an advanced search (no table for results)' + W, 'hsploit -sad --notable "[search text]"'],
+                    [G + 'Perform an advanced search (saving the output into a file)' + W, 'hsploit -sad --file [filename] "[search text]"'],
                     [G + 'Show info about the exploit' + W, 'hsploit -ie [exploit\'s id]'],
                     [G + 'Show info about the shellcode' + W, 'hsploit -is [shellcode\'s id]'],
                     [G + 'Open the exploit\'s source code with vim' + W, 'hsploit -oe [exploit\'s id]'],

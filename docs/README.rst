@@ -14,7 +14,7 @@ Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2020, Nicolas Carolo.
 
-Date: 2020-04-26
+Date: 2020-05-02
 
 Version: 2.0.0
 
@@ -27,13 +27,18 @@ aim of showing the user the most accurate search results.
 ### Features
 
 * Effective version number filtering
+* Advanced filtering
 * View search results in a table with keywords highlighting
 * View search results in a table without keywords highlighting
-* View search results in a without a table
+* View search results without a table
+* Save search results into a text file
+* Search suggestions with customization
 * Open the source code of exploits and shellcodes using _vim_
 * View information about the characteristics of exploits and shellcodes
 * Copy an exploit or a shellcode file into a directory specified by the user
 * Automatic check for database update and for hsploit updates
+
+![Demo](/media/demo.gif)
 
 #### Effective version number filtering examples
 ##### Example I
@@ -123,6 +128,33 @@ EXPLOITS:
 +-------+-------------------------------------------------------------------------------------------------------+
 ```
 
+#### Advanced filtering
+
+Using the advanced search (`-sad` option) you can use the following filters for filtering search
+results:
+* Search operator: `AND` or `OR`
+* Author
+* Type
+* Platform
+* Port
+* Date interval
+
+![Advanced Search](/media/sad.gif)
+
+
+#### Search suggestion
+
+You can choose to show a particular suggestion for a given searched string.
+For each case you can also decide to use automatic replacement or not.
+It is possible to add new suggestions and delete the existing suggestions.
+
+##### Example of default suggestion:
+![Default search suggestions](/media/default_suggestion.gif)
+
+##### Example of autoreplacement
+![Search autoreplacement](/media/autoreplacement.gif)
+
+
 ## MINIMUM REQUIREMENTS
 
 ### Supported OS
@@ -146,7 +178,7 @@ $ git clone https://github.com/nicolas-carolo/hsploit
 $ cd hsploit
 $ ./install_db_linux.sh
 $ pip install -r requirements.txt
-$ sudo python setup.py install
+$ python setup.py install
 ```
 Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/HoundSploit/hsploit` for supporting automatic updates.
 
@@ -170,17 +202,102 @@ $ git clone https://github.com/nicolas-carolo/hsploit
 $ cd hsploit
 $ ./install_db_darwin.sh
 $ pip install -r requirements.txt
-$ sudo python setup.py install
+$ python setup.py install
 ```
 Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/HoundSploit/hsploit` for supporting automatic updates.
 
 ## USAGE
+### Search
+* Perform a search:
+   ```sh
+   $ hsploit -s "[search text]"
+   ```
+* Perform a search (without keywords highlighting):
+   ```sh
+   $ hsploit -s --nokeywords "[search text]"
+   ```
+* Perform a search (no table for results):
+   ```sh
+   $ hsploit -s --notable "[search text]"
+   ```
+* Perform a search (saving the output into a file):
+   ```sh
+   $ hsploit -s --file [filename] "[search text]"
+   ```
 
-For a list of all commands you can run and for the relative functionalities run:
+### Advanced search
+* Perform an advanced search:
+   ```sh
+   $ hsploit -sad "[search text]"
+   ```
+* Perform an advanced search (without keywords highlighting):
+   ```sh
+   $ hsploit -sad --nokeywords "[search text]"
+   ```
+* Perform an advanced search (no table for results):
+   ```sh
+   $ hsploit -sad --notable "[search text]"
+   ```
+* Perform an advanced search (saving the output into a file):
+   ```sh
+   $ hsploit -sad --file [filename] "[search text]"
+   ```
 
-```sh
-$ hsploit
-```
+### Show information about exploits/shellcodes
+* Show info about the exploit:
+   ```sh
+   $ hsploit -ie [exploit's id]
+   ```
+* Show info about the shellcode:
+   ```sh
+   $ hsploit -is [shellcode's id]
+   ```
+* Open the exploit's source code with vim:
+   ```sh
+   $ hsploit -oe [exploit's id]
+   ```
+* Open the shellcode's source code with vim:
+   ```sh
+   $ hsploit -os [shellcode's id]
+   ```
+
+### Exploit/Shellcode file management
+* Copy the exploit's file into a chosen file or directory:
+   ```sh
+   $ hsploit -cpe [exploit's id] [file or directory]
+   ```
+* Copy the shellcode's file into a chosen file or directory:
+   ```sh
+   $ hsploit -cps [shellcode's id] [file or directory]
+   ```
+
+### Suggestions
+* List suggestions:
+   ```sh
+   $ hsploit -ls
+   ```
+* Add or edit a suggestion:
+   ```sh
+   $ hsploit -as [keyword(s)]
+   ```
+* Remove a suggestion:
+   ```sh
+   $ hsploit -rs [keyword(s)]
+   ```
+
+### _hsploit_: updates, information and guide
+* Show software information:
+   ```sh
+   $ hsploit -v
+   ```
+* Check for software and database updates:
+   ```sh
+   $ hsploit -u
+   ```
+* Show help:
+   ```sh
+   $ hsploit -help
+   ```
 
 
 ## COPYRIGHT
