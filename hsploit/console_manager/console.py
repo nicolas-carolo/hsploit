@@ -15,7 +15,7 @@ import datetime
 
 
 # Software information constants
-SW_VERSION = '1.9.1'
+SW_VERSION = '2.0.0'
 RELEASE_DATE = '2020-04-26'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
@@ -56,64 +56,77 @@ def print_software_information():
     exit(0)
 
 
-def perform_search(searched_text):
+def perform_search(searched_text, output_type):
     searched_text = substitute_with_suggestions(searched_text)
     suggested_search_text = propose_suggestions(searched_text)
     key_words_list = (str(searched_text).upper()).split()
-    exploits_result_set = highlight_keywords_in_description(key_words_list, search_vulnerabilities_in_db(searched_text, 'searcher_exploit'))
-    shellcodes_result_set = highlight_keywords_in_description(key_words_list, search_vulnerabilities_in_db(searched_text, 'searcher_shellcode'))
+    if output_type == "standard":
+        exploits_result_set = highlight_keywords_in_description(key_words_list, search_vulnerabilities_in_db(searched_text, 'searcher_exploit'))
+        shellcodes_result_set = highlight_keywords_in_description(key_words_list, search_vulnerabilities_in_db(searched_text, 'searcher_shellcode'))
+    else:
+        exploits_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_exploit')
+        shellcodes_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_shellcode')
     print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
         + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
-    if result_set_len(exploits_result_set) > 0:
-        print(O + 'EXPLOITS:' + W)
-        print_result_set(exploits_result_set)
-    if result_set_len(shellcodes_result_set) > 0:
-        print('\n' + O + 'SHELLCODES:' + W)
-        print_result_set(shellcodes_result_set)
-    if suggested_search_text != "":
-        perform_suggested_search(suggested_search_text, "")
-    else:
-        exit(0)
+    if output_type == "standard" or output_type == "nokeywords":
+        if result_set_len(exploits_result_set) > 0:
+            print(O + 'EXPLOITS:' + W)
+            print_result_set(exploits_result_set)
+        if result_set_len(shellcodes_result_set) > 0:
+            print('\n' + O + 'SHELLCODES:' + W)
+            print_result_set(shellcodes_result_set)
+        if suggested_search_text != "":
+            perform_suggested_search(suggested_search_text, output_type)
+        else:
+            exit(0)
+    if output_type == "notable":
+        if result_set_len(exploits_result_set) > 0:
+            print(O + 'EXPLOITS:' + W)
+            print_result_set_no_table(exploits_result_set)
+        if result_set_len(shellcodes_result_set) > 0:
+            print('\n' + O + 'SHELLCODES:' + W)
+            print_result_set_no_table(shellcodes_result_set)
+        if suggested_search_text != "":
+            perform_suggested_search(suggested_search_text, output_type)
+        else:
+            exit(0)
 
 
-def perform_advanced_search(searched_text):
-    operator_filter = ""
-    author_filter = ""
-    type_filter = ""
-    platform_filter = ""
-    port_filter = None
+def perform_advanced_search(searched_text, output_type, operator_filter, type_filter, platform_filter, author_filter,
+                                    port_filter, date_from_filter, date_to_filter):
     vulnerability_types_list, vulnerability_platforms_list = get_vulnerability_filters()
-    while not operator_filter in ['AND', 'OR']:
-        operator_filter = input("Search operator [AND/OR]: ")
-        operator_filter = str(operator_filter).upper()
-    author_filter = input("Author: ")
-    author_filter = str(author_filter).lower()
-    vulnerability_types_list.insert(0, "all")
-    while not type_filter in vulnerability_types_list:
-        type_filter = input("Type (write '-list' for listing all available types): ")
-        type_filter = str(type_filter).lower()
-        if type_filter == "":
-            type_filter = "all"
-        if type_filter == '-list':
-            for item in vulnerability_types_list:
-                print(G + item + W)
-    vulnerability_platforms_list.insert(0, "all")
-    while not platform_filter in vulnerability_platforms_list:
-        platform_filter = input("Platform (write '-list' for listing all available platforms): ")
-        platform_filter = str(platform_filter).lower()
-        if platform_filter == "":
-            platform_filter = "all"
-        if platform_filter == '-list':
-            for item in vulnerability_platforms_list:
-                print(G + item + W)
-    ports_list = [str(x) for x in range(0, 65536)]
-    ports_list.insert(0, "")
-    while not port_filter in ports_list:
-        port_filter = input("Port (0 <= port <= 65535): ")
-    date_from_filter, date_to_filter = get_input_date()
-    while not (datetime.datetime.now() >= datetime.datetime.strptime(date_to_filter, '%Y-%m-%d') >= datetime.datetime.strptime(date_from_filter, '%Y-%m-%d')) :
-        print(R + "Error:" + W + " please insert a valid date interval")
+    if operator_filter == "":
+        while not operator_filter in ['AND', 'OR']:
+            operator_filter = input("Search operator [AND/OR]: ")
+            operator_filter = str(operator_filter).upper()
+        author_filter = input("Author: ")
+        author_filter = str(author_filter).lower()
+        vulnerability_types_list.insert(0, "all")
+        while not type_filter in vulnerability_types_list:
+            type_filter = input("Type (write '-list' for listing all available types): ")
+            type_filter = str(type_filter).lower()
+            if type_filter == "":
+                type_filter = "all"
+            if type_filter == '-list':
+                for item in vulnerability_types_list:
+                    print(G + item + W)
+        vulnerability_platforms_list.insert(0, "all")
+        while not platform_filter in vulnerability_platforms_list:
+            platform_filter = input("Platform (write '-list' for listing all available platforms): ")
+            platform_filter = str(platform_filter).lower()
+            if platform_filter == "":
+                platform_filter = "all"
+            if platform_filter == '-list':
+                for item in vulnerability_platforms_list:
+                    print(G + item + W)
+        ports_list = [str(x) for x in range(0, 65536)]
+        ports_list.insert(0, "")
+        while not port_filter in ports_list:
+            port_filter = input("Port (0 <= port <= 65535): ")
         date_from_filter, date_to_filter = get_input_date()
+        while not (datetime.datetime.now() >= datetime.datetime.strptime(date_to_filter, '%Y-%m-%d') >= datetime.datetime.strptime(date_from_filter, '%Y-%m-%d')) :
+            print(R + "Error:" + W + " please insert a valid date interval")
+            date_from_filter, date_to_filter = get_input_date()
 
     searched_text = substitute_with_suggestions(searched_text)
     suggested_search_text = propose_suggestions(searched_text)
@@ -121,23 +134,43 @@ def perform_advanced_search(searched_text):
     exploits_list = search_vulnerabilities_advanced(searched_text, 'searcher_exploit', operator_filter, type_filter,
                                                         platform_filter, author_filter, port_filter, date_from_filter,
                                                         date_to_filter)
-    exploits_result_set = highlight_keywords_in_description(key_words_list, exploits_list)
+    if output_type == "standard":
+        exploits_result_set = highlight_keywords_in_description(key_words_list, exploits_list)
+    else:
+        exploits_result_set = exploits_list
     shellcodes_list = search_vulnerabilities_advanced(searched_text, 'searcher_shellcode', operator_filter,
                                                           type_filter, platform_filter, author_filter, port_filter,
                                                           date_from_filter, date_to_filter)
-    shellcodes_result_set = highlight_keywords_in_description(key_words_list, shellcodes_list)
+    if output_type == "standard":
+        shellcodes_result_set = highlight_keywords_in_description(key_words_list, shellcodes_list)
+    else:
+        shellcodes_result_set = shellcodes_list
     print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
         + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
-    if result_set_len(exploits_result_set) > 0:
-        print(O + 'EXPLOITS:' + W)
-        print_result_set(exploits_result_set)
-    if result_set_len(shellcodes_result_set) > 0:
-        print('\n' + O + 'SHELLCODES:' + W)
-        print_result_set(shellcodes_result_set)
-    if suggested_search_text != "":
-        perform_suggested_search(suggested_search_text, "")
-    else:
-        exit(0)
+    if output_type == "standard" or output_type == "nokeywords":
+        if result_set_len(exploits_result_set) > 0:
+            print(O + 'EXPLOITS:' + W)
+            print_result_set(exploits_result_set)
+        if result_set_len(shellcodes_result_set) > 0:
+            print('\n' + O + 'SHELLCODES:' + W)
+            print_result_set(shellcodes_result_set)
+        if suggested_search_text != "":
+            perform_advanced_suggested_search(suggested_search_text, output_type, operator_filter, type_filter,
+                                    platform_filter, author_filter, port_filter, date_from_filter, date_to_filter)
+        else:
+            exit(0)
+    if output_type == "notable":
+        if result_set_len(exploits_result_set) > 0:
+            print(O + 'EXPLOITS:' + W)
+            print_result_set_no_table(exploits_result_set)
+        if result_set_len(shellcodes_result_set) > 0:
+            print('\n' + O + 'SHELLCODES:' + W)
+            print_result_set_no_table(shellcodes_result_set)
+        if suggested_search_text != "":
+            perform_advanced_suggested_search(suggested_search_text, output_type, operator_filter, type_filter,
+                                    platform_filter, author_filter, port_filter, date_from_filter, date_to_filter)
+        else:
+            exit(0)
 
 
 def get_input_date():
@@ -148,7 +181,7 @@ def get_input_date():
             break
         except ValueError:
             if date_from_filter == "":
-                break
+                return "1900-01-01", datetime.datetime.now().strftime("%Y-%m-%d")
     while True:
         try:
             date_to_filter = input("Date to (yyyy-mm-dd): ")
@@ -156,49 +189,12 @@ def get_input_date():
             break
         except ValueError:
             if date_to_filter == "":
+                date_to_filter = datetime.datetime.now().strftime("%Y-%m-%d")
                 break
     if date_from_filter == "" and date_to_filter == "":
         return "1900-01-01", datetime.datetime.now().strftime("%Y-%m-%d")
     else:
         return date_from_filter, date_to_filter
-
-
-def perform_search_no_keywords(searched_text):
-    searched_text = substitute_with_suggestions(searched_text)
-    suggested_search_text = propose_suggestions(searched_text)
-    exploits_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_exploit')
-    shellcodes_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_shellcode')
-    print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
-        + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
-    if result_set_len(exploits_result_set) > 0:
-        print(O + 'EXPLOITS:' + W)
-        print_result_set(exploits_result_set)
-    if result_set_len(shellcodes_result_set) > 0:
-        print('\n' + O + 'SHELLCODES:' + W)
-        print_result_set(shellcodes_result_set)
-    if suggested_search_text != "":
-        perform_suggested_search(suggested_search_text, "nokeywords")
-    else:
-        exit(0)
-
-
-def perform_search_no_table(searched_text):
-    searched_text = substitute_with_suggestions(searched_text)
-    suggested_search_text = propose_suggestions(searched_text)
-    exploits_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_exploit')
-    shellcodes_result_set = search_vulnerabilities_in_db(searched_text, 'searcher_shellcode')
-    print('\n' + str(result_set_len(exploits_result_set)) + ' exploits and '
-        + str(result_set_len(shellcodes_result_set)) + ' shellcodes found.\n')
-    if result_set_len(exploits_result_set) > 0:
-        print('EXPLOITS:')
-        print_result_set_no_table(exploits_result_set)
-    if result_set_len(shellcodes_result_set) > 0:
-        print('\n' + 'SHELLCODES:')
-        print_result_set_no_table(shellcodes_result_set)
-    if suggested_search_text != "":
-        perform_suggested_search(suggested_search_text, "notable")
-    else:
-        exit(0)
 
 
 def perform_suggested_search(suggested_search, output_type):
@@ -209,12 +205,20 @@ def perform_suggested_search(suggested_search, output_type):
     if answer[0:1] == 'n':
         exit(0)
     else:
-        if output_type == 'nokeywords':
-            perform_search_no_keywords(suggested_search)
-        elif output_type == 'notable':
-            perform_search_no_table(suggested_search)
-        else:
-            perform_search(suggested_search)
+        perform_search(suggested_search, output_type)
+
+
+def perform_advanced_suggested_search(suggested_search, output_type, operator_filter, type_filter, platform_filter, author_filter,
+                                    port_filter, date_from_filter, date_to_filter):
+    answer = ""
+    while not answer in ['y', 'n', 'yes', 'no']:
+        answer = input("\nDo you wish to search also for '" + suggested_search + "'?: ")
+        answer = str(answer).lower()
+    if answer[0:1] == 'n':
+        exit(0)
+    else:
+        perform_advanced_search(suggested_search, output_type, operator_filter, type_filter, platform_filter, author_filter,
+                                    port_filter, date_from_filter, date_to_filter)
 
 
 def open_exploit(id):
