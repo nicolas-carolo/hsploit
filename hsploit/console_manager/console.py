@@ -325,7 +325,7 @@ def copy_exploit(id, dst):
     queryset = session.query(Exploit).filter(Exploit.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.split(sys.executable)[0] + "/HoundSploit/vulnerabilities/"
+        vulnerabilities_path = os.path.expanduser("~") + "/HoundSploit/exploitdb/"
         src = vulnerabilities_path + queryset[0].file
         try:
             copyfile(src, dst)
@@ -336,7 +336,9 @@ def copy_exploit(id, dst):
                 dst = dst + '/' + queryset[0].id + get_vulnerability_extension(queryset[0].file)
             copyfile(src, dst)
     except IndexError:
-        print('ERROR: Exploit not found!')
+        print(R + "ERROR:" + W + " Exploit not found!")
+    except FileNotFoundError:
+        print(R + "ERROR:" + W + " Please insert a valid destination path")
     return exit(0)
 
 
@@ -350,7 +352,7 @@ def copy_shellcode(id, dst):
     queryset = session.query(Shellcode).filter(Shellcode.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.split(sys.executable)[0] + "/HoundSploit/vulnerabilities/"
+        vulnerabilities_path = os.path.expanduser("~") + "/HoundSploit/exploitdb/"
         src = vulnerabilities_path + queryset[0].file
         try:
             copyfile(src, dst)
@@ -361,7 +363,9 @@ def copy_shellcode(id, dst):
                 dst = dst + '/' + queryset[0].id + get_vulnerability_extension(queryset[0].file)
             copyfile(src, dst)
     except IndexError:
-        print('ERROR: Exploit not found!')
+        print(R + "ERROR:" + W + " Shellcode not found!")
+    except FileNotFoundError:
+        print(R + "ERROR:" + W + " Please insert a valid destination path")
     return exit(0)
 
 
