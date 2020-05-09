@@ -75,16 +75,10 @@ EXPLOITS:
 +-------+--------------------------------------------------------------------------------------------+
 | 47690 | WORDPRESS CORE < 5.2.3 - Viewing Unauthenticated/Password/Private Posts                    |
 +-------+--------------------------------------------------------------------------------------------+
+```
 
 
 ##### Example II
-
-```
-nicolas@carolo:~$ searchsploit Linux Kernel 4.2.3
-Exploits: No Result
-Shellcodes: No Result
-Papers: No Result
-```
 
 ```
 nicolas@carolo:~$ hsploit -s "linux kernel 4.4.1"
@@ -124,6 +118,7 @@ EXPLOITS:
 +-------+--------------------------------------------------------------------------------------------------+
 | 45553 | LINUX KERNEL < 4.11.8 - 'mq_notify: double sock_put()' Local Privilege Escalation                |
 +-------+--------------------------------------------------------------------------------------------------+
+```
 
 #### Advanced filtering
 
