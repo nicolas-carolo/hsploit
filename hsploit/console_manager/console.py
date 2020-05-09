@@ -469,7 +469,7 @@ def delete_suggestion(searched):
     answer = ""
     searched = str(searched).lower()
     if searched in DEFAULT_SUGGESTIONS:
-        print(R +"ERROR:" + W + " default suggestions cannot be remove.")
+        print(R +"ERROR:" + W + " default suggestions cannot be removed.")
         exit(1)
     suggestion_item = get_suggestion(searched)
     if suggestion_item is not None:
