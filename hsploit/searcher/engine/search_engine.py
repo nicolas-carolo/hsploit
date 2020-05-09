@@ -1,6 +1,6 @@
 import datetime
 
-from hsploit.searcher.engine.string import str_is_num_version
+from hsploit.searcher.engine.string import str_is_num_version, word_is_num_version
 from hsploit.searcher.engine.filter_query import filter_exploits_without_comparator, filter_exploits_with_comparator,\
     filter_shellcodes_without_comparator, filter_shellcodes_with_comparator, filter_vulnerabilities_for_author,\
     filter_vulnerabilities_for_type, filter_vulnerabilities_for_platform, filter_exploits_for_port,\
@@ -137,14 +137,20 @@ def search_vulnerabilities_version(word_list, db_table):
     """
     software_name = word_list[0]
     for word in word_list[1:]:
-        if not str_is_num_version(word):
+        if not word_is_num_version(word):
             software_name = software_name + ' ' + word
         else:
             num_version = word
     if db_table == 'searcher_exploit':
-        return search_exploits_version(software_name, num_version)
+        try:
+            return search_exploits_version(software_name, num_version)
+        except UnboundLocalError:
+            return []
     else:
-        return search_shellcodes_version(software_name, num_version)
+        try:
+            return search_shellcodes_version(software_name, num_version)
+        except UnboundLocalError:
+            return []
 
 
 def search_exploits_version(software_name, num_version):

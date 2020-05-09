@@ -3,7 +3,6 @@ from datetime import datetime
 import os
 import platform
 import time
-# import sys
 
 
 def install_updates():

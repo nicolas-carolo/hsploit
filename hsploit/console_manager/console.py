@@ -15,8 +15,8 @@ import datetime
 
 
 # Software information constants
-SW_VERSION = '2.0.1'
-RELEASE_DATE = '2020-05-02'
+SW_VERSION = '2.0.2'
+RELEASE_DATE = '2020-05-09'
 DEVELOPER = 'Nicolas Carolo'
 LATEST_DB_UPDATE = get_latest_db_update_date()
 

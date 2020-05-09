@@ -5,7 +5,7 @@ from setuptools import setup, find_packages
 
 
 setup(name='hsploit',
-      version='2.0.1',
+      version='2.0.2',
       description='An advanced command-line search engine for Exploit-DB',
       keywords='hsploit',
       author='Nicolas Carolo',
