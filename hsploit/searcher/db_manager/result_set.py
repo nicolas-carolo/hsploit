@@ -21,10 +21,13 @@ def print_result_set(result_set):
     Print the result set.
     :param result_set: the result set to be printed.
     """
-    print()
-    print(tabulate([[instance.id, instance.description] for instance in result_set],
-                   ['ID', 'DESCRIPTION'], tablefmt='grid'))
-    print()
+    try:
+        print()
+        print(tabulate([[instance.id, instance.description] for instance in result_set],
+                            ['ID', 'DESCRIPTION'], tablefmt='grid'))
+        print()
+    except BrokenPipeError:
+        pass
 
 
 def print_result_set_no_table(result_set):
@@ -32,8 +35,11 @@ def print_result_set_no_table(result_set):
     Print the result set.
     :param result_set: the result set to be printed.
     """
-    for instance in result_set:
-        print(instance.id + ": " + instance.description)
+    try:
+        for instance in result_set:
+            print(instance.id + ": " + instance.description)
+    except BrokenPipeError:
+        pass
 
 
 def void_result_set():

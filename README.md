@@ -172,20 +172,22 @@ $ ./install_db_linux.sh
 $ pip install -r requirements.txt
 $ python setup.py install
 ```
-Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/HoundSploit/hsploit` for supporting automatic updates.
+Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/.HoundSploit/hsploit` for supporting automatic updates.
+If you have already installed the version 2.3.0 of _HoundSploit_ or you never installed _HoundSploit_, you can check if there is the directory `~/HoundSploit` and then you can delete it.
 
 ### Linux (root user)
 We can install hsploit simply by doing:
 ```sh
 $ git clone https://github.com/nicolas-carolo/hsploit
 $ cd hsploit
-$ mkdir /root/HoundSploit
-$ touch /root/HoundSploit/enable_root.cfg
+$ mkdir /root/.HoundSploit
+$ touch /root/.HoundSploit/enable_root.cfg
 $ ./install_db_linux.sh
 $ pip install -r requirements.txt
 $ python setup.py install
 ```
-Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/HoundSploit/hsploit` for supporting automatic updates.
+Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/.HoundSploit/hsploit` for supporting automatic updates.
+If you have already installed the version 2.3.0 of _HoundSploit_ or you never installed _HoundSploit_, you can check if there is the directory `~/HoundSploit` and then you can delete it.
 
 ### macOS
 We can install hsploit simply by doing:
@@ -196,7 +198,8 @@ $ ./install_db_darwin.sh
 $ pip install -r requirements.txt
 $ python setup.py install
 ```
-Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/HoundSploit/hsploit` for supporting automatic updates.
+Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/.HoundSploit/hsploit` for supporting automatic updates.
+If you have already installed the version 2.3.0 of _HoundSploit_ or you never installed _HoundSploit_, you can check if there is the directory `~/HoundSploit` and then you can delete it.
 
 ## USAGE
 ### Search
@@ -204,15 +207,15 @@ Now you can remove the repository of _hsploit_ you have downloaded, because this
    ```sh
    $ hsploit -s "[search text]"
    ```
-* Perform a search (without keywords highlighting):
+* Perform a search without keywords highlighting:
    ```sh
    $ hsploit -s --nokeywords "[search text]"
    ```
-* Perform a search (no table for results):
+* Perform a search showing results without a table:
    ```sh
    $ hsploit -s --notable "[search text]"
    ```
-* Perform a search (saving the output into a file):
+* Perform a search saving the output into a file:
    ```sh
    $ hsploit -s --file [filename] "[search text]"
    ```
@@ -222,15 +225,15 @@ Now you can remove the repository of _hsploit_ you have downloaded, because this
    ```sh
    $ hsploit -sad "[search text]"
    ```
-* Perform an advanced search (without keywords highlighting):
+* Perform an advanced search without keywords highlighting:
    ```sh
    $ hsploit -sad --nokeywords "[search text]"
    ```
-* Perform an advanced search (no table for results):
+* Perform an advanced search showing results without a table:
    ```sh
    $ hsploit -sad --notable "[search text]"
    ```
-* Perform an advanced search (saving the output into a file):
+* Perform an advanced search saving the output into a file:
    ```sh
    $ hsploit -sad --file [filename] "[search text]"
    ```
@@ -270,11 +273,11 @@ Now you can remove the repository of _hsploit_ you have downloaded, because this
    ```
 * Add or edit a suggestion:
    ```sh
-   $ hsploit -as [keyword(s)]
+   $ hsploit -as "[keyword(s)]"
    ```
 * Remove a suggestion:
    ```sh
-   $ hsploit -rs [keyword(s)]
+   $ hsploit -rs "[keyword(s)]"
    ```
 
 ### _hsploit_: updates, information and guide
@@ -288,7 +291,7 @@ Now you can remove the repository of _hsploit_ you have downloaded, because this
    ```
 * Show help:
    ```sh
-   $ hsploit -help
+   $ hsploit -h
    ```
 
 

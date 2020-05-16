@@ -187,8 +187,8 @@ We can install hsploit simply by doing:
 ```sh
 $ git clone https://github.com/nicolas-carolo/hsploit
 $ cd hsploit
-$ mkdir /root/HoundSploit
-$ touch /root/HoundSploit/enable_root.cfg
+$ mkdir /root/.HoundSploit
+$ touch /root/.HoundSploit/enable_root.cfg
 $ ./install_db_linux.sh
 $ pip install -r requirements.txt
 $ python setup.py install

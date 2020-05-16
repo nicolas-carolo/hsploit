@@ -23,33 +23,37 @@ LATEST_DB_UPDATE = get_latest_db_update_date()
 
 def print_guide():
     print_ascii_art()
-    print(O + 'USAGE:' + W)
-    print(tabulate([[G + 'Perform a search' + W, 'hsploit -s "[search text]"'],
-                    [G + 'Perform a search (without keywords highlighting)' + W,
-                     'hsploit -s --nokeywords "[search text]"'],
-                    [G + 'Perform a search (no table for results)' + W, 'hsploit -s --notable "[search text]"'],
-                    [G + 'Perform a search (saving the output into a file)' + W, 'hsploit -s --file [filename] "[search text]"'],
-                    [G + 'Perform an advanced search' + W, 'hsploit -sad "[search text]"'],
-                    [G + 'Perform an advanced search (without keywords highlighting)' + W,
-                     'hsploit -sad --nokeywords "[search text]"'],
-                    [G + 'Perform an advanced search (no table for results)' + W, 'hsploit -sad --notable "[search text]"'],
-                    [G + 'Perform an advanced search (saving the output into a file)' + W, 'hsploit -sad --file [filename] "[search text]"'],
-                    [G + 'Show info about the exploit' + W, 'hsploit -ie [exploit\'s id]'],
-                    [G + 'Show info about the shellcode' + W, 'hsploit -is [shellcode\'s id]'],
-                    [G + 'Open the exploit\'s source code with vim' + W, 'hsploit -oe [exploit\'s id]'],
-                    [G + 'Open the shellcode\'s source code with vim' + W,
-                    'hsploit -os [shellcode\'s id]'],
-                    [G + 'Copy the exploit\'s file into a chosen file or directory' + W,
-                    'hsploit -cpe [exploit\'s id] [file or directory]'],
-                    [G + 'Copy the shellcode\'s file into a chosen file or directory' + W,
-                    'hsploit -cps [shellcode\'s id] [file or directory]'],
-                    [G + 'List suggestions' + W, 'hsploit -ls'],
-                    [G + 'Add or edit a suggestion' + W, 'hsploit -as [keyword(s)]'],
-                    [G + 'Remove a suggestion' + W, 'hsploit -rs [keyword(s)]'],
-                    [G + 'Show software information' + W, 'hsploit -v'],
-                    [G + 'Check for software and database updates' + W, 'hsploit -u'],
-                    [G + 'Show help' + W, 'hsploit -help']],
-                   [R + 'ACTION' + W, R + 'COMMAND LINE' + W], tablefmt='grid'))
+    print("=======\n USAGE\n=======")
+    print("## Search")
+    print("\t-s \"[search text]\"\t\t\t\tPerform a search")
+    print("\t-s --nokeywords \"[search text]\"\t\t\tPerform a search without keywords highlighting")
+    print("\t-s --notable \"[search text]\"\t\t\tPerform a search showing results without a table")
+    print("\t-s --file [filename] \"[search text]\"\t\tPerform a search saving the output into a file")
+    print("\n## Advanced Search")
+    print("\t-sad \"[search text]\"\t\t\t\tPerform an advanced search")
+    print("\t-sad --nokeywords \"[search text]\"\t\tPerform an advanced search without keywords highlighting")
+    print("\t-sad --notable \"[search text]\"\t\t\tPerform an advanced search showing results without a table")
+    print("\t-sad --file [filename] \"[search text]\"\t\tPerform an advanced search saving the output into a file")
+    print("\n## Get Information about exploits/shellcodes")
+    print("\t-ie [exploit's id]\t\t\t\tShow info about the exploit")
+    print("\t-is [shellcode's id]\t\t\t\tShow info about the shellcode")
+    print("\t-oe [exploit's id]\t\t\t\tOpen the exploit's source code with vim")
+    print("\t-os [shellcode's id]\t\t\t\tOpen the shellcode's source code with vim")
+    print("\n## Exploit/Shellcode file management")
+    print("\t-cpe [exploit's id] [file or directory]\t\tCopy the exploit's file into a chosen file or directory")
+    print("\t-cps [shellcode's id] [file or directory]\tCopy the shellcode's file into a chosen file or directory")
+    print("\n## Suggestions")
+    print("\t-ls\t\t\t\t\t\tList all the suggestions")
+    print("\t-as \"[keyword(s)]\"\t\t\t\tAdd or edit a suggestion")
+    print("\t-rs \"[keyword(s)]\"\t\t\t\tRemove a suggestion")
+    print("\n## Updates, help and software information")
+    print("\t-v\t\t\t\t\t\tShow software information")
+    print("\t-u\t\t\t\t\t\tCheck for software and database updates")
+    print("\t-h\t\t\t\t\t\tShow help")
+    print("\n\n=======\n NOTES\n=======")
+    print("For a better view of the search results when the description of the exploits is too long to be displayed on a single\nline, it is recommended to use the \'less-RS command\' as in the following example:")
+    print("\t$ hsploit -s \"windows\" | less -SR")
+    print("This function is not supported using the -sad option.\n")
     exit(0)
 
 
@@ -286,7 +290,7 @@ def open_exploit(id):
     queryset = session.query(Exploit).filter(Exploit.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.expanduser("~") + "/HoundSploit/exploitdb/"
+        vulnerabilities_path = os.path.expanduser("~") + "/.HoundSploit/exploitdb/"
         os.system('vim ' + vulnerabilities_path + queryset[0].file)
     except IndexError:
         print('ERROR: Exploit not found!')
@@ -303,7 +307,7 @@ def open_shellcode(id):
     queryset = session.query(Shellcode).filter(Shellcode.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.expanduser("~") + "/HoundSploit/exploitdb/"
+        vulnerabilities_path = os.path.expanduser("~") + "/.HoundSploit/exploitdb/"
         os.system('vim ' + vulnerabilities_path + queryset[0].file)
     except IndexError:
         print('ERROR: Shellcode not found!')
@@ -380,7 +384,7 @@ def copy_exploit(id, dst):
     queryset = session.query(Exploit).filter(Exploit.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.expanduser("~") + "/HoundSploit/exploitdb/"
+        vulnerabilities_path = os.path.expanduser("~") + "/.HoundSploit/exploitdb/"
         src = vulnerabilities_path + queryset[0].file
         try:
             copyfile(src, dst)
@@ -407,7 +411,7 @@ def copy_shellcode(id, dst):
     queryset = session.query(Shellcode).filter(Shellcode.id == id)
     session.close()
     try:
-        vulnerabilities_path = os.path.expanduser("~") + "/HoundSploit/exploitdb/"
+        vulnerabilities_path = os.path.expanduser("~") + "/.HoundSploit/exploitdb/"
         src = vulnerabilities_path + queryset[0].file
         try:
             copyfile(src, dst)

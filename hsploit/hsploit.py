@@ -3,17 +3,21 @@ __all__ = ()
 
 import sys
 import os
+from os import path
 from hsploit.console_manager.colors import O, W, R
 from hsploit.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
     show_shellcode_info,print_software_information, copy_exploit, copy_shellcode, check_for_updates, perform_search,\
     print_suggestions_list, add_suggestion, delete_suggestion, perform_advanced_search
 from hsploit.searcher.engine.csv2sqlite import create_db
-from hsploit.searcher.engine.updates import install_updates
+from hsploit.searcher.engine.updates import install_updates, migrate_to_new_installation
 
 
 def main(args=None):
     """Main routine of hsploit."""
-    init_path = os.path.expanduser("~") + "/HoundSploit"
+    init_path = os.path.expanduser("~") + "/.HoundSploit"
+    if not path.exists(init_path):
+        print("OK")
+        migrate_to_new_installation()
     if not os.path.isfile(init_path + "/hound_db.sqlite3"):
         install_updates()
         create_db()

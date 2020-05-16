@@ -1,5 +1,6 @@
 #!/bin/bash
-HOUNDSPLOIT_PATH="$HOME/HoundSploit"
+HOUNDSPLOIT_PATH="$HOME/.HoundSploit"
+HOUNDSPLOIT_OLD_PATH="$HOME/HoundSploit"
 
 if [ $(id -u) = 0 ]; then
 	echo "ERROR: This script must NOT be run as 'root'"
@@ -46,4 +47,17 @@ else
     echo -e "\t$ cd $HOUNDSPLOIT_PATH/hsploit"
     echo -e "\t$ python setup.py install"
     echo -e "\t$ hsploit"
+fi
+
+if [ -d $HOUNDSPLOIT_OLD_PATH  ] ; then
+    if [ -f "$HOUNDSPLOIT_OLD_PATH/custom_suggestions.csv" ] ; then
+        cp $HOUNDSPLOIT_OLD_PATH/custom_suggestions.csv $HOUNDSPLOIT_PATH/custom_suggestions.csv
+    fi
+    if [ -d $HOUNDSPLOIT_OLD_PATH/hsploit  ] && ! [ -d $HOUNDSPLOIT_OLD_PATH/houndsploit  ] ; then
+        rm -fr $HOUNDSPLOIT_OLD_PATH
+        echo "Old HoundSploit's and hsploit's files have been removed"
+    else
+        rm -fr $HOUNDSPLOIT_OLD_PATH/hsploit
+        echo "Old hsploit's files have been removed"
+    fi
 fi

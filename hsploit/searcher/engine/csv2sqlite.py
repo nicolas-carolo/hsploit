@@ -4,7 +4,7 @@ import os
 
 
 def create_db():
-    init_path = os.path.expanduser("~") + "/HoundSploit"
+    init_path = os.path.expanduser("~") + "/.HoundSploit"
     db_path = init_path + "/hound_db.sqlite3"
     con = sqlite3.connect(db_path)
     cur = con.cursor()
