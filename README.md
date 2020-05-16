@@ -199,7 +199,7 @@ $ pip install -r requirements.txt
 $ python setup.py install
 ```
 Now you can remove the repository of _hsploit_ you have downloaded, because this repository has been cloned in `~/.HoundSploit/hsploit` for supporting automatic updates.
-If you have already installed the version 2.3.0 of _HoundSploit_ or you never installed _HoundSploit_, you can check if there is the directory `~/HoundSploit` and then you can delete it.
+If you have already installed the version 2.3.0 of _HoundSploit_ or you never installed _HoundSploit_, you can check if there is the directory `~/.HoundSploit` and then you can delete it.
 
 ## USAGE
 ### Search
