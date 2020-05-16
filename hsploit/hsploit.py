@@ -16,7 +16,6 @@ def main(args=None):
     """Main routine of hsploit."""
     init_path = os.path.expanduser("~") + "/.HoundSploit"
     if not path.exists(init_path):
-        print("OK")
         migrate_to_new_installation()
         print_guide()
     if not os.path.isfile(init_path + "/hound_db.sqlite3"):
