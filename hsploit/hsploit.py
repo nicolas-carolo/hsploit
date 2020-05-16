@@ -18,6 +18,7 @@ def main(args=None):
     if not path.exists(init_path):
         print("OK")
         migrate_to_new_installation()
+        print_guide()
     if not os.path.isfile(init_path + "/hound_db.sqlite3"):
         install_updates()
         create_db()
