@@ -294,6 +294,13 @@ If you have already installed the version 2.3.0 of _HoundSploit_ or you never in
    $ hsploit -h
    ```
 
+### Notes
+For a better view of the search results when the description of the exploits is too long to be displayed on a single line, it is recommended to use the `less-RS command` as in the following example:
+```sh
+$ hsploit -s "windows" | less -SR
+```
+This feature is not supported using the `-sad` option.
+
 
 ## COPYRIGHT
 

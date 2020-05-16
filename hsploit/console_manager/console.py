@@ -53,7 +53,7 @@ def print_guide():
     print("\n\n=======\n NOTES\n=======")
     print("For a better view of the search results when the description of the exploits is too long to be displayed on a single\nline, it is recommended to use the \'less-RS command\' as in the following example:")
     print("\t$ hsploit -s \"windows\" | less -SR")
-    print("This function is not supported using the -sad option.\n")
+    print("This feature is not supported using the -sad option.\n")
     exit(0)
 
 
