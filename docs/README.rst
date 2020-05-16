@@ -14,9 +14,9 @@ Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2020, Nicolas Carolo.
 
-Date: 2020-05-09
+Date: 2020-05-16
 
-Version: 2.0.2
+Version: 2.1.0
 
 
 ## PURPOSE
@@ -44,21 +44,21 @@ aim of showing the user the most accurate search results.
 ##### Example I
 
 ```
-nicolas@carolo:~$ searchsploit WordPress 2.0.2
-WordPress 2.0.2- 'cache' Remote Shell Injection
-WordPress Plugin Crawl Rate Tracker 2.0.2 - SQL Inject
-WordPress Plugin Sodahead Polls 2.0.2 - Multiple Cross
+nicolas@carolo:~$ searchsploit WordPress 2.1.0
+WordPress 2.1.0- 'cache' Remote Shell Injection
+WordPress Plugin Crawl Rate Tracker 2.1.0 - SQL Inject
+WordPress Plugin Sodahead Polls 2.1.0 - Multiple Cross
 ```
 
 ```
-nicolas@carolo:~$ hsploit -s "wordpress 2.0.2"
+nicolas@carolo:~$ hsploit -s "wordpress 2.1.0"
 10 exploits and 0 shellcodes found.
 
 EXPLOITS:
 +-------+---------------------------------------------------------------------------------------+
 |    ID | DESCRIPTION                                                                           |
 +=======+=======================================================================================+
-|     6 | WordPress 2.0.2 - 'cache' Remote Shell Injection                                      |
+|     6 | WordPress 2.1.0 - 'cache' Remote Shell Injection                                      |
 +-------+---------------------------------------------------------------------------------------+
 |  4397 | WordPress 1.5.1.1 < 2.2.2 - Multiple Vulnerabilities                                  |
 +-------+---------------------------------------------------------------------------------------+
@@ -66,13 +66,13 @@ EXPLOITS:
 +-------+---------------------------------------------------------------------------------------+
 | 10089 | WordPress < 2.8.5 - Unrestricted Arbitrary File Upload / Arbitrary PHP Code Execution |
 +-------+---------------------------------------------------------------------------------------+
-| 17755 | WordPress Plugin Crawl Rate Tracker 2.0.2 - SQL Injection                             |
+| 17755 | WordPress Plugin Crawl Rate Tracker 2.1.0 - SQL Injection                             |
 +-------+---------------------------------------------------------------------------------------+
 | 29754 | WordPress < 2.1.2 - 'PHP_Self' Cross-Site Scripting                                   |
 +-------+---------------------------------------------------------------------------------------+
 | 35414 | WordPress < 4.0.1 - Denial of Service                                                 |
 +-------+---------------------------------------------------------------------------------------+
-| 35475 | WordPress Plugin Sodahead Polls 2.0.2 - Multiple Cross-Site Scripting Vulnerabilities |
+| 35475 | WordPress Plugin Sodahead Polls 2.1.0 - Multiple Cross-Site Scripting Vulnerabilities |
 +-------+---------------------------------------------------------------------------------------+
 | 41497 | WordPress < 4.7.1 - Username Enumeration                                              |
 +-------+---------------------------------------------------------------------------------------+

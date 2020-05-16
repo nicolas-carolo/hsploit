@@ -14,9 +14,9 @@ Author: Nicolas Carolo <nicolascarolo.dev@gmail.com>
 
 Copyright: © 2020, Nicolas Carolo.
 
-Date: 2020-05-09
+Date: 2020-05-16
 
-Version: 2.0.2
+Version: 2.1.0
 
 
 ## PURPOSE
@@ -44,7 +44,7 @@ aim of showing the user the most accurate search results.
 #### Effective version number filtering examples
 
 ```
-nicolas@carolo:~$ hsploit -s "wordpress core 2.0.2"
+nicolas@carolo:~$ hsploit -s "wordpress core 2.1.0"
 
 11 exploits and 0 shellcodes found.
 
@@ -57,7 +57,7 @@ EXPLOITS:
 +-------+--------------------------------------------------------------------------------------------+
 | 47800 | WORDPRESS CORE < 5.3.x - 'xmlrpc.php' Denial of Service                                    |
 +-------+--------------------------------------------------------------------------------------------+
-|     6 | WORDPRESS CORE 2.0.2 - 'cache' Remote Shell Injection                                      |
+|     6 | WORDPRESS CORE 2.1.0 - 'cache' Remote Shell Injection                                      |
 +-------+--------------------------------------------------------------------------------------------+
 |  4397 | WORDPRESS CORE 1.5.1.1 < 2.2.2 - Multiple Vulnerabilities                                  |
 +-------+--------------------------------------------------------------------------------------------+
