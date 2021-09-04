@@ -4,6 +4,7 @@ __all__ = ()
 import sys
 import os
 from os import path
+from hsploit.cl_parser import parse_args
 from hsploit.console_manager.colors import O, W, R
 from hsploit.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
     show_shellcode_info,print_software_information, copy_exploit, copy_shellcode, check_for_updates, perform_search,\
@@ -22,6 +23,40 @@ def main(args=None):
         install_updates()
         create_db()
 
+    
+    args_parsed = parse_args(sys.argv[1:])
+
+    base_searched_text = args_parsed.search
+    advanced_searched_text = args_parsed.advancedsearch
+    no_keywords = args_parsed.nokeywords
+    no_table = args_parsed.notable
+    output_file = args_parsed.outputfile
+
+    if base_searched_text is not None and advanced_searched_text is None:
+        searched_text = base_searched_text
+        if no_keywords:
+            perform_search(searched_text, "nokeywords", "")
+        if no_table:
+            perform_search(searched_text, "notable", "")
+        if output_file is not None:
+            perform_search(searched_text, "file", output_file)
+        else:
+            perform_search(searched_text, "standard", "")
+
+    elif base_searched_text is None and advanced_searched_text is not None:
+        searched_text = advanced_searched_text
+        if no_keywords:
+            perform_advanced_search(searched_text, "nokeywords", "", "", "", "", "", "", "", "")
+        if no_table:
+            perform_advanced_search(searched_text, "notable", "", "", "", "", "", "", "", "")
+        if output_file is not None:
+            perform_advanced_search(searched_text, "file", output_file, "", "", "", "", "", "", "")
+        else:
+            perform_advanced_search(searched_text, "standard", "", "", "", "", "", "", "", "")
+    else:
+        print_guide()
+
+    """
     if args is None:
         args = sys.argv[1:]
 
@@ -102,6 +137,7 @@ def main(args=None):
             keyboard_exit()
 
     print_guide()
+    """
 
 
 def keyboard_exit():
