@@ -60,6 +60,24 @@ def parse_args(args):
         action="store_true",
         required=False, 
     )
+    parser.add_argument(
+       "-u", "--update",
+        help="Check for updates",
+        action="store_true",
+        required=False, 
+    )
+    parser.add_argument(
+       "-v", "--version",
+        help="About",
+        action="store_true",
+        required=False, 
+    )
+    parser.add_argument(
+       "-ls", "--listsuggestions",
+        help="List suggestions",
+        action="store_true",
+        required=False, 
+    )
 
 
     return parser.parse_args(args)

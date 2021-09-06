@@ -13,6 +13,9 @@ from hsploit.searcher.engine.csv2sqlite import create_db
 from hsploit.searcher.engine.updates import install_updates, migrate_to_new_installation
 
 
+BOOLEAN_ARGS = ['nokeywords', 'notable', 'update', 'version', 'listsuggestions']
+
+
 def main(args=None):
     """Main routine of hsploit."""
     init_path = os.path.expanduser("~") + "/.HoundSploit"
@@ -31,30 +34,9 @@ def main(args=None):
     no_keywords = args_parsed.nokeywords
     no_table = args_parsed.notable
     output_file = args_parsed.outputfile
+    update = args_parsed.update
 
-    if base_searched_text is not None and advanced_searched_text is None:
-        searched_text = base_searched_text
-        if no_keywords:
-            perform_search(searched_text, "nokeywords", "")
-        if no_table:
-            perform_search(searched_text, "notable", "")
-        if output_file is not None:
-            perform_search(searched_text, "file", output_file)
-        else:
-            perform_search(searched_text, "standard", "")
-
-    elif base_searched_text is None and advanced_searched_text is not None:
-        searched_text = advanced_searched_text
-        if no_keywords:
-            perform_advanced_search(searched_text, "nokeywords", "", "", "", "", "", "", "", "")
-        if no_table:
-            perform_advanced_search(searched_text, "notable", "", "", "", "", "", "", "", "")
-        if output_file is not None:
-            perform_advanced_search(searched_text, "file", output_file, "", "", "", "", "", "", "")
-        else:
-            perform_advanced_search(searched_text, "standard", "", "", "", "", "", "", "", "")
-    else:
-        print_guide()
+    input_control(args_parsed)
 
     """
     if args is None:
@@ -139,6 +121,62 @@ def main(args=None):
     print_guide()
     """
 
+
+def input_control(args_parsed):
+    args_dict = {}
+    for arg in vars(args_parsed):
+        args_dict[arg] = getattr(args_parsed, arg)
+    print(args_dict)
+    check_first_command(args_dict)
+
+
+def check_first_command(args_dict):
+    if args_dict['search'] is not None or args_dict['advancedsearch'] is not None:
+        check_search_command(args_dict)
+    elif args_dict['update']:
+        check_boolean_input('update', args_dict)
+        check_for_updates()
+    elif args_dict['version']:
+        check_boolean_input('version', args_dict)
+        print_software_information()
+    elif args_dict['listsuggestions']:
+        check_boolean_input('listsuggestions', args_dict)
+        print_suggestions_list()
+    else:
+        print_guide()
+
+
+def check_boolean_input(cmd, args_dict):
+    false_boolean_args = BOOLEAN_ARGS
+    false_boolean_args.remove(cmd)
+    for key in false_boolean_args:
+        if args_dict[key]:
+            print_guide()
+
+
+def check_search_command(args_dict):
+    if args_dict['search'] is not None and args_dict['advancedsearch'] is None:
+        searched_text = args_dict['search']
+        if args_dict['nokeywords']:
+            perform_search(searched_text, "nokeywords", "")
+        if args_dict['notable']:
+            perform_search(searched_text, "notable", "")
+        if args_dict['outputfile'] is not None:
+            perform_search(searched_text, "file", args_dict['outputfile'])
+        else:
+            perform_search(searched_text, "standard", "")
+
+    elif args_dict['search'] is None and args_dict['advancedsearch'] is not None:
+        searched_text = args_dict['advancedsearch']
+        print(searched_text)
+        if args_dict['nokeywords']:
+            perform_advanced_search(searched_text, "nokeywords", "", "", "", "", "", "", "", "")
+        if args_dict['notable']:
+            perform_advanced_search(searched_text, "notable", "", "", "", "", "", "", "", "")
+        if args_dict['outputfile'] is not None:
+            perform_advanced_search(searched_text, "file", args_dict['outputfile'], "", "", "", "", "", "", "")
+        else:
+            perform_advanced_search(searched_text, "standard", "", "", "", "", "", "", "", "")
 
 def keyboard_exit():
     print()
