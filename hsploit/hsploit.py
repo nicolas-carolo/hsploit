@@ -13,7 +13,7 @@ from hsploit.searcher.engine.csv2sqlite import create_db
 from hsploit.searcher.engine.updates import install_updates, migrate_to_new_installation
 
 
-BOOLEAN_ARGS = ['nokeywords', 'notable', 'update', 'version', 'listsuggestions']
+BOOLEAN_ARGS = ['nokeywords', 'notable', 'update', 'version', 'listsuggestions', 'help']
 
 
 def main(args=None):
@@ -142,6 +142,22 @@ def check_first_command(args_dict):
     elif args_dict['listsuggestions']:
         check_boolean_input('listsuggestions', args_dict)
         print_suggestions_list()
+    elif args_dict['openexploit']:
+        open_exploit(args_dict['openexploit'])
+    elif args_dict['openshellcode']:
+        open_shellcode(args_dict['openshellcode'])
+    elif args_dict['infoexploit']:
+        show_exploit_info(args_dict['infoexploit'])
+    elif args_dict['infoshellcode']:
+        show_shellcode_info(args_dict['infoshellcode'])
+    elif args_dict['addsuggestion']:
+        add_suggestion(args_dict['addsuggestion'])
+    elif args_dict['removesuggestion']:
+        delete_suggestion(args_dict['removesuggestion'])
+    elif args_dict['copyexploit']:
+        check_copy_command('cpe', args_dict)
+    elif args_dict['copyshellcode']:
+        check_copy_command('cps', args_dict)
     else:
         print_guide()
 
@@ -151,6 +167,18 @@ def check_boolean_input(cmd, args_dict):
     false_boolean_args.remove(cmd)
     for key in false_boolean_args:
         if args_dict[key]:
+            print_guide()
+
+
+def check_copy_command(cmd, args_dict):
+    if args_dict['outputfile'] is None:
+        print_guide()
+    else:
+        if cmd == 'cpe':
+            copy_exploit(args_dict['copyexploit'], args_dict['outputfile'])
+        elif cmd == 'cps':
+            copy_shellcode(args_dict['copyshellcode'], args_dict['outputfile'])
+        else:
             print_guide()
 
 
