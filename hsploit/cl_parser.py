@@ -139,6 +139,30 @@ def parse_args(args):
         action="store_true",
         required=False
     )
+    parser.add_argument(
+       "-abe", "--addexploitbookmark",
+        help="Add exploit to bookmarks",
+        type=str,
+        required=False
+    )
+    parser.add_argument(
+       "-abs", "--addshellcodebookmark",
+        help="Add shellcode to bookmarks",
+        type=str,
+        required=False
+    )
+    parser.add_argument(
+       "-rbe", "--removeexploitbookmark",
+        help="Remove exploit from bookmarks",
+        type=str,
+        required=False
+    )
+    parser.add_argument(
+       "-rbs", "--removeshellcodebookmark",
+        help="Remove shellcode from bookmarks",
+        type=str,
+        required=False
+    )
 
 
     return parser.parse_args(args)

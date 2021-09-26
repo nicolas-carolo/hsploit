@@ -8,7 +8,8 @@ from hsploit.cl_parser import parse_args
 from hsploit.console_manager.colors import O, W, R
 from hsploit.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
     show_shellcode_info,print_software_information, copy_exploit, copy_shellcode, check_for_updates, perform_search,\
-    print_suggestions_list, add_suggestion, delete_suggestion, perform_advanced_search, print_bookmarks_list
+    print_suggestions_list, add_suggestion, delete_suggestion, perform_advanced_search, print_bookmarks_list,\
+    add_bookmark, delete_bookmark
 from hsploit.searcher.engine.csv2sqlite import create_db
 from hsploit.searcher.engine.updates import install_updates, migrate_to_new_installation
 
@@ -70,6 +71,14 @@ def check_first_command(args_dict):
     elif args_dict['listbookmarks']:
         check_boolean_input('listbookmarks', args_dict)
         print_bookmarks_list()
+    elif args_dict['addexploitbookmark']:
+        check_bookmark_command('abe', args_dict)
+    elif args_dict['addshellcodebookmark']:
+        check_bookmark_command('abs', args_dict)
+    elif args_dict['removeexploitbookmark']:
+        check_bookmark_command('rbe', args_dict)
+    elif args_dict['removeshellcodebookmark']:
+        check_bookmark_command('rbs', args_dict)
     else:
         print_guide()
 
@@ -125,6 +134,20 @@ def check_search_command(args_dict):
             perform_advanced_search(searched_text, "standard", "", "", "", "", "", "", "", "")
     else:
         print_guide()
+
+
+def check_bookmark_command(cmd, args_dict):
+    if cmd == 'abe' and args_dict['addexploitbookmark'] is not None and args_dict['addshellcodebookmark'] is None:
+        add_bookmark(args_dict['addexploitbookmark'], "exploit")
+    elif cmd == 'abs' and args_dict['addexploitbookmark'] is None and args_dict['addshellcodebookmark'] is not None:
+        add_bookmark(args_dict['addshellcodebookmark'], "shellcode")
+    elif cmd == 'rbe' and args_dict['removeexploitbookmark'] is not None and args_dict['removeshellcodebookmark'] is None:
+        delete_bookmark(args_dict['removeexploitbookmark'], "exploit")
+    elif cmd == 'rbs' and args_dict['removeexploitbookmark'] is None and args_dict['removeshellcodebookmark'] is not None:
+        delete_bookmark(args_dict['removeshellcodebookmark'], "shellcode")
+    else:
+        print_guide()
+
 
 def keyboard_exit():
     print()

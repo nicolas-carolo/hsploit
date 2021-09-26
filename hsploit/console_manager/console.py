@@ -11,7 +11,7 @@ from hsploit.searcher.engine.suggestions import substitute_with_suggestions, pro
 from hsploit.searcher.engine.keywords_highlighter import highlight_keywords_in_description
 from hsploit.searcher.engine.search_engine import search_vulnerabilities_in_db, search_vulnerabilities_advanced, get_vulnerability_filters
 from hsploit.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
-from hsploit.searcher.engine.bookmarks import get_bookmarks_list
+from hsploit.searcher.engine.bookmarks import get_bookmarks_list, new_bookmark, remove_bookmark
 import datetime
 
 
@@ -510,9 +510,22 @@ def print_bookmarks_list():
             'description': bookmark.description 
         }
         printable_bookmarks_list.append(item)
-    print(printable_bookmarks_list)
     print(tabulate([[instance['vulnerability_id'], instance['vulnerability_class'], instance['description']] for instance in printable_bookmarks_list],
                    [O + 'ID' + W, O + 'CLASS' + W, O + 'DESCRIPTION' + W], tablefmt='grid'))
     print()
     exit(0)
-    
+
+
+def add_bookmark(vulnerability_id, vulnerability_class):
+    new_bookmark(vulnerability_id, vulnerability_class)
+    print("New bookmark added")
+    exit(0)
+
+
+def delete_bookmark(vulnerability_id, vulnerability_class):
+    if remove_bookmark(vulnerability_id, vulnerability_class):
+        print("Bookmark removed")
+        exit(0)
+    else:
+        print(R +"ERROR:" + W + " Bookmark not found!")
+        exit(1)

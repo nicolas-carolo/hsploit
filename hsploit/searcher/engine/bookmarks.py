@@ -10,6 +10,7 @@ init_path = exploitdb_path = os.path.expanduser("~") + "/.HoundSploit"
 
 
 def new_bookmark(vulnerability_id, vulnerability_class):
+    # TODO check exploit/shellcode existence
     if not is_bookmarked(vulnerability_id, vulnerability_class):
         session = start_session()
         today = datetime.now()
