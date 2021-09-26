@@ -11,6 +11,7 @@ from hsploit.searcher.engine.suggestions import substitute_with_suggestions, pro
 from hsploit.searcher.engine.keywords_highlighter import highlight_keywords_in_description
 from hsploit.searcher.engine.search_engine import search_vulnerabilities_in_db, search_vulnerabilities_advanced, get_vulnerability_filters
 from hsploit.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
+from hsploit.searcher.engine.bookmarks import get_bookmarks_list
 import datetime
 
 
@@ -492,3 +493,26 @@ def delete_suggestion(searched):
     else:
         print(R +"ERROR:" + W + " suggestion not found.")
         exit(1)
+
+
+def print_bookmarks_list():
+    print()
+    bookmarks_list = get_bookmarks_list()
+    printable_bookmarks_list = []
+    for bookmark in bookmarks_list:
+        if "exploits/" in bookmark.file:
+            vulnerability_class = 'exploit'
+        else:
+            vulnerability_class = 'shellcode'
+        item = {
+            'vulnerability_id': bookmark.id,
+            'vulnerability_class': vulnerability_class,
+            'description': bookmark.description 
+        }
+        printable_bookmarks_list.append(item)
+    print(printable_bookmarks_list)
+    print(tabulate([[instance['vulnerability_id'], instance['vulnerability_class'], instance['description']] for instance in printable_bookmarks_list],
+                   [O + 'ID' + W, O + 'CLASS' + W, O + 'DESCRIPTION' + W], tablefmt='grid'))
+    print()
+    exit(0)
+    

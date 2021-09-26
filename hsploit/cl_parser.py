@@ -133,6 +133,12 @@ def parse_args(args):
         action="store_true",
         required=False
     )
+    parser.add_argument(
+       "-lb", "--listbookmarks",
+        help="List bookmarks",
+        action="store_true",
+        required=False
+    )
 
 
     return parser.parse_args(args)

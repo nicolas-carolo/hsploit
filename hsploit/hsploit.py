@@ -8,12 +8,12 @@ from hsploit.cl_parser import parse_args
 from hsploit.console_manager.colors import O, W, R
 from hsploit.console_manager.console import print_guide, open_exploit, open_shellcode, show_exploit_info,\
     show_shellcode_info,print_software_information, copy_exploit, copy_shellcode, check_for_updates, perform_search,\
-    print_suggestions_list, add_suggestion, delete_suggestion, perform_advanced_search
+    print_suggestions_list, add_suggestion, delete_suggestion, perform_advanced_search, print_bookmarks_list
 from hsploit.searcher.engine.csv2sqlite import create_db
 from hsploit.searcher.engine.updates import install_updates, migrate_to_new_installation
 
 
-BOOLEAN_ARGS = ['nokeywords', 'notable', 'update', 'version', 'listsuggestions', 'help', 'outputfile']
+BOOLEAN_ARGS = ['nokeywords', 'notable', 'update', 'version', 'listsuggestions', 'help', 'outputfile', 'listbookmarks']
 
 
 def main(args=None):
@@ -67,6 +67,9 @@ def check_first_command(args_dict):
         check_copy_command('cpe', args_dict)
     elif args_dict['copyshellcode']:
         check_copy_command('cps', args_dict)
+    elif args_dict['listbookmarks']:
+        check_boolean_input('listbookmarks', args_dict)
+        print_bookmarks_list()
     else:
         print_guide()
 
