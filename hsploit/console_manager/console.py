@@ -12,6 +12,7 @@ from hsploit.searcher.engine.keywords_highlighter import highlight_keywords_in_d
 from hsploit.searcher.engine.search_engine import search_vulnerabilities_in_db, search_vulnerabilities_advanced, get_vulnerability_filters
 from hsploit.searcher.db_manager.result_set import print_result_set, result_set_len, print_result_set_no_table
 from hsploit.searcher.engine.bookmarks import get_bookmarks_list, new_bookmark, remove_bookmark
+from hsploit.searcher.engine.utils import check_vulnerability_existence
 import datetime
 
 
@@ -517,9 +518,15 @@ def print_bookmarks_list():
 
 
 def add_bookmark(vulnerability_id, vulnerability_class):
-    new_bookmark(vulnerability_id, vulnerability_class)
-    print("New bookmark added")
-    exit(0)
+    if new_bookmark(vulnerability_id, vulnerability_class):
+        print("New bookmark added")
+        exit(0)
+    else:
+        if check_vulnerability_existence(vulnerability_id, vulnerability_class):
+            print("Exploit/shellcode already bookmarked")
+        else:
+            print(R +"ERROR:" + W + " this exploit/shellcode does not exist.")
+        exit(1)
 
 
 def delete_bookmark(vulnerability_id, vulnerability_class):
